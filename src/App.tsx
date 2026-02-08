@@ -23,6 +23,7 @@ import NotFound from "./pages/NotFound";
 // Pages - Admin
 import { AdminLoginPage } from "./pages/admin/Login";
 import { AdminDashboardPage } from "./pages/admin/Dashboard";
+import { AdminOpportunitiesPage } from "./pages/admin/Opportunities";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
