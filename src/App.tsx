@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound";
 import { AdminLoginPage } from "./pages/admin/Login";
 import { AdminDashboardPage } from "./pages/admin/Dashboard";
 import { AdminOpportunitiesPage } from "./pages/admin/Opportunities";
+import { AdminSubmissionsPage } from "./pages/admin/Submissions";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
