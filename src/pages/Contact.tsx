@@ -331,9 +331,9 @@ const Contact = () => {
                           type="submit"
                           size="lg"
                           className="w-full btn-gold border-0"
-                          disabled={isSubmitting}
+                          disabled={createSubmission.isPending}
                         >
-                          {isSubmitting ? (
+                          {createSubmission.isPending ? (
                             <>
                               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                               Sending...
