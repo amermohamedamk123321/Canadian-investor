@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, Home, Info, Zap, Briefcase, Globe, Users, Mail, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'About Us', href: '/about' },
-  { name: 'How It Works', href: '/how-it-works' },
-  { name: 'Opportunities', href: '/opportunities' },
-  { name: 'International Investors', href: '/international-investors' },
-  { name: 'Our Network', href: '/network' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Home', href: '/', icon: Home },
+  { name: 'About', href: '/about', icon: Info },
+  { name: 'How It Works', href: '/how-it-works', icon: Zap },
+  { name: 'Opportunities', href: '/opportunities', icon: Briefcase },
+  { name: 'International', href: '/international-investors', icon: Globe },
+  { name: 'Network', href: '/network', icon: Users },
+  { name: 'Contact', href: '/contact', icon: Mail },
+  { name: 'More', href: '#', icon: MoreHorizontal },
 ];
 
 export const Header = () => {
