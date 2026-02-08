@@ -23,7 +23,7 @@ interface FormData {
 
 const Contact = () => {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const createSubmission = useCreateContactSubmission();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -69,18 +69,28 @@ const Contact = () => {
       return;
     }
 
-    setIsSubmitting(true);
+    try {
+      await createSubmission.mutateAsync({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || '',
+        inquiry_type: 'general',
+        message: formData.message,
+      });
 
-    // Simulate form submission (replace with actual API call)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+      setIsSubmitted(true);
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-
-    toast({
-      title: 'Message Sent!',
-      description: 'Thank you for contacting us. We\'ll respond within 1-2 business days.',
-    });
+      toast({
+        title: 'Message Sent!',
+        description: 'Thank you for contacting us. We\'ll respond within 1-2 business days.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to send message. Please try again later.',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
