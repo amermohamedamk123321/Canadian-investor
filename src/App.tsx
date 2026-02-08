@@ -78,6 +78,14 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/admin/seo"
+                element={
+                  <ProtectedRoute>
+                    <AdminSEOPage />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Catch-all Route */}
               <Route path="*" element={<NotFound />} />
