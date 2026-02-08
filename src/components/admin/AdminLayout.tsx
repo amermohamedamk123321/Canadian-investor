@@ -35,7 +35,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   };
 
   return (
-    <div className="flex h-screen bg-background">
+    <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="flex h-screen bg-background">
       {/* Sidebar */}
       <div
         className={`bg-sidebar text-sidebar-foreground transition-all duration-300 ${
@@ -128,5 +132,6 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </main>
       </div>
     </div>
+    </>
   );
 }
