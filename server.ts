@@ -6,7 +6,7 @@
 
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db, initializeDatabase, logActivity, getTimestamp } from './src/lib/db';
 import { v4 as uuidv4 } from 'uuid';
