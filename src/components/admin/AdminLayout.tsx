@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { Button } from '../ui/button';
 import { Menu, X, LogOut, Home, FileText, Briefcase, Users, Settings, MessageSquare, Eye } from 'lucide-react';
