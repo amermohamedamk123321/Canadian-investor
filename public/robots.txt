@@ -1,0 +1,15 @@
+# Alpha Partners Investment Inc.
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://alphapartners.ca/sitemap.xml
+
+# Crawl delay for politeness
+Crawl-delay: 1
+
+# Disallow admin/private paths
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_/
