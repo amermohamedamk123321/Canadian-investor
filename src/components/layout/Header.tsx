@@ -15,12 +15,89 @@ const navigation = [
   { name: 'More', href: '#', icon: MoreHorizontal },
 ];
 
+// Circular icon button component
+const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
+  const Icon = item.icon;
+
+  if (item.href === '#') {
+    return (
+      <div
+        className="relative group"
+        onMouseEnter={() => onHover(item.name)}
+        onMouseLeave={() => onHover(null)}
+      >
+        <motion.button
+          className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+            isActive
+              ? 'bg-accent text-primary shadow-lg'
+              : 'bg-muted text-muted-foreground hover:bg-muted/80'
+          }`}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label={item.name}
+        >
+          <Icon className="w-5 h-5" />
+        </motion.button>
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              className="absolute top-1/2 right-full mr-3 -translate-y-1/2 whitespace-nowrap bg-foreground text-background px-3 py-1.5 rounded-lg text-xs font-semibold"
+            >
+              {item.name}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      to={item.href}
+      className="relative group outline-none"
+      onMouseEnter={() => onHover(item.name)}
+      onMouseLeave={() => onHover(null)}
+      aria-label={item.name}
+      aria-current={isActive ? 'page' : undefined}
+    >
+      <motion.div
+        className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+          isActive
+            ? 'bg-accent text-primary shadow-lg'
+            : 'bg-muted text-muted-foreground hover:bg-muted/80'
+        }`}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Icon className="w-5 h-5" />
+      </motion.div>
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            className="absolute top-1/2 right-full mr-3 -translate-y-1/2 whitespace-nowrap bg-foreground text-background px-3 py-1.5 rounded-lg text-xs font-semibold"
+          >
+            {item.name}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Link>
+  );
+};
+
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const location = useLocation();
 
   const isActive = (href: string) => {
     if (href === '/') return location.pathname === '/';
+    if (href === '#') return false;
     return location.pathname.startsWith(href);
   };
 
@@ -29,8 +106,8 @@ export const Header = () => {
       <nav className="container-custom" aria-label="Main navigation">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="flex items-center gap-3 group"
             aria-label="Alpha Partners Investment Inc. - Home"
           >
@@ -47,28 +124,21 @@ export const Header = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+          {/* Desktop Circular Navigation */}
+          <div className="hidden lg:flex items-center gap-4">
             {navigation.map((item) => (
-              <Link
+              <CircleNavButton
                 key={item.name}
-                to={item.href}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  isActive(item.href)
-                    ? 'text-accent bg-accent/10'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                }`}
-              >
-                {item.name}
-              </Link>
+                item={item}
+                isActive={isActive(item.href)}
+                onHover={setHoveredNav}
+                isHovered={hoveredNav === item.name}
+              />
             ))}
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Button asChild variant="ghost" className="text-muted-foreground">
-              <Link to="/opportunities">View Opportunities</Link>
-            </Button>
+          <div className="hidden lg:flex items-center gap-3">
             <Button asChild className="btn-gold border-0">
               <Link to="/contact">Get Started</Link>
             </Button>
