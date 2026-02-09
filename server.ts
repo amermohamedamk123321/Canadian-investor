@@ -227,6 +227,55 @@ app.post('/api/admin/pages', authMiddleware, (req: AuthRequest, res: Response) =
   }
 });
 
+app.get('/api/admin/pages', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const pages = db.prepare('SELECT * FROM pages ORDER BY created_at DESC').all() as Page[];
+    res.json({ success: true, data: pages });
+  } catch (error) {
+    console.error('Error fetching admin pages:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch pages' });
+  }
+});
+
+app.put('/api/admin/pages/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { slug, title, content, meta_description, og_title, og_image, published } = req.body;
+    const now = getTimestamp();
+
+    db.prepare(`
+      UPDATE pages
+      SET slug = COALESCE(?, slug),
+          title = COALESCE(?, title),
+          content = COALESCE(?, content),
+          meta_description = COALESCE(?, meta_description),
+          og_title = COALESCE(?, og_title),
+          og_image = COALESCE(?, og_image),
+          published = COALESCE(?, published),
+          updated_at = ?
+      WHERE id = ?
+    `).run(slug, title, content, meta_description, og_title, og_image, published, now, req.params.id);
+
+    logActivity(req.user!.id, 'update', 'page', req.params.id);
+
+    const page = db.prepare('SELECT * FROM pages WHERE id = ?').get(req.params.id) as Page;
+    res.json({ success: true, data: page });
+  } catch (error) {
+    console.error('Error updating page:', error);
+    res.status(500).json({ success: false, error: 'Failed to update page' });
+  }
+});
+
+app.delete('/api/admin/pages/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    db.prepare('DELETE FROM pages WHERE id = ?').run(req.params.id);
+    logActivity(req.user!.id, 'delete', 'page', req.params.id);
+    res.json({ success: true, message: 'Page deleted' });
+  } catch (error) {
+    console.error('Error deleting page:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete page' });
+  }
+});
+
 // ============ OPPORTUNITIES ENDPOINTS ============
 
 app.get('/api/opportunities', (req: Request, res: Response) => {
