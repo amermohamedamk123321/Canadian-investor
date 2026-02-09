@@ -28,6 +28,9 @@ import { AdminSubmissionsPage } from "./pages/admin/Submissions";
 import { AdminSEOPage } from "./pages/admin/SEO";
 import { AdminUsersPage } from "./pages/admin/Users";
 import { AdminActivityLogPage } from "./pages/admin/ActivityLog";
+import { AdminCanadianInvestorsPage } from "./pages/admin/CanadianInvestors";
+import { AdminInternationalInvestorsPage } from "./pages/admin/InternationalInvestors";
+import { AdminServicesPage } from "./pages/admin/Services";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
