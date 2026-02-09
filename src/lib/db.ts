@@ -153,6 +153,52 @@ export function initializeDatabase() {
     );
   `);
 
+  // Canadian Investors Entries table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS canadian_investors_entries (
+      id TEXT PRIMARY KEY,
+      title TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      description TEXT NOT NULL,
+      asset_types TEXT,
+      attachments TEXT,
+      display_order INTEGER DEFAULT 0,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `);
+
+  // International Investors Tracks table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS international_investors_tracks (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      description TEXT NOT NULL,
+      countries TEXT,
+      attachments TEXT,
+      display_order INTEGER DEFAULT 0,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `);
+
+  // Services Entries table
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS services_entries (
+      id TEXT PRIMARY KEY,
+      title TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      description TEXT NOT NULL,
+      details TEXT,
+      audience TEXT DEFAULT 'both',
+      attachments TEXT,
+      display_order INTEGER DEFAULT 0,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `);
+
   // Create indexes for better query performance
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_pages_slug ON pages(slug);
