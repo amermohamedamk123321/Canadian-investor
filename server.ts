@@ -444,6 +444,74 @@ app.post('/api/submissions', (req: Request, res: Response) => {
   }
 });
 
+app.get('/api/admin/submissions', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = (page - 1) * limit;
+    const status = req.query.status as string;
+
+    let query = 'SELECT * FROM contact_submissions';
+    const params: unknown[] = [];
+
+    if (status) {
+      query += ' WHERE status = ?';
+      params.push(status);
+    }
+
+    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+    params.push(limit, offset);
+
+    const submissions = db.prepare(query).all(...params) as ContactSubmission[];
+
+    const countQuery = status
+      ? 'SELECT COUNT(*) as total FROM contact_submissions WHERE status = ?'
+      : 'SELECT COUNT(*) as total FROM contact_submissions';
+    const countParams = status ? [status] : [];
+    const { total } = db.prepare(countQuery).get(...countParams) as { total: number };
+
+    res.json({
+      success: true,
+      data: submissions,
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    console.error('Error fetching submissions:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch submissions' });
+  }
+});
+
+app.put('/api/admin/submissions/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { status } = req.body;
+    const now = getTimestamp();
+
+    db.prepare('UPDATE contact_submissions SET status = ?, updated_at = ? WHERE id = ?').run(status, now, req.params.id);
+
+    logActivity(req.user!.id, 'update', 'submission', req.params.id);
+
+    const submission = db.prepare('SELECT * FROM contact_submissions WHERE id = ?').get(req.params.id) as ContactSubmission;
+    res.json({ success: true, data: submission });
+  } catch (error) {
+    console.error('Error updating submission:', error);
+    res.status(500).json({ success: false, error: 'Failed to update submission' });
+  }
+});
+
+app.delete('/api/admin/submissions/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    db.prepare('DELETE FROM contact_submissions WHERE id = ?').run(req.params.id);
+    logActivity(req.user!.id, 'delete', 'submission', req.params.id);
+    res.json({ success: true, message: 'Submission deleted' });
+  } catch (error) {
+    console.error('Error deleting submission:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete submission' });
+  }
+});
+
 // ============ SETTINGS ENDPOINTS ============
 
 app.get('/api/settings', (req: Request, res: Response) => {
