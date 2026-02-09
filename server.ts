@@ -10,6 +10,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db, initializeDatabase, logActivity, getTimestamp } from './src/lib/db';
 import { v4 as uuidv4 } from 'uuid';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 import type {
   Page,
   Opportunity,
