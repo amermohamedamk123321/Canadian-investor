@@ -348,6 +348,75 @@ app.get('/api/opportunities/:slug', (req: Request, res: Response) => {
   }
 });
 
+app.post('/api/admin/opportunities', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { title, slug, description, sector, province, min_investment, max_investment, highlights, featured, image_url } = req.body;
+
+    if (!title || !slug || !description || !sector || !province) {
+      return res.status(400).json({ success: false, error: 'Missing required fields' });
+    }
+
+    const id = uuidv4();
+    const now = getTimestamp();
+
+    db.prepare(`
+      INSERT INTO opportunities (id, title, slug, description, sector, province, min_investment, max_investment, highlights, featured, published, image_url, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?)
+    `).run(id, title, slug, description, sector, province, min_investment, max_investment, JSON.stringify(highlights || []), featured ? 1 : 0, image_url, now, now);
+
+    logActivity(req.user!.id, 'create', 'opportunity', id);
+
+    const opportunity = db.prepare('SELECT * FROM opportunities WHERE id = ?').get(id) as Opportunity;
+    res.json({ success: true, data: opportunity });
+  } catch (error) {
+    console.error('Error creating opportunity:', error);
+    res.status(500).json({ success: false, error: 'Failed to create opportunity' });
+  }
+});
+
+app.put('/api/admin/opportunities/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { title, slug, description, sector, province, min_investment, max_investment, highlights, featured, published, image_url } = req.body;
+    const now = getTimestamp();
+
+    db.prepare(`
+      UPDATE opportunities
+      SET title = COALESCE(?, title),
+          slug = COALESCE(?, slug),
+          description = COALESCE(?, description),
+          sector = COALESCE(?, sector),
+          province = COALESCE(?, province),
+          min_investment = COALESCE(?, min_investment),
+          max_investment = COALESCE(?, max_investment),
+          highlights = COALESCE(?, highlights),
+          featured = COALESCE(?, featured),
+          published = COALESCE(?, published),
+          image_url = COALESCE(?, image_url),
+          updated_at = ?
+      WHERE id = ?
+    `).run(title, slug, description, sector, province, min_investment, max_investment, highlights ? JSON.stringify(highlights) : null, featured !== undefined ? (featured ? 1 : 0) : null, published !== undefined ? (published ? 1 : 0) : null, image_url, now, req.params.id);
+
+    logActivity(req.user!.id, 'update', 'opportunity', req.params.id);
+
+    const opportunity = db.prepare('SELECT * FROM opportunities WHERE id = ?').get(req.params.id) as Opportunity;
+    res.json({ success: true, data: opportunity });
+  } catch (error) {
+    console.error('Error updating opportunity:', error);
+    res.status(500).json({ success: false, error: 'Failed to update opportunity' });
+  }
+});
+
+app.delete('/api/admin/opportunities/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    db.prepare('DELETE FROM opportunities WHERE id = ?').run(req.params.id);
+    logActivity(req.user!.id, 'delete', 'opportunity', req.params.id);
+    res.json({ success: true, message: 'Opportunity deleted' });
+  } catch (error) {
+    console.error('Error deleting opportunity:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete opportunity' });
+  }
+});
+
 // ============ CONTACT SUBMISSIONS ENDPOINTS ============
 
 app.post('/api/submissions', (req: Request, res: Response) => {
