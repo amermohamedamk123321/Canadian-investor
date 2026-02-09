@@ -21,7 +21,6 @@ import { useAdminAuth } from '../../context/AdminAuthContext';
 export function AdminUsersPage() {
   const { token, user } = useAdminAuth();
   const { toast } = useToast();
-  const apiClient = useApiClient(token);
   const queryClient = useQueryClient();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
