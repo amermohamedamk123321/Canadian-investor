@@ -529,6 +529,282 @@ app.get('/api/settings', (req: Request, res: Response) => {
   }
 });
 
+// ============ ADMIN USER MANAGEMENT ENDPOINTS ============
+
+app.get('/api/admin/users', superAdminMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = (page - 1) * limit;
+
+    const users = db.prepare(`
+      SELECT id, email, role, active, last_login, created_at, updated_at
+      FROM admin_users
+      ORDER BY created_at DESC
+      LIMIT ? OFFSET ?
+    `).all(limit, offset) as Omit<AdminUser, 'password_hash'>[];
+
+    const { total } = db.prepare('SELECT COUNT(*) as total FROM admin_users').get() as { total: number };
+
+    res.json({
+      success: true,
+      data: users,
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    console.error('Error fetching admin users:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch users' });
+  }
+});
+
+app.post('/api/admin/users', superAdminMiddleware, async (req: AuthRequest, res: Response) => {
+  try {
+    const { email, password, role = 'editor' } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ success: false, error: 'Email and password required' });
+    }
+
+    const existing = db.prepare('SELECT * FROM admin_users WHERE email = ?').get(email);
+    if (existing) {
+      return res.status(400).json({ success: false, error: 'User already exists' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const userId = uuidv4();
+    const now = getTimestamp();
+
+    db.prepare(`
+      INSERT INTO admin_users (id, email, password_hash, role, active, created_at, updated_at)
+      VALUES (?, ?, ?, ?, 1, ?, ?)
+    `).run(userId, email, passwordHash, role, now, now);
+
+    logActivity(req.user!.id, 'create', 'admin_user', userId);
+
+    res.json({ success: true, data: { id: userId, email, role, active: true } });
+  } catch (error) {
+    console.error('Error creating admin user:', error);
+    res.status(500).json({ success: false, error: 'Failed to create user' });
+  }
+});
+
+app.put('/api/admin/users/:id', superAdminMiddleware, async (req: AuthRequest, res: Response) => {
+  try {
+    const { role, active, password } = req.body;
+    const now = getTimestamp();
+
+    let query = 'UPDATE admin_users SET updated_at = ?';
+    const params: unknown[] = [now];
+
+    if (role !== undefined) {
+      query += ', role = ?';
+      params.push(role);
+    }
+
+    if (active !== undefined) {
+      query += ', active = ?';
+      params.push(active ? 1 : 0);
+    }
+
+    if (password) {
+      const passwordHash = await bcrypt.hash(password, 10);
+      query += ', password_hash = ?';
+      params.push(passwordHash);
+    }
+
+    query += ' WHERE id = ?';
+    params.push(req.params.id);
+
+    db.prepare(query).run(...params);
+
+    logActivity(req.user!.id, 'update', 'admin_user', req.params.id);
+
+    const user = db.prepare('SELECT id, email, role, active, last_login, created_at, updated_at FROM admin_users WHERE id = ?').get(req.params.id);
+    res.json({ success: true, data: user });
+  } catch (error) {
+    console.error('Error updating admin user:', error);
+    res.status(500).json({ success: false, error: 'Failed to update user' });
+  }
+});
+
+app.delete('/api/admin/users/:id', superAdminMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    db.prepare('DELETE FROM admin_users WHERE id = ?').run(req.params.id);
+    logActivity(req.user!.id, 'delete', 'admin_user', req.params.id);
+    res.json({ success: true, message: 'User deleted' });
+  } catch (error) {
+    console.error('Error deleting admin user:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete user' });
+  }
+});
+
+// ============ FILE UPLOAD ENDPOINTS ============
+
+app.post('/api/admin/files', authMiddleware, upload.single('file'), (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: 'No file provided' });
+    }
+
+    const fileId = uuidv4();
+    const now = getTimestamp();
+    const fileUrl = `/uploads/${req.file.filename}`;
+
+    db.prepare(`
+      INSERT INTO file_assets (id, name, url, file_type, file_size, uploaded_by, uploaded_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(fileId, req.file.originalname, fileUrl, req.file.mimetype, req.file.size, req.user!.id, now);
+
+    logActivity(req.user!.id, 'create', 'file', fileId);
+
+    res.json({ success: true, data: { id: fileId, name: req.file.originalname, url: fileUrl, size: req.file.size } });
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    res.status(500).json({ success: false, error: 'Failed to upload file' });
+  }
+});
+
+app.get('/api/admin/files', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const offset = (page - 1) * limit;
+
+    const files = db.prepare(`
+      SELECT id, name, url, file_type, file_size, uploaded_by, uploaded_at
+      FROM file_assets
+      ORDER BY uploaded_at DESC
+      LIMIT ? OFFSET ?
+    `).all(limit, offset);
+
+    const { total } = db.prepare('SELECT COUNT(*) as total FROM file_assets').get() as { total: number };
+
+    res.json({
+      success: true,
+      data: files,
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    console.error('Error fetching files:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch files' });
+  }
+});
+
+app.delete('/api/admin/files/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const file = db.prepare('SELECT * FROM file_assets WHERE id = ?').get(req.params.id) as any;
+
+    if (!file) {
+      return res.status(404).json({ success: false, error: 'File not found' });
+    }
+
+    // Delete physical file
+    const filePath = path.join(uploadsDir, path.basename(file.url));
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    db.prepare('DELETE FROM file_assets WHERE id = ?').run(req.params.id);
+    logActivity(req.user!.id, 'delete', 'file', req.params.id);
+
+    res.json({ success: true, message: 'File deleted' });
+  } catch (error) {
+    console.error('Error deleting file:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete file' });
+  }
+});
+
+// ============ ACTIVITY LOG ENDPOINTS ============
+
+app.get('/api/admin/activity', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const offset = (page - 1) * limit;
+
+    const logs = db.prepare(`
+      SELECT * FROM activity_logs
+      ORDER BY timestamp DESC
+      LIMIT ? OFFSET ?
+    `).all(limit, offset);
+
+    const { total } = db.prepare('SELECT COUNT(*) as total FROM activity_logs').get() as { total: number };
+
+    res.json({
+      success: true,
+      data: logs,
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    console.error('Error fetching activity logs:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch activity logs' });
+  }
+});
+
+// ============ SEO ENDPOINTS ============
+
+app.get('/api/seo/:slug', (req: Request, res: Response) => {
+  try {
+    const seo = db.prepare('SELECT * FROM seo_metadata WHERE page_slug = ?').get(req.params.slug);
+
+    if (!seo) {
+      return res.status(404).json({ success: false, error: 'SEO metadata not found' });
+    }
+
+    res.json({ success: true, data: seo });
+  } catch (error) {
+    console.error('Error fetching SEO:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch SEO metadata' });
+  }
+});
+
+app.put('/api/admin/seo/:slug', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { title, description, keywords, og_image, og_title, og_description, canonical_url } = req.body;
+    const now = getTimestamp();
+
+    const existing = db.prepare('SELECT id FROM seo_metadata WHERE page_slug = ?').get(req.params.slug) as any;
+
+    if (existing) {
+      db.prepare(`
+        UPDATE seo_metadata
+        SET title = COALESCE(?, title),
+            description = COALESCE(?, description),
+            keywords = COALESCE(?, keywords),
+            og_image = COALESCE(?, og_image),
+            og_title = COALESCE(?, og_title),
+            og_description = COALESCE(?, og_description),
+            canonical_url = COALESCE(?, canonical_url),
+            updated_at = ?
+        WHERE page_slug = ?
+      `).run(title, description, keywords, og_image, og_title, og_description, canonical_url, now, req.params.slug);
+    } else {
+      const id = uuidv4();
+      db.prepare(`
+        INSERT INTO seo_metadata (id, page_slug, title, description, keywords, og_image, og_title, og_description, canonical_url, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(id, req.params.slug, title, description, keywords, og_image, og_title, og_description, canonical_url, now);
+    }
+
+    logActivity(req.user!.id, 'update', 'seo', req.params.slug);
+
+    const seo = db.prepare('SELECT * FROM seo_metadata WHERE page_slug = ?').get(req.params.slug);
+    res.json({ success: true, data: seo });
+  } catch (error) {
+    console.error('Error updating SEO:', error);
+    res.status(500).json({ success: false, error: 'Failed to update SEO metadata' });
+  }
+});
+
 // ============ HEALTH CHECK ============
 
 app.get('/api/health', (req: Request, res: Response) => {
