@@ -167,3 +167,41 @@ export interface CreateContactSubmissionInput {
   inquiry_type: 'investment' | 'partnership' | 'general' | 'other';
   message: string;
 }
+
+// Dynamic Content Types
+export interface CanadianInvestorEntry {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  asset_types: string; // JSON stringified array
+  attachments: string; // JSON stringified array of file IDs
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface InternationalInvestorTrack {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  countries: string; // JSON stringified array
+  attachments: string; // JSON stringified array of file IDs
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ServiceEntry {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  details: string; // Rich text HTML
+  audience: 'canadian' | 'international' | 'both'; // Audience filter
+  attachments: string; // JSON stringified array of file IDs
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
