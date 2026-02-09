@@ -805,6 +805,255 @@ app.put('/api/admin/seo/:slug', authMiddleware, (req: AuthRequest, res: Response
   }
 });
 
+// ============ CANADIAN INVESTORS ENDPOINTS ============
+
+app.get('/api/canadian-investors', (req: Request, res: Response) => {
+  try {
+    const entries = db.prepare(`
+      SELECT * FROM canadian_investors_entries
+      ORDER BY display_order ASC, created_at DESC
+    `).all();
+
+    res.json({ success: true, data: entries });
+  } catch (error) {
+    console.error('Error fetching canadian investors:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch canadian investors' });
+  }
+});
+
+app.post('/api/admin/canadian-investors', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { title, slug, description, asset_types, attachments, display_order } = req.body;
+
+    if (!title || !slug || !description) {
+      return res.status(400).json({ success: false, error: 'Missing required fields' });
+    }
+
+    const id = uuidv4();
+    const now = getTimestamp();
+
+    db.prepare(`
+      INSERT INTO canadian_investors_entries (id, title, slug, description, asset_types, attachments, display_order, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(id, title, slug, description, JSON.stringify(asset_types || []), JSON.stringify(attachments || []), display_order || 0, now, now);
+
+    logActivity(req.user!.id, 'create', 'canadian_investor', id);
+
+    const entry = db.prepare('SELECT * FROM canadian_investors_entries WHERE id = ?').get(id);
+    res.json({ success: true, data: entry });
+  } catch (error) {
+    console.error('Error creating canadian investor entry:', error);
+    res.status(500).json({ success: false, error: 'Failed to create entry' });
+  }
+});
+
+app.put('/api/admin/canadian-investors/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { title, slug, description, asset_types, attachments, display_order } = req.body;
+    const now = getTimestamp();
+
+    db.prepare(`
+      UPDATE canadian_investors_entries
+      SET title = COALESCE(?, title),
+          slug = COALESCE(?, slug),
+          description = COALESCE(?, description),
+          asset_types = COALESCE(?, asset_types),
+          attachments = COALESCE(?, attachments),
+          display_order = COALESCE(?, display_order),
+          updated_at = ?
+      WHERE id = ?
+    `).run(title, slug, description, asset_types ? JSON.stringify(asset_types) : null, attachments ? JSON.stringify(attachments) : null, display_order, now, req.params.id);
+
+    logActivity(req.user!.id, 'update', 'canadian_investor', req.params.id);
+
+    const entry = db.prepare('SELECT * FROM canadian_investors_entries WHERE id = ?').get(req.params.id);
+    res.json({ success: true, data: entry });
+  } catch (error) {
+    console.error('Error updating canadian investor entry:', error);
+    res.status(500).json({ success: false, error: 'Failed to update entry' });
+  }
+});
+
+app.delete('/api/admin/canadian-investors/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    db.prepare('DELETE FROM canadian_investors_entries WHERE id = ?').run(req.params.id);
+    logActivity(req.user!.id, 'delete', 'canadian_investor', req.params.id);
+    res.json({ success: true, message: 'Entry deleted' });
+  } catch (error) {
+    console.error('Error deleting canadian investor entry:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete entry' });
+  }
+});
+
+// ============ INTERNATIONAL INVESTORS ENDPOINTS ============
+
+app.get('/api/international-investors', (req: Request, res: Response) => {
+  try {
+    const tracks = db.prepare(`
+      SELECT * FROM international_investors_tracks
+      ORDER BY display_order ASC, created_at DESC
+    `).all();
+
+    res.json({ success: true, data: tracks });
+  } catch (error) {
+    console.error('Error fetching international investors:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch international investors' });
+  }
+});
+
+app.post('/api/admin/international-investors', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { name, slug, description, countries, attachments, display_order } = req.body;
+
+    if (!name || !slug || !description) {
+      return res.status(400).json({ success: false, error: 'Missing required fields' });
+    }
+
+    const id = uuidv4();
+    const now = getTimestamp();
+
+    db.prepare(`
+      INSERT INTO international_investors_tracks (id, name, slug, description, countries, attachments, display_order, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(id, name, slug, description, JSON.stringify(countries || []), JSON.stringify(attachments || []), display_order || 0, now, now);
+
+    logActivity(req.user!.id, 'create', 'international_track', id);
+
+    const track = db.prepare('SELECT * FROM international_investors_tracks WHERE id = ?').get(id);
+    res.json({ success: true, data: track });
+  } catch (error) {
+    console.error('Error creating international investor track:', error);
+    res.status(500).json({ success: false, error: 'Failed to create track' });
+  }
+});
+
+app.put('/api/admin/international-investors/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { name, slug, description, countries, attachments, display_order } = req.body;
+    const now = getTimestamp();
+
+    db.prepare(`
+      UPDATE international_investors_tracks
+      SET name = COALESCE(?, name),
+          slug = COALESCE(?, slug),
+          description = COALESCE(?, description),
+          countries = COALESCE(?, countries),
+          attachments = COALESCE(?, attachments),
+          display_order = COALESCE(?, display_order),
+          updated_at = ?
+      WHERE id = ?
+    `).run(name, slug, description, countries ? JSON.stringify(countries) : null, attachments ? JSON.stringify(attachments) : null, display_order, now, req.params.id);
+
+    logActivity(req.user!.id, 'update', 'international_track', req.params.id);
+
+    const track = db.prepare('SELECT * FROM international_investors_tracks WHERE id = ?').get(req.params.id);
+    res.json({ success: true, data: track });
+  } catch (error) {
+    console.error('Error updating international investor track:', error);
+    res.status(500).json({ success: false, error: 'Failed to update track' });
+  }
+});
+
+app.delete('/api/admin/international-investors/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    db.prepare('DELETE FROM international_investors_tracks WHERE id = ?').run(req.params.id);
+    logActivity(req.user!.id, 'delete', 'international_track', req.params.id);
+    res.json({ success: true, message: 'Track deleted' });
+  } catch (error) {
+    console.error('Error deleting international investor track:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete track' });
+  }
+});
+
+// ============ SERVICES ENDPOINTS ============
+
+app.get('/api/services', (req: Request, res: Response) => {
+  try {
+    const audience = req.query.audience as string;
+    let query = 'SELECT * FROM services_entries';
+    const params: unknown[] = [];
+
+    if (audience && audience !== 'all') {
+      query += ' WHERE audience = ? OR audience = ?';
+      params.push(audience, 'both');
+    }
+
+    query += ' ORDER BY display_order ASC, created_at DESC';
+
+    const services = db.prepare(query).all(...params);
+
+    res.json({ success: true, data: services });
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch services' });
+  }
+});
+
+app.post('/api/admin/services', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { title, slug, description, details, audience, attachments, display_order } = req.body;
+
+    if (!title || !slug || !description) {
+      return res.status(400).json({ success: false, error: 'Missing required fields' });
+    }
+
+    const id = uuidv4();
+    const now = getTimestamp();
+
+    db.prepare(`
+      INSERT INTO services_entries (id, title, slug, description, details, audience, attachments, display_order, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(id, title, slug, description, details, audience || 'both', JSON.stringify(attachments || []), display_order || 0, now, now);
+
+    logActivity(req.user!.id, 'create', 'service', id);
+
+    const service = db.prepare('SELECT * FROM services_entries WHERE id = ?').get(id);
+    res.json({ success: true, data: service });
+  } catch (error) {
+    console.error('Error creating service:', error);
+    res.status(500).json({ success: false, error: 'Failed to create service' });
+  }
+});
+
+app.put('/api/admin/services/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { title, slug, description, details, audience, attachments, display_order } = req.body;
+    const now = getTimestamp();
+
+    db.prepare(`
+      UPDATE services_entries
+      SET title = COALESCE(?, title),
+          slug = COALESCE(?, slug),
+          description = COALESCE(?, description),
+          details = COALESCE(?, details),
+          audience = COALESCE(?, audience),
+          attachments = COALESCE(?, attachments),
+          display_order = COALESCE(?, display_order),
+          updated_at = ?
+      WHERE id = ?
+    `).run(title, slug, description, details, audience, attachments ? JSON.stringify(attachments) : null, display_order, now, req.params.id);
+
+    logActivity(req.user!.id, 'update', 'service', req.params.id);
+
+    const service = db.prepare('SELECT * FROM services_entries WHERE id = ?').get(req.params.id);
+    res.json({ success: true, data: service });
+  } catch (error) {
+    console.error('Error updating service:', error);
+    res.status(500).json({ success: false, error: 'Failed to update service' });
+  }
+});
+
+app.delete('/api/admin/services/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    db.prepare('DELETE FROM services_entries WHERE id = ?').run(req.params.id);
+    logActivity(req.user!.id, 'delete', 'service', req.params.id);
+    res.json({ success: true, message: 'Service deleted' });
+  } catch (error) {
+    console.error('Error deleting service:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete service' });
+  }
+});
+
 // ============ HEALTH CHECK ============
 
 app.get('/api/health', (req: Request, res: Response) => {
