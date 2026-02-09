@@ -214,6 +214,13 @@ export function initializeDatabase() {
     CREATE INDEX IF NOT EXISTS idx_activity_logs_user_id ON activity_logs(user_id);
     CREATE INDEX IF NOT EXISTS idx_activity_logs_entity ON activity_logs(entity_type, entity_id);
     CREATE INDEX IF NOT EXISTS idx_activity_logs_timestamp ON activity_logs(timestamp);
+    CREATE INDEX IF NOT EXISTS idx_canadian_investors_slug ON canadian_investors_entries(slug);
+    CREATE INDEX IF NOT EXISTS idx_canadian_investors_order ON canadian_investors_entries(display_order);
+    CREATE INDEX IF NOT EXISTS idx_international_investors_slug ON international_investors_tracks(slug);
+    CREATE INDEX IF NOT EXISTS idx_international_investors_order ON international_investors_tracks(display_order);
+    CREATE INDEX IF NOT EXISTS idx_services_slug ON services_entries(slug);
+    CREATE INDEX IF NOT EXISTS idx_services_audience ON services_entries(audience);
+    CREATE INDEX IF NOT EXISTS idx_services_order ON services_entries(display_order);
   `);
 
   console.log('✅ Database initialized successfully');
