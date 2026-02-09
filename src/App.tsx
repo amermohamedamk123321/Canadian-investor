@@ -88,6 +88,22 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/admin/users"
+                element={
+                  <ProtectedRoute>
+                    <AdminUsersPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/activity"
+                element={
+                  <ProtectedRoute>
+                    <AdminActivityLogPage />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Catch-all Route */}
               <Route path="*" element={<NotFound />} />
