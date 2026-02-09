@@ -8,7 +8,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { Button } from '../ui/button';
-import { Menu, X, LogOut, Home, FileText, Briefcase, Users, Settings, MessageSquare, Eye } from 'lucide-react';
+import { Menu, X, LogOut, Home, FileText, Briefcase, Users, Settings, MessageSquare, Eye, Lock, Activity, Globe, Zap } from 'lucide-react';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -18,8 +18,12 @@ const navItems = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: Home },
   { label: 'Pages', href: '/admin/pages', icon: FileText },
   { label: 'Opportunities', href: '/admin/opportunities', icon: Briefcase },
-  { label: 'Partners', href: '/admin/partners', icon: Users },
+  { label: 'Canadian Investors', href: '/admin/canadian-investors', icon: Globe },
+  { label: 'International', href: '/admin/international-investors', icon: Globe },
+  { label: 'Services', href: '/admin/services', icon: Zap },
   { label: 'Submissions', href: '/admin/submissions', icon: MessageSquare },
+  { label: 'Admin Users', href: '/admin/users', icon: Lock },
+  { label: 'Activity Log', href: '/admin/activity', icon: Activity },
   { label: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
