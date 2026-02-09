@@ -81,6 +81,16 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => 
   }
 };
 
+// Super admin only middleware
+const superAdminMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+  authMiddleware(req, res, () => {
+    if (req.user?.role !== 'admin') {
+      return res.status(403).json({ success: false, error: 'Super admin access required' });
+    }
+    next();
+  });
+};
+
 // ============ AUTH ENDPOINTS ============
 
 app.post('/api/auth/register', async (req: Request, res: Response) => {
