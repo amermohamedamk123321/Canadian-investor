@@ -26,6 +26,8 @@ import { AdminDashboardPage } from "./pages/admin/Dashboard";
 import { AdminOpportunitiesPage } from "./pages/admin/Opportunities";
 import { AdminSubmissionsPage } from "./pages/admin/Submissions";
 import { AdminSEOPage } from "./pages/admin/SEO";
+import { AdminUsersPage } from "./pages/admin/Users";
+import { AdminActivityLogPage } from "./pages/admin/ActivityLog";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
