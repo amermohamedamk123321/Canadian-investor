@@ -17,7 +17,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { useToast } from '../../hooks/use-toast';
 import { Plus, Edit2, Trash2, RefreshCw, Loader2 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
-import { useApiClient } from '../../api/client';
 
 export function AdminUsersPage() {
   const { token, user } = useAdminAuth();
