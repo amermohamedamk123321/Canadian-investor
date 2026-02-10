@@ -28,6 +28,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
+// Helper function to properly log errors
+function logError(context: string, error: unknown) {
+  if (error instanceof Error) {
+    console.error(`${context}:`, error.message, error.stack);
+  } else {
+    console.error(`${context}:`, String(error));
+  }
+}
+
 // Setup file upload directory
 const uploadsDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadsDir)) {
