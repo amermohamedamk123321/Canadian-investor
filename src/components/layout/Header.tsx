@@ -194,7 +194,17 @@ export const Header = () => {
                     {item.name}
                   </Link>
                 ))}
-                <div className="pt-4 px-4 space-y-3">
+                <div className="pt-4 px-4 space-y-3 border-t border-border">
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="w-full border-primary/30 text-primary hover:bg-primary/10"
+                  >
+                    <Link to="/admin/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2">
+                      <Lock size={16} />
+                      Admin Login
+                    </Link>
+                  </Button>
                   <Button asChild className="w-full btn-gold border-0">
                     <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>
                       Get Started
