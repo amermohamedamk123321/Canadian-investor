@@ -54,6 +54,7 @@ const App = () => (
               <Route path="/opportunities/:slug" element={<OpportunityDetail />} />
               <Route path="/canadian-investors" element={<InvestorsCanadian />} />
               <Route path="/international-investors" element={<InternationalInvestors />} />
+              <Route path="/services" element={<Services />} />
               <Route path="/network" element={<Network />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Privacy />} />
