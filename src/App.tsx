@@ -33,6 +33,7 @@ import { AdminActivityLogPage } from "./pages/admin/ActivityLog";
 import { AdminCanadianInvestorsPage } from "./pages/admin/CanadianInvestors";
 import { AdminInternationalInvestorsPage } from "./pages/admin/InternationalInvestors";
 import { AdminServicesPage } from "./pages/admin/Services";
+import { AdminPagesPage } from "./pages/admin/Pages";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
