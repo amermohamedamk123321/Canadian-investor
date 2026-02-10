@@ -190,7 +190,7 @@ app.get('/api/pages', (req: Request, res: Response) => {
 
     res.json({ success: true, data: pages });
   } catch (error) {
-    console.error('Error fetching pages:', error);
+    logError('Error fetching pages', error);
     res.status(500).json({ success: false, error: 'Failed to fetch pages' });
   }
 });
