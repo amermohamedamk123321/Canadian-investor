@@ -1,48 +1,45 @@
+import { useQuery } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
-import { SEOHead } from '@/components/seo/SEOHead';
+import { Helmet } from 'react-helmet-async';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Shield, Target, Users, Globe, Award, Heart } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
-const values = [
-  {
-    icon: Shield,
-    title: 'Integrity',
-    description: 'We maintain the highest standards of transparency and ethical conduct in all our dealings.',
-  },
-  {
-    icon: Target,
-    title: 'Excellence',
-    description: 'We pursue exceptional outcomes through rigorous analysis and strategic execution.',
-  },
-  {
-    icon: Users,
-    title: 'Partnership',
-    description: 'We build lasting relationships based on trust, communication, and mutual success.',
-  },
-  {
-    icon: Globe,
-    title: 'Global Perspective',
-    description: 'We connect international investors with Canadian opportunities through cultural understanding.',
-  },
-  {
-    icon: Award,
-    title: 'Results-Driven',
-    description: 'We focus on delivering measurable returns and tangible value for our investors.',
-  },
-  {
-    icon: Heart,
-    title: 'Community Impact',
-    description: 'We support investments that create jobs and strengthen Canadian communities.',
-  },
-];
+interface PageContent {
+  id: string;
+  slug: string;
+  title: string;
+  content: string;
+  meta_description: string;
+}
+
+interface SEOMetadata {
+  title: string;
+  description: string;
+}
 
 const About = () => {
-  const { ref, inView } = useInView({
-    threshold: 0.2,
-    triggerOnce: true,
+  // Fetch page content
+  const { data: pageData, isLoading: pageLoading } = useQuery({
+    queryKey: ['pages', 'about'],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/pages/about`);
+      if (!response.ok) throw new Error('Failed to fetch page');
+      return response.json();
+    },
   });
+
+  // Fetch SEO metadata
+  const { data: seoData } = useQuery({
+    queryKey: ['seo', 'about'],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/seo/about`);
+      if (!response.ok) return null;
+      return response.json();
+    },
+  });
+
+  const page = pageData?.data as PageContent | undefined;
+  const seo = seoData?.data as SEOMetadata | undefined;
 
   return (
     <>
