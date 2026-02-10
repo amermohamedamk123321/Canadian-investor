@@ -64,9 +64,26 @@ export async function fetchAPI<T>(
     console.log(`[API] Response status: ${response.status} ${response.statusText}`);
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      const errorMessage = errorData.error || `API Error: ${response.statusText}`;
-      console.error(`[API] Error: ${errorMessage}`);
+      let errorMessage = '';
+      let errorData = {};
+
+      try {
+        errorData = await response.json();
+        console.log('[API] Error response data:', errorData);
+      } catch (e) {
+        console.log('[API] Could not parse error response as JSON');
+      }
+
+      // Build error message with all available info
+      if (errorData.error) {
+        errorMessage = errorData.error;
+      } else if (response.statusText) {
+        errorMessage = `${response.status} ${response.statusText}`;
+      } else {
+        errorMessage = `HTTP Error ${response.status}`;
+      }
+
+      console.error(`[API] Error (${response.status}): ${errorMessage}`, errorData);
       throw new APIError(response.status, errorMessage);
     }
 
