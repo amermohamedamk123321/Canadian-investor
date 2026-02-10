@@ -36,7 +36,7 @@ export function AdminOpportunitiesPage() {
     <AdminLayout>
       <div className="p-8 space-y-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-heading font-bold">Opportunities</h2>
+          <h2 className="text-3xl font-heading">Opportunities</h2>
           <Dialog>
             <DialogTrigger asChild>
               <Button>

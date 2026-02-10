@@ -205,7 +205,7 @@ export function AdminCanadianInvestorsPage() {
       <div className="p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-heading font-bold mb-2">Canadian Investors</h1>
+            <h1 className="text-3xl font-heading mb-2">Canadian Investors</h1>
             <p className="text-muted-foreground">Manage province-based investment opportunities</p>
           </div>
           <div className="flex gap-4">

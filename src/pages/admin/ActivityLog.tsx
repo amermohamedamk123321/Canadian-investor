@@ -81,7 +81,7 @@ export function AdminActivityLogPage() {
       <div className="p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-heading font-bold mb-2">Activity Log</h1>
+            <h1 className="text-3xl font-heading mb-2">Activity Log</h1>
             <p className="text-muted-foreground">Audit trail of all admin actions</p>
           </div>
           <Button onClick={() => refetch()} variant="outline" size="sm">

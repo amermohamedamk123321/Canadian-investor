@@ -85,7 +85,7 @@ export function AdminSubmissionsPage() {
     <AdminLayout>
       <div className="p-8 space-y-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-heading font-bold">Contact Submissions</h2>
+          <h2 className="text-3xl font-heading">Contact Submissions</h2>
           <Button onClick={handleExportCSV}>
             <Download className="h-4 w-4 mr-2" />
             Export CSV
