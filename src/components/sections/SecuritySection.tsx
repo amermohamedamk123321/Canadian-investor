@@ -124,9 +124,22 @@ export const SecuritySection = () => {
               For detailed information about our security protocols, compliance certifications, and data protection measures,
               download our comprehensive Security & Compliance Guidelines document.
             </p>
-            <Button onClick={handleDownloadPDF} className="btn-gold border-0">
-              <Download className="h-5 w-5 mr-2" />
-              Download Guidelines (PDF)
+            <Button
+              onClick={handleDownloadPDF}
+              className="btn-gold border-0"
+              disabled={!securityPDF}
+            >
+              {!securityPDF ? (
+                <>
+                  <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  <Download className="h-5 w-5 mr-2" />
+                  Download Guidelines (PDF)
+                </>
+              )}
             </Button>
           </motion.div>
         </motion.div>
