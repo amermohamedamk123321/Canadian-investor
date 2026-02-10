@@ -16,6 +16,7 @@ import Opportunities from "./pages/Opportunities";
 import OpportunityDetail from "./pages/OpportunityDetail";
 import InternationalInvestors from "./pages/InternationalInvestors";
 import InvestorsCanadian from "./pages/InvestorsCanadian";
+import Services from "./pages/Services";
 import Network from "./pages/Network";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
