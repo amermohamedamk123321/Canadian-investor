@@ -231,7 +231,7 @@ app.post('/api/admin/pages', authMiddleware, (req: AuthRequest, res: Response) =
     const page = db.prepare('SELECT * FROM pages WHERE id = ?').get(id) as Page;
     res.json({ success: true, data: page });
   } catch (error) {
-    console.error('Error creating page:', error);
+    logError('Error creating page', error);
     res.status(500).json({ success: false, error: 'Failed to create page' });
   }
 });
