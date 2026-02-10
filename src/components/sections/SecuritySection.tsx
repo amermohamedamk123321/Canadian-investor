@@ -1,32 +1,51 @@
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { X, Check } from 'lucide-react';
+import { Download, Shield, Lock, CheckCircle, Loader2 } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { Button } from '@/components/ui/button';
 
-const warnings = [
-  'Unscanned file uploads',
-  'No HTTPS',
-  'Weak rate limiting',
-  'Large/unoptimized images',
-  'Missing CSP headers',
-  'Storing docs indefinitely',
-  'Weak backups',
+const trustPoints = [
+  {
+    icon: Lock,
+    title: 'Data Protection',
+    description: 'Your investment data is encrypted and protected with enterprise-grade security standards.',
+  },
+  {
+    icon: Shield,
+    title: 'Compliance',
+    description: 'We adhere to all Canadian financial regulations and international security standards.',
+  },
+  {
+    icon: CheckCircle,
+    title: 'Regular Audits',
+    description: 'Independent security audits ensure our systems remain secure and up-to-date.',
+  },
 ];
 
-const remedies = [
-  'Server-side virus scanning (ClamAV)',
-  'Always HTTPS',
-  'Rate-limiting + CAPTCHA',
-  'Image optimization & srcset',
-  'CSP headers configured',
-  'Retention policy + secure storage',
-  'Automated backups + rollback',
-];
+interface FileAsset {
+  id: string;
+  url: string;
+  name: string;
+  uploaded_at: string;
+}
 
 export const SecuritySection = () => {
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
+  });
+
+  // Fetch security PDF from admin
+  const { data: securityPDF } = useQuery({
+    queryKey: ['security-pdf'],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/files?limit=1`);
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.data?.[0] as FileAsset | undefined;
+    },
+    staleTime: 1000 * 60 * 60, // Cache for 1 hour
   });
 
   const containerVariants = {
@@ -40,17 +59,25 @@ export const SecuritySection = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const handleDownloadPDF = () => {
+    if (!securityPDF?.url) return;
+    const link = document.createElement('a');
+    link.href = securityPDF.url;
+    link.download = securityPDF.name || 'Security-Compliance-Guidelines.pdf';
+    link.click();
   };
 
   return (
     <section className="section-padding bg-background" aria-labelledby="security-heading">
       <div className="container-custom">
         <SectionHeading
-          title="Security First Approach"
-          subtitle="We take security seriously. Here's what we protect against and the measures we implement."
-          badge="Enterprise Security"
+          title="Security & Compliance"
+          subtitle="We prioritize your security and compliance. Learn more about our standards and practices."
+          badge="Trust & Safety"
           centered
         />
 
@@ -59,51 +86,62 @@ export const SecuritySection = () => {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8"
+          className="mt-16"
         >
-          {/* Warnings Column */}
-          <div className="bg-card rounded-2xl p-8 border border-border shadow-elegant">
-            <h3 className="font-heading text-xl font-semibold text-foreground mb-6 flex items-center gap-3">
-              <span className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
-                <X className="h-5 w-5 text-destructive" />
-              </span>
-              Security Risks We Mitigate
-            </h3>
-            <div className="space-y-4">
-              {warnings.map((warning, index) => (
+          {/* Trust Points Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {trustPoints.map((point, index) => {
+              const Icon = point.icon;
+              return (
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className="warning-item"
+                  className="bg-card rounded-2xl p-8 border border-border shadow-elegant hover:shadow-lg transition-shadow"
                 >
-                  <X className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  <span className="text-foreground">{warning}</span>
+                  <div className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center mb-4">
+                    <Icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-heading text-xl font-semibold text-foreground mb-3">
+                    {point.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {point.description}
+                  </p>
                 </motion.div>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
-          {/* Remedies Column */}
-          <div className="bg-card rounded-2xl p-8 border border-border shadow-elegant">
-            <h3 className="font-heading text-xl font-semibold text-foreground mb-6 flex items-center gap-3">
-              <span className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'hsl(168 76% 36% / 0.1)' }}>
-                <Check className="h-5 w-5 text-teal" />
-              </span>
-              Our Security Measures
+          {/* PDF Download CTA */}
+          <motion.div
+            variants={itemVariants}
+            className="bg-gradient-to-r from-accent/10 to-accent/5 rounded-2xl p-8 md:p-12 border border-accent/20 text-center"
+          >
+            <h3 className="font-heading text-2xl font-semibold text-foreground mb-3">
+              Security & Compliance Guidelines
             </h3>
-            <div className="space-y-4">
-              {remedies.map((remedy, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="remedy-item"
-                >
-                  <Check className="h-5 w-5 text-teal flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  <span className="text-foreground">{remedy}</span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
+              For detailed information about our security protocols, compliance certifications, and data protection measures,
+              download our comprehensive Security & Compliance Guidelines document.
+            </p>
+            <Button
+              onClick={handleDownloadPDF}
+              className="btn-gold border-0"
+              disabled={!securityPDF}
+            >
+              {!securityPDF ? (
+                <>
+                  <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  <Download className="h-5 w-5 mr-2" />
+                  Download Guidelines (PDF)
+                </>
+              )}
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
     </section>

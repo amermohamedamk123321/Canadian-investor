@@ -1,0 +1,156 @@
+================================================================================
+                    ALPHA PARTNERS - ADMIN QUICK START
+================================================================================
+
+ADMIN URL:           http://yoursite.com/admin/login
+DEFAULT CREDENTIALS: Provided separately by Super Admin
+
+================================================================================
+                            MAIN MENU NAVIGATION
+================================================================================
+
+📊 DASHBOARD              - Overview and quick links
+📄 PAGES                  - Edit Home, About, Services pages
+💼 OPPORTUNITIES          - Create/manage investment opportunities
+🍁 CANADIAN INVESTORS     - Manage province entries
+🌍 INTERNATIONAL          - Manage international investment tracks
+⚙️  SERVICES              - Manage service offerings
+🔒 SECURITY PDF          - Upload security guidelines PDF
+✉️  SUBMISSIONS           - View contact form inquiries
+👤 ADMIN USERS (Super)    - Create/delete admin accounts
+📋 ACTIVITY LOG           - View audit trail of changes
+
+================================================================================
+                         5-MINUTE QUICK TASKS
+================================================================================
+
+1. EDIT PAGE CONTENT
+   - Click PAGES → Select page → Edit HTML content → Save Changes
+
+2. ADD INVESTMENT OPPORTUNITY
+   - Click OPPORTUNITIES → Create Opportunity → Fill form → Save
+
+3. ADD CANADIAN PROVINCE
+   - Click CANADIAN INVESTORS → Add Province → Fill form → Save
+
+4. ADD SERVICE
+   - Click SERVICES → Add Service → Fill form → Save
+
+5. UPLOAD SECURITY PDF
+   - Click SECURITY PDF → Drag PDF file into upload area → Auto-saves
+
+6. VIEW CONTACT SUBMISSIONS
+   - Click SUBMISSIONS → See all inquiries → Update status as needed
+
+7. CREATE NEW ADMIN USER (Super Admin only)
+   - Click ADMIN USERS → Create User → Enter email & password → Save
+
+8. CHECK ACTIVITY LOG
+   - Click ACTIVITY LOG → See all changes with timestamps & users
+
+================================================================================
+                           COMMON FIELDS
+================================================================================
+
+SLUG:                URL-friendly name (lowercase, hyphens only)
+                     Example: "commercial-real-estate" not "Commercial Real Estate"
+
+TITLE:              Display name shown to public
+                     Example: "Investment Opportunities for Canadian Investors"
+
+DESCRIPTION:        Brief text (1-2 sentences)
+
+DETAILS:            Full explanation (can include HTML tags)
+
+AUDIENCE:           For services: Canadian Only / International Only / Both
+
+FEATURED:           Toggle to show on homepage (usually first 3 items)
+
+META DESCRIPTION:   What appears in Google search results (160 chars max)
+                     Example: "Explore vetted investment opportunities..."
+
+================================================================================
+                         IMPORTANT REMINDERS
+================================================================================
+
+✓ Click SAVE/UPDATE after making changes
+✓ Use REFRESH button if data looks outdated
+✓ Check ACTIVITY LOG for accountability trail
+✓ Super Admins: User management requires caution
+✓ Keep passwords secure, don't share with others
+✓ Log out when finished with session
+
+================================================================================
+                            KEYBOARD SHORTCUTS
+================================================================================
+
+TAB                 Move to next field
+ENTER              Submit form
+ESCAPE             Close dialog/modal
+
+================================================================================
+                           PAGE MANAGEMENT TIPS
+================================================================================
+
+HTML Tags Allowed:
+  - <h1>, <h2>, <h3> for headings
+  - <p> for paragraphs
+  - <ul>, <li> for bullet lists
+  - <strong>, <em> for bold/italic
+  - <br> for line breaks
+  - <a href="url">link</a> for links
+
+Example:
+  <h1>Your Title</h1>
+  <p>Your paragraph text here.</p>
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+  </ul>
+
+================================================================================
+                        TROUBLESHOOTING QUICK FIX
+================================================================================
+
+Can't log in?
+  → Check email address and password
+  → Ask Super Admin for password reset
+
+Changes not showing?
+  → Click REFRESH button
+  → Wait 10 seconds for browser cache
+  → Clear browser cache (Ctrl+Shift+Delete)
+
+Upload failed?
+  → Check file is PDF (for security PDF)
+  → Verify file size under 50MB
+  → Try different browser
+
+No permissions?
+  → Super Admin feature - ask Super Admin for access
+  → Editors can only manage content, not users
+
+================================================================================
+                         DAILY CHECKLIST
+================================================================================
+
+□ Check SUBMISSIONS for new inquiries
+□ Review ACTIVITY LOG for changes
+□ Update page content as needed
+□ Verify SECURITY PDF is current
+□ Check opportunity listings are up to date
+□ Update service descriptions if needed
+□ Log out when finished
+
+================================================================================
+                          SUPPORT CONTACTS
+================================================================================
+
+Technical Issues:      Contact your Super Admin or System Administrator
+Account Problems:      Contact your Super Admin
+Feature Requests:      Document in ACTIVITY LOG or email Super Admin
+
+================================================================================
+                      VERSION 1.0 - FEBRUARY 2026
+================================================================================
+For full documentation, see ADMIN_GUIDE.md
