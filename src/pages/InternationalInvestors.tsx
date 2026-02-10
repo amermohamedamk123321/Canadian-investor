@@ -57,7 +57,7 @@ const InternationalInvestors = () => {
         <section className="section-padding hero-gradient">
           <div className="container-custom">
             <div className="max-w-3xl">
-              <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
+              <span className="trust-badge mb-6 inline-block">
                 <Plane className="h-4 w-4 mr-2" />
                 International Investors
               </span>

@@ -25,7 +25,7 @@ export const CTASection = () => {
         transition={{ duration: 0.6 }}
         className="container-custom relative z-10 text-center"
       >
-        <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
+        <span className="trust-badge mb-6 inline-block">
           Start Your Investment Journey
         </span>
         

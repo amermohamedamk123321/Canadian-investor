@@ -114,7 +114,7 @@ export default function ServicesPage() {
       <section className="section-padding hero-gradient">
         <div className="container-custom">
           <div className="max-w-3xl">
-            <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
+            <span className="trust-badge mb-6 inline-block">
               Our Services
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">

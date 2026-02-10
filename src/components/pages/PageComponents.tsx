@@ -23,7 +23,7 @@ export function PageHero({ title, subtitle, badge }: PageHeroProps) {
       <div className="container-custom">
         <div className="max-w-3xl">
           {badge && (
-            <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
+            <span className="trust-badge mb-6 inline-block">
               {badge}
             </span>
           )}
