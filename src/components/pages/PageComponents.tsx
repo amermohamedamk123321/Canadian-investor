@@ -102,7 +102,7 @@ export function PageCard({
       <div className="flex items-start justify-between mb-4 gap-4">
         <h3 className="text-xl flex-1">{title}</h3>
         {badge && (
-          <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded whitespace-nowrap">
+          <span className="text-xs px-2 py-1 rounded whitespace-nowrap" style={{background: 'hsl(45 90% 80%)', color: 'hsl(222 47% 11%)'}}>
             {badge.label}
           </span>
         )}
