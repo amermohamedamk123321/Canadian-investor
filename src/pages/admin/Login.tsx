@@ -34,7 +34,9 @@ export function AdminLoginPage() {
       await login(email, password);
       navigate('/admin/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      const errorMessage = err instanceof Error ? err.message : 'Login failed';
+      console.error('Login error details:', { error: err, message: errorMessage });
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
