@@ -91,13 +91,8 @@ export const Hero = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button 
-              asChild 
-              variant="outline" 
-              size="lg" 
-              className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground text-base"
-            >
-              <Link to="/contact">Contact Us</Link>
+            <Button asChild size="lg" className="btn-gold border-0 text-base">
+              <Link to="/contact">Get Started</Link>
             </Button>
           </motion.div>
 
