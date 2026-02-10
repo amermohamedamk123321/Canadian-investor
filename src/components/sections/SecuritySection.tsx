@@ -23,10 +23,29 @@ const trustPoints = [
   },
 ];
 
+interface FileAsset {
+  id: string;
+  url: string;
+  name: string;
+  uploaded_at: string;
+}
+
 export const SecuritySection = () => {
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
+  });
+
+  // Fetch security PDF from admin
+  const { data: securityPDF } = useQuery({
+    queryKey: ['security-pdf'],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/files?limit=1`);
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.data?.[0] as FileAsset | undefined;
+    },
+    staleTime: 1000 * 60 * 60, // Cache for 1 hour
   });
 
   const containerVariants = {
@@ -45,12 +64,10 @@ export const SecuritySection = () => {
   };
 
   const handleDownloadPDF = () => {
-    // This will link to the PDF stored in Supabase/admin dashboard
-    // For now, create a placeholder that can be updated later
-    const pdfUrl = '/security-compliance-guidelines.pdf';
+    if (!securityPDF?.url) return;
     const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = 'Alpha-Partners-Security-Compliance-Guidelines.pdf';
+    link.href = securityPDF.url;
+    link.download = securityPDF.name || 'Security-Compliance-Guidelines.pdf';
     link.click();
   };
 
