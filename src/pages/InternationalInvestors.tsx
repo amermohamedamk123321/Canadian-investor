@@ -61,7 +61,7 @@ const InternationalInvestors = () => {
                 <Plane className="h-4 w-4 mr-2" />
                 International Investors
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
                 Your Gateway to{' '}
                 <span className="text-gold-gradient">Canadian Investment</span>
               </h1>
@@ -109,7 +109,7 @@ const InternationalInvestors = () => {
                   <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl gold-gradient mb-6">
                     <benefit.icon className="h-7 w-7 text-primary" />
                   </div>
-                  <h3 className="text-lg font-heading font-semibold text-foreground mb-3">
+                  <h3 className="text-lg font-heading text-foreground mb-3">
                     {benefit.title}
                   </h3>
                   <p className="text-sm text-muted-foreground">
@@ -164,7 +164,7 @@ const InternationalInvestors = () => {
               </div>
 
               <div className="bg-card rounded-2xl p-8 border border-border shadow-elegant">
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-6">
+                <h3 className="font-heading text-xl text-foreground mb-6">
                   Key Considerations for International Investors
                 </h3>
                 <ul className="space-y-4">
@@ -184,7 +184,7 @@ const InternationalInvestors = () => {
         <section className="py-12 bg-background">
           <div className="container-custom">
             <div className="bg-destructive/5 border border-destructive/20 rounded-2xl p-8">
-              <h3 className="font-heading font-semibold text-foreground mb-4">Important Notice</h3>
+              <h3 className="font-heading text-foreground mb-4">Important Notice</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Alpha Partners Investment Inc. does not provide immigration, legal, or visa advice. 
                 We are not immigration consultants, lawyers, or licensed to provide such services. 
@@ -199,7 +199,7 @@ const InternationalInvestors = () => {
         {/* CTA */}
         <section className="section-padding hero-gradient">
           <div className="container-custom text-center">
-            <h2 className="text-3xl md:text-4xl font-heading font-semibold text-primary-foreground mb-6">
+            <h2 className="text-3xl md:text-4xl font-heading text-primary-foreground mb-6">
               Ready to Explore Canadian Opportunities?
             </h2>
             <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto mb-10">

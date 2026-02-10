@@ -101,7 +101,7 @@ export default function InvestorsCanadianPage() {
           </div>
         ) : entries.length > 0 ? (
           <div>
-            <h2 className="text-3xl font-heading font-bold mb-8">Investment Opportunities by Province</h2>
+            <h2 className="text-3xl font-heading mb-8">Investment Opportunities by Province</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {entries.map((entry: CanadianInvestorEntry) => (
                 <Card key={entry.id} className="p-6 hover:shadow-lg transition">
