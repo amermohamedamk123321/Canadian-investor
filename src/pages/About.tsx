@@ -1,45 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
 import { Layout } from '@/components/layout/Layout';
 import { Helmet } from 'react-helmet-async';
-import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Loader2 } from 'lucide-react';
-
-interface PageContent {
-  id: string;
-  slug: string;
-  title: string;
-  content: string;
-  meta_description: string;
-}
-
-interface SEOMetadata {
-  title: string;
-  description: string;
-}
+import { usePage, useSEOMetadata } from '@/api/hooks';
 
 const About = () => {
-  // Fetch page content
-  const { data: pageData, isLoading: pageLoading } = useQuery({
-    queryKey: ['pages', 'about'],
-    queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/pages/about`);
-      if (!response.ok) throw new Error('Failed to fetch page');
-      return response.json();
-    },
-  });
+  // Fetch page content with caching
+  const { data: pageData, isLoading: pageLoading } = usePage('about');
 
-  // Fetch SEO metadata
-  const { data: seoData } = useQuery({
-    queryKey: ['seo', 'about'],
-    queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/seo/about`);
-      if (!response.ok) return null;
-      return response.json();
-    },
-  });
+  // Fetch SEO metadata with caching
+  const { data: seoData } = useSEOMetadata('about');
 
-  const page = pageData?.data as PageContent | undefined;
-  const seo = seoData?.data as SEOMetadata | undefined;
+  const page = pageData?.data;
+  const seo = seoData?.data;
 
   if (pageLoading) {
     return (

@@ -54,6 +54,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Login failed';
+      console.error('[Auth] Login error:', { error: err, message });
       setError(message);
       throw err;
     } finally {

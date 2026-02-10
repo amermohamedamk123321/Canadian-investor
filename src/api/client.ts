@@ -3,7 +3,21 @@
  * Centralized API endpoint and request handling
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_APP_API_URL || 'http://localhost:5000/api';
+// Determine API base URL
+// Priority: VITE_API_URL env var > default to relative /api path
+// Vite proxy in development and reverse proxy in production will forward requests
+function getAPIBaseURL(): string {
+  // 1. Use environment variable if set
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  // 2. Use relative /api path (works with Vite proxy in dev and reverse proxy in prod)
+  return '/api';
+}
+
+const API_BASE_URL = getAPIBaseURL();
+console.log('[API Client] Using API base URL:', API_BASE_URL);
 
 export class APIError extends Error {
   constructor(
@@ -35,20 +49,72 @@ export async function fetchAPI<T>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  try {
+    console.log(`[API] Requesting: ${options?.method || 'GET'} ${url}`);
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+    const response = await fetch(url, {
+      ...options,
+      headers,
+    });
+
+    console.log(`[API] Response status: ${response.status} ${response.statusText}`);
+
+    if (!response.ok) {
+      let errorMessage = '';
+      let errorData = {};
+      let responseText = '';
+
+      try {
+        responseText = await response.text();
+        console.log('[API] Raw error response:', responseText);
+
+        if (responseText) {
+          errorData = JSON.parse(responseText);
+          console.log('[API] Parsed error data:', errorData);
+        }
+      } catch (e) {
+        console.log('[API] Could not parse error response:', e);
+      }
+
+      // Build error message with all available info
+      if (errorData.error) {
+        errorMessage = errorData.error;
+      } else if (errorData.message) {
+        errorMessage = errorData.message;
+      } else if (response.statusText) {
+        errorMessage = `${response.status} ${response.statusText}`;
+      } else {
+        errorMessage = `HTTP Error ${response.status}`;
+      }
+
+      console.error(`[API] Error (${response.status}):`, {
+        url,
+        status: response.status,
+        statusText: response.statusText,
+        message: errorMessage,
+        data: errorData,
+        rawText: responseText
+      });
+      throw new APIError(response.status, errorMessage);
+    }
+
+    const data = await response.json();
+    console.log(`[API] Success: received data`);
+    return data;
+  } catch (error) {
+    // Handle network errors and other fetch failures
+    if (error instanceof APIError) {
+      throw error;
+    }
+
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error(`[API] Request failed: ${url}`, error);
+
     throw new APIError(
-      response.status,
-      errorData.error || `API Error: ${response.statusText}`
+      0,
+      `Failed to reach API at ${url}. ${message}`
     );
   }
-
-  return response.json();
 }
 
 /**

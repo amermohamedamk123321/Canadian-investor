@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Home, Info, Zap, Briefcase, Globe, Users, Mail, MoreHorizontal, Lock } from 'lucide-react';
+import { Menu, X, Home, Info, Zap, Briefcase, Globe, Users, Mail, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navigation = [
@@ -12,7 +12,6 @@ const navigation = [
   { name: 'International', href: '/international-investors', icon: Globe },
   { name: 'Network', href: '/network', icon: Users },
   { name: 'Contact', href: '/contact', icon: Mail },
-  { name: 'More', href: '#', icon: MoreHorizontal },
 ];
 
 // Circular icon button component

@@ -37,7 +37,16 @@ import { AdminPagesPage } from "./pages/admin/Pages";
 import { AdminSecurityPDFPage } from "./pages/admin/SecurityPDF";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes - keep data fresh without excessive refetches
+      refetchOnWindowFocus: false, // Don't refetch when user returns to window
+      refetchOnReconnect: false, // Don't refetch on network reconnect
+      retry: 1, // Retry failed requests once
+    },
+  },
+});
 
 const App = () => (
   <HelmetProvider>
