@@ -765,11 +765,8 @@ app.get('/api/seo/:slug', (req: Request, res: Response) => {
   try {
     const seo = db.prepare('SELECT * FROM seo_metadata WHERE page_slug = ?').get(req.params.slug);
 
-    if (!seo) {
-      return res.status(404).json({ success: false, error: 'SEO metadata not found' });
-    }
-
-    res.json({ success: true, data: seo });
+    // Return null if no SEO metadata exists (it's optional)
+    res.json({ success: true, data: seo || null });
   } catch (error) {
     logError('Error fetching SEO', error);
     res.status(500).json({ success: false, error: 'Failed to fetch SEO metadata' });
