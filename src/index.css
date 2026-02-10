@@ -223,8 +223,8 @@
   /* Trust badge */
   .trust-badge {
     @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium;
-    background: hsl(43 74% 49% / 0.1);
-    color: hsl(var(--accent));
+    background: hsl(45 90% 80%);
+    color: hsl(var(--primary));
   }
 
   /* Warning/Remedy styling */
