@@ -63,7 +63,7 @@ export const Hero = () => {
           {/* Headline */}
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-primary-foreground leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading text-primary-foreground leading-tight"
           >
             Strategic Investments.{' '}
             <span className="text-gold-gradient">

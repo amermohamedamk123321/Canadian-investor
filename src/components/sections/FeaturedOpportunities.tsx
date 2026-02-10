@@ -59,7 +59,7 @@ export const FeaturedOpportunities = () => {
               </div>
 
               <div className="p-6">
-                <h3 className="text-xl font-heading font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                <h3 className="text-xl font-heading text-foreground mb-2 group-hover:text-accent transition-colors">
                   {opportunity.title}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-4 line-clamp-2">

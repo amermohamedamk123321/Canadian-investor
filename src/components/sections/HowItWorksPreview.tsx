@@ -78,7 +78,7 @@ export const HowItWorksPreview = () => {
                 <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-accent flex items-center justify-center text-primary font-bold text-sm">
                   {index + 1}
                 </div>
-                <h3 className="text-xl font-heading font-semibold text-foreground mb-3">
+                <h3 className="text-xl font-heading text-foreground mb-3">
                   {step.title}
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">

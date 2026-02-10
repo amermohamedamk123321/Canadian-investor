@@ -29,7 +29,7 @@ export const CTASection = () => {
           Start Your Investment Journey
         </span>
         
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary-foreground max-w-3xl mx-auto">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading text-primary-foreground max-w-3xl mx-auto">
           Ready to Explore Strategic Investment Opportunities?
         </h2>
         
