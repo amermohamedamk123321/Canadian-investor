@@ -73,7 +73,7 @@ export const AnimatedCounter = ({
       <div className="stat-counter" aria-live="polite">
         {prefix}{count.toLocaleString()}{suffix}
       </div>
-      <h3 className="mt-4 text-lg font-semibold text-foreground font-heading">
+      <h3 className="mt-4 text-lg text-foreground font-heading">
         {label}
       </h3>
       {description && (

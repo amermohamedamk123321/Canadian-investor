@@ -101,7 +101,7 @@ export const SecuritySection = () => {
                   <div className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="font-heading text-xl font-semibold text-foreground mb-3">
+                  <h3 className="font-heading text-xl text-foreground mb-3">
                     {point.title}
                   </h3>
                   <p className="text-muted-foreground leading-relaxed">
@@ -117,7 +117,7 @@ export const SecuritySection = () => {
             variants={itemVariants}
             className="bg-gradient-to-r from-accent/10 to-accent/5 rounded-2xl p-8 md:p-12 border border-accent/20 text-center"
           >
-            <h3 className="font-heading text-2xl font-semibold text-foreground mb-3">
+            <h3 className="font-heading text-2xl text-foreground mb-3">
               Security & Compliance Guidelines
             </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
