@@ -1019,7 +1019,7 @@ app.post('/api/admin/services', authMiddleware, (req: AuthRequest, res: Response
     const service = db.prepare('SELECT * FROM services_entries WHERE id = ?').get(id);
     res.json({ success: true, data: service });
   } catch (error) {
-    console.error('Error creating service:', error);
+    logError('Error creating service', error);
     res.status(500).json({ success: false, error: 'Failed to create service' });
   }
 });
@@ -1047,7 +1047,7 @@ app.put('/api/admin/services/:id', authMiddleware, (req: AuthRequest, res: Respo
     const service = db.prepare('SELECT * FROM services_entries WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: service });
   } catch (error) {
-    console.error('Error updating service:', error);
+    logError('Error updating service', error);
     res.status(500).json({ success: false, error: 'Failed to update service' });
   }
 });
@@ -1058,7 +1058,7 @@ app.delete('/api/admin/services/:id', authMiddleware, (req: AuthRequest, res: Re
     logActivity(req.user!.id, 'delete', 'service', req.params.id);
     res.json({ success: true, message: 'Service deleted' });
   } catch (error) {
-    console.error('Error deleting service:', error);
+    logError('Error deleting service', error);
     res.status(500).json({ success: false, error: 'Failed to delete service' });
   }
 });
