@@ -27,7 +27,7 @@ export function PageHero({ title, subtitle, badge }: PageHeroProps) {
               {badge}
             </span>
           )}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
             {title}
           </h1>
           {subtitle && (
@@ -100,7 +100,7 @@ export function PageCard({
   return (
     <Card className="p-6 hover:shadow-lg transition flex flex-col h-full">
       <div className="flex items-start justify-between mb-4 gap-4">
-        <h3 className="text-xl font-bold flex-1">{title}</h3>
+        <h3 className="text-xl flex-1">{title}</h3>
         {badge && (
           <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded whitespace-nowrap">
             {badge.label}
@@ -159,7 +159,7 @@ export function PageCTA({
   return (
     <section className="section-padding bg-secondary">
       <div className="container-custom text-center">
-        <h2 className="text-3xl font-heading font-bold mb-4">{title}</h2>
+        <h2 className="text-3xl font-heading mb-4">{title}</h2>
         {description && (
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             {description}
@@ -202,7 +202,7 @@ export function PageSection({
       <div className="container-custom">
         {title && (
           <div className={centered ? 'text-center mb-12' : 'mb-8'}>
-            <h2 className="text-3xl font-heading font-bold mb-2">{title}</h2>
+            <h2 className="text-3xl font-heading mb-2">{title}</h2>
             {subtitle && (
               <p className="text-muted-foreground max-w-2xl">
                 {subtitle}

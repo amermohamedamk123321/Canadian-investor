@@ -111,10 +111,10 @@ export const Header = () => {
             aria-label="Alpha Partners Investment Inc. - Home"
           >
             <div className="w-10 h-10 rounded-lg gold-gradient flex items-center justify-center">
-              <span className="font-heading font-bold text-primary text-lg">A</span>
+              <span className="font-heading text-primary text-lg">A</span>
             </div>
             <div className="hidden sm:block">
-              <span className="font-heading font-semibold text-lg text-foreground">
+              <span className="font-heading text-lg text-foreground">
                 Alpha Partners
               </span>
               <span className="block text-xs text-muted-foreground -mt-0.5">

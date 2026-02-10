@@ -35,8 +35,8 @@ export const SectionHeading = ({
           {badge}
         </span>
       )}
-      <h2 
-        className={`text-3xl md:text-4xl lg:text-5xl font-heading font-semibold text-foreground heading-underline ${
+      <h2
+        className={`text-3xl md:text-4xl lg:text-5xl font-heading text-foreground heading-underline ${
           centered ? 'heading-underline-center' : ''
         }`}
       >

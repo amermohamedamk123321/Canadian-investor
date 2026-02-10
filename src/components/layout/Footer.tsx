@@ -31,10 +31,10 @@ export const Footer = () => {
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-lg gold-gradient flex items-center justify-center">
-                <span className="font-heading font-bold text-primary text-lg">A</span>
+                <span className="font-heading text-primary text-lg">A</span>
               </div>
               <div>
-                <span className="font-heading font-semibold text-lg text-primary-foreground">
+                <span className="font-heading text-lg text-primary-foreground">
                   Alpha Partners
                 </span>
                 <span className="block text-xs text-primary-foreground/70 -mt-0.5">
@@ -69,7 +69,7 @@ export const Footer = () => {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-heading font-semibold text-lg mb-6">Company</h3>
+            <h3 className="font-heading text-lg mb-6">Company</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
@@ -86,7 +86,7 @@ export const Footer = () => {
 
           {/* Investors Links */}
           <div>
-            <h3 className="font-heading font-semibold text-lg mb-6">For Investors</h3>
+            <h3 className="font-heading text-lg mb-6">For Investors</h3>
             <ul className="space-y-3">
               {footerLinks.investors.map((link) => (
                 <li key={link.name}>
@@ -103,7 +103,7 @@ export const Footer = () => {
 
           {/* Legal Links */}
           <div>
-            <h3 className="font-heading font-semibold text-lg mb-6">Legal</h3>
+            <h3 className="font-heading text-lg mb-6">Legal</h3>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
