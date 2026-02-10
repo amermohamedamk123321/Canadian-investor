@@ -172,7 +172,7 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.error('Login error:', error);
+    logError('Login error', error);
     res.status(500).json({ success: false, error: 'Login failed' });
   }
 });
