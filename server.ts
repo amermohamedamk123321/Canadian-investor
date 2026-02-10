@@ -269,7 +269,7 @@ app.put('/api/admin/pages/:id', authMiddleware, (req: AuthRequest, res: Response
     const page = db.prepare('SELECT * FROM pages WHERE id = ?').get(req.params.id) as Page;
     res.json({ success: true, data: page });
   } catch (error) {
-    console.error('Error updating page:', error);
+    logError('Error updating page', error);
     res.status(500).json({ success: false, error: 'Failed to update page' });
   }
 });
@@ -280,7 +280,7 @@ app.delete('/api/admin/pages/:id', authMiddleware, (req: AuthRequest, res: Respo
     logActivity(req.user!.id, 'delete', 'page', req.params.id);
     res.json({ success: true, message: 'Page deleted' });
   } catch (error) {
-    console.error('Error deleting page:', error);
+    logError('Error deleting page', error);
     res.status(500).json({ success: false, error: 'Failed to delete page' });
   }
 });
@@ -322,7 +322,7 @@ app.get('/api/opportunities', (req: Request, res: Response) => {
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching opportunities:', error);
+    logError('Error fetching opportunities', error);
     res.status(500).json({ success: false, error: 'Failed to fetch opportunities' });
   }
 });
@@ -335,7 +335,7 @@ app.get('/api/opportunities/featured', (req: Request, res: Response) => {
 
     res.json({ success: true, data: opportunities });
   } catch (error) {
-    console.error('Error fetching featured opportunities:', error);
+    logError('Error fetching featured opportunities', error);
     res.status(500).json({ success: false, error: 'Failed to fetch featured opportunities' });
   }
 });
@@ -352,7 +352,7 @@ app.get('/api/opportunities/:slug', (req: Request, res: Response) => {
 
     res.json({ success: true, data: opportunity });
   } catch (error) {
-    console.error('Error fetching opportunity:', error);
+    logError('Error fetching opportunity', error);
     res.status(500).json({ success: false, error: 'Failed to fetch opportunity' });
   }
 });
@@ -378,7 +378,7 @@ app.post('/api/admin/opportunities', authMiddleware, (req: AuthRequest, res: Res
     const opportunity = db.prepare('SELECT * FROM opportunities WHERE id = ?').get(id) as Opportunity;
     res.json({ success: true, data: opportunity });
   } catch (error) {
-    console.error('Error creating opportunity:', error);
+    logError('Error creating opportunity', error);
     res.status(500).json({ success: false, error: 'Failed to create opportunity' });
   }
 });
@@ -410,7 +410,7 @@ app.put('/api/admin/opportunities/:id', authMiddleware, (req: AuthRequest, res: 
     const opportunity = db.prepare('SELECT * FROM opportunities WHERE id = ?').get(req.params.id) as Opportunity;
     res.json({ success: true, data: opportunity });
   } catch (error) {
-    console.error('Error updating opportunity:', error);
+    logError('Error updating opportunity', error);
     res.status(500).json({ success: false, error: 'Failed to update opportunity' });
   }
 });
@@ -421,7 +421,7 @@ app.delete('/api/admin/opportunities/:id', authMiddleware, (req: AuthRequest, re
     logActivity(req.user!.id, 'delete', 'opportunity', req.params.id);
     res.json({ success: true, message: 'Opportunity deleted' });
   } catch (error) {
-    console.error('Error deleting opportunity:', error);
+    logError('Error deleting opportunity', error);
     res.status(500).json({ success: false, error: 'Failed to delete opportunity' });
   }
 });
@@ -448,7 +448,7 @@ app.post('/api/submissions', (req: Request, res: Response) => {
 
     res.json({ success: true, data: submission });
   } catch (error) {
-    console.error('Error creating submission:', error);
+    logError('Error creating submission', error);
     res.status(500).json({ success: false, error: 'Failed to create submission' });
   }
 });
@@ -488,7 +488,7 @@ app.get('/api/admin/submissions', authMiddleware, (req: AuthRequest, res: Respon
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching submissions:', error);
+    logError('Error fetching submissions', error);
     res.status(500).json({ success: false, error: 'Failed to fetch submissions' });
   }
 });
@@ -505,7 +505,7 @@ app.put('/api/admin/submissions/:id', authMiddleware, (req: AuthRequest, res: Re
     const submission = db.prepare('SELECT * FROM contact_submissions WHERE id = ?').get(req.params.id) as ContactSubmission;
     res.json({ success: true, data: submission });
   } catch (error) {
-    console.error('Error updating submission:', error);
+    logError('Error updating submission', error);
     res.status(500).json({ success: false, error: 'Failed to update submission' });
   }
 });
@@ -516,7 +516,7 @@ app.delete('/api/admin/submissions/:id', authMiddleware, (req: AuthRequest, res:
     logActivity(req.user!.id, 'delete', 'submission', req.params.id);
     res.json({ success: true, message: 'Submission deleted' });
   } catch (error) {
-    console.error('Error deleting submission:', error);
+    logError('Error deleting submission', error);
     res.status(500).json({ success: false, error: 'Failed to delete submission' });
   }
 });
