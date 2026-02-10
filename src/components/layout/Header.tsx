@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Home, Info, Zap, Briefcase, Globe, Users, Mail, MoreHorizontal } from 'lucide-react';
+import { Menu, X, Home, Info, Zap, Briefcase, Globe, Users, Mail, MoreHorizontal, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navigation = [
