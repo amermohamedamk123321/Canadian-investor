@@ -40,10 +40,10 @@ const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
         <AnimatePresence>
           {isHovered && (
             <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              className="absolute top-1/2 right-full mr-3 -translate-y-1/2 whitespace-nowrap bg-foreground text-background px-3 py-1.5 rounded-lg text-xs font-semibold"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute top-full left-1/2 -translate-x-1/2 mt-3 whitespace-nowrap bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium"
             >
               {item.name}
             </motion.div>
@@ -76,10 +76,10 @@ const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            className="absolute top-1/2 right-full mr-3 -translate-y-1/2 whitespace-nowrap bg-foreground text-background px-3 py-1.5 rounded-lg text-xs font-semibold"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-3 whitespace-nowrap bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium"
           >
             {item.name}
           </motion.div>
