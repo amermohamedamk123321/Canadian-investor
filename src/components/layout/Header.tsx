@@ -12,7 +12,6 @@ const navigation = [
   { name: 'International', href: '/international-investors', icon: Globe },
   { name: 'Network', href: '/network', icon: Users },
   { name: 'Contact', href: '/contact', icon: Mail },
-  { name: 'More', href: '#', icon: MoreHorizontal },
 ];
 
 // Circular icon button component
