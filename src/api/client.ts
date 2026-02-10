@@ -39,20 +39,35 @@ export async function fetchAPI<T>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers,
+    });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new APIError(
+        response.status,
+        errorData.error || `API Error: ${response.statusText}`
+      );
+    }
+
+    return response.json();
+  } catch (error) {
+    // Handle network errors and other fetch failures
+    if (error instanceof APIError) {
+      throw error;
+    }
+
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error(`API request failed: ${url}`, error);
+
     throw new APIError(
-      response.status,
-      errorData.error || `API Error: ${response.statusText}`
+      0,
+      `Failed to reach API at ${url}. ${message}`
     );
   }
-
-  return response.json();
 }
 
 /**
