@@ -241,7 +241,7 @@ app.get('/api/admin/pages', authMiddleware, (req: AuthRequest, res: Response) =>
     const pages = db.prepare('SELECT * FROM pages ORDER BY created_at DESC').all() as Page[];
     res.json({ success: true, data: pages });
   } catch (error) {
-    console.error('Error fetching admin pages:', error);
+    logError('Error fetching admin pages', error);
     res.status(500).json({ success: false, error: 'Failed to fetch pages' });
   }
 });
