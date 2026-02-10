@@ -29,7 +29,7 @@ const Network = () => {
               <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
                 Professional Network
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
                 Trusted Partners for Your{' '}
                 <span className="text-gold-gradient">Investment Journey</span>
               </h1>
@@ -78,7 +78,7 @@ const Network = () => {
                       <Briefcase className="h-7 w-7 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-heading font-semibold text-foreground">
+                      <h3 className="font-heading text-foreground">
                         {partner.name}
                       </h3>
                       <p className="text-sm text-accent">{partner.type}</p>
@@ -107,7 +107,7 @@ const Network = () => {
         <section className="section-padding bg-secondary">
           <div className="container-custom">
             <div className="bg-card rounded-2xl p-12 border border-border shadow-elegant text-center">
-              <h2 className="text-3xl font-heading font-semibold text-foreground mb-4">
+              <h2 className="text-3xl font-heading text-foreground mb-4">
                 Become a Network Partner
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto mb-8">

@@ -14,7 +14,7 @@ const OpportunityDetail = () => {
     return (
       <Layout>
         <div className="section-padding container-custom text-center">
-          <h1 className="text-3xl font-heading font-semibold mb-4">Opportunity Not Found</h1>
+          <h1 className="text-3xl font-heading mb-4">Opportunity Not Found</h1>
           <p className="text-muted-foreground mb-8">
             The opportunity you're looking for doesn't exist or has been removed.
           </p>
@@ -67,7 +67,7 @@ const OpportunityDetail = () => {
                   )}
                 </div>
 
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary-foreground mb-6">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading text-primary-foreground mb-6">
                   {opportunity.title}
                 </h1>
 
@@ -82,7 +82,7 @@ const OpportunityDetail = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="bg-card rounded-2xl p-8 shadow-elegant"
               >
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-6">
+                <h3 className="font-heading text-xl text-foreground mb-6">
                   Investment Overview
                 </h3>
                 <div className="space-y-4">
@@ -137,14 +137,14 @@ const OpportunityDetail = () => {
           <div className="container-custom">
             <div className="grid lg:grid-cols-3 gap-12">
               <div className="lg:col-span-2">
-                <h2 className="text-2xl font-heading font-semibold text-foreground mb-6">
+                <h2 className="text-2xl font-heading text-foreground mb-6">
                   About This Opportunity
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-8">
                   {opportunity.fullDescription}
                 </p>
 
-                <h3 className="text-xl font-heading font-semibold text-foreground mb-4">
+                <h3 className="text-xl font-heading text-foreground mb-4">
                   Investment Highlights
                 </h3>
                 <ul className="space-y-3">
@@ -174,7 +174,7 @@ const OpportunityDetail = () => {
         {/* CTA */}
         <section className="section-padding bg-secondary">
           <div className="container-custom text-center">
-            <h2 className="text-3xl font-heading font-semibold text-foreground mb-4">
+            <h2 className="text-3xl font-heading text-foreground mb-4">
               Interested in This Opportunity?
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto mb-8">

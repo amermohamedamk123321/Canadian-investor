@@ -48,7 +48,7 @@ const Opportunities = () => {
               <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
                 Investment Opportunities
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
                 Curated Opportunities Across{' '}
                 <span className="text-gold-gradient">Canada</span>
               </h1>
@@ -178,7 +178,7 @@ const Opportunities = () => {
                     </div>
 
                     <div className="p-6">
-                      <h2 className="text-xl font-heading font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                      <h2 className="text-xl font-heading text-foreground mb-2 group-hover:text-accent transition-colors">
                         {opportunity.title}
                       </h2>
                       <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
@@ -219,7 +219,7 @@ const Opportunities = () => {
         {/* CTA */}
         <section className="section-padding bg-background">
           <div className="container-custom text-center">
-            <h2 className="text-3xl font-heading font-semibold text-foreground mb-4">
+            <h2 className="text-3xl font-heading text-foreground mb-4">
               Don't See What You're Looking For?
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto mb-8">

@@ -12,7 +12,7 @@ const Privacy = () => {
       <Layout>
         <section className="section-padding bg-background">
           <div className="container-custom max-w-4xl">
-            <h1 className="text-4xl font-heading font-bold text-foreground mb-8">
+            <h1 className="text-4xl font-heading text-foreground mb-8">
               Privacy Policy
             </h1>
             
@@ -21,7 +21,7 @@ const Privacy = () => {
                 Last updated: February 2025
               </p>
 
-              <h2 className="text-2xl font-heading font-semibold text-foreground mt-10 mb-4">
+              <h2 className="text-2xl font-heading text-foreground mt-10 mb-4">
                 1. Information We Collect
               </h2>
               <p className="text-muted-foreground mb-4">
@@ -31,7 +31,7 @@ const Privacy = () => {
                 and any other information you choose to provide.
               </p>
 
-              <h2 className="text-2xl font-heading font-semibold text-foreground mt-10 mb-4">
+              <h2 className="text-2xl font-heading text-foreground mt-10 mb-4">
                 2. How We Use Your Information
               </h2>
               <p className="text-muted-foreground mb-4">
@@ -45,7 +45,7 @@ const Privacy = () => {
                 <li>Comply with legal obligations</li>
               </ul>
 
-              <h2 className="text-2xl font-heading font-semibold text-foreground mt-10 mb-4">
+              <h2 className="text-2xl font-heading text-foreground mt-10 mb-4">
                 3. Information Sharing
               </h2>
               <p className="text-muted-foreground mb-4">
@@ -57,7 +57,7 @@ const Privacy = () => {
                 <li>Legal authorities when required by law</li>
               </ul>
 
-              <h2 className="text-2xl font-heading font-semibold text-foreground mt-10 mb-4">
+              <h2 className="text-2xl font-heading text-foreground mt-10 mb-4">
                 4. Data Security
               </h2>
               <p className="text-muted-foreground mb-4">
@@ -66,7 +66,7 @@ const Privacy = () => {
                 destruction. This includes encryption, secure servers, and access controls.
               </p>
 
-              <h2 className="text-2xl font-heading font-semibold text-foreground mt-10 mb-4">
+              <h2 className="text-2xl font-heading text-foreground mt-10 mb-4">
                 5. Your Rights
               </h2>
               <p className="text-muted-foreground mb-4">
@@ -75,7 +75,7 @@ const Privacy = () => {
                 exercise these rights, please contact us at privacy@alphapartners.ca.
               </p>
 
-              <h2 className="text-2xl font-heading font-semibold text-foreground mt-10 mb-4">
+              <h2 className="text-2xl font-heading text-foreground mt-10 mb-4">
                 6. Cookies
               </h2>
               <p className="text-muted-foreground mb-4">
@@ -84,7 +84,7 @@ const Privacy = () => {
                 can control cookie preferences through your browser settings.
               </p>
 
-              <h2 className="text-2xl font-heading font-semibold text-foreground mt-10 mb-4">
+              <h2 className="text-2xl font-heading text-foreground mt-10 mb-4">
                 7. Contact Us
               </h2>
               <p className="text-muted-foreground mb-4">
