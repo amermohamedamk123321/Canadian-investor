@@ -533,7 +533,7 @@ app.get('/api/settings', (req: Request, res: Response) => {
 
     res.json({ success: true, data: settings });
   } catch (error) {
-    console.error('Error fetching settings:', error);
+    logError('Error fetching settings', error);
     res.status(500).json({ success: false, error: 'Failed to fetch settings' });
   }
 });
@@ -564,7 +564,7 @@ app.get('/api/admin/users', superAdminMiddleware, (req: AuthRequest, res: Respon
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching admin users:', error);
+    logError('Error fetching admin users', error);
     res.status(500).json({ success: false, error: 'Failed to fetch users' });
   }
 });
@@ -595,7 +595,7 @@ app.post('/api/admin/users', superAdminMiddleware, async (req: AuthRequest, res:
 
     res.json({ success: true, data: { id: userId, email, role, active: true } });
   } catch (error) {
-    console.error('Error creating admin user:', error);
+    logError('Error creating admin user', error);
     res.status(500).json({ success: false, error: 'Failed to create user' });
   }
 });
@@ -634,7 +634,7 @@ app.put('/api/admin/users/:id', superAdminMiddleware, async (req: AuthRequest, r
     const user = db.prepare('SELECT id, email, role, active, last_login, created_at, updated_at FROM admin_users WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: user });
   } catch (error) {
-    console.error('Error updating admin user:', error);
+    logError('Error updating admin user', error);
     res.status(500).json({ success: false, error: 'Failed to update user' });
   }
 });
@@ -645,7 +645,7 @@ app.delete('/api/admin/users/:id', superAdminMiddleware, (req: AuthRequest, res:
     logActivity(req.user!.id, 'delete', 'admin_user', req.params.id);
     res.json({ success: true, message: 'User deleted' });
   } catch (error) {
-    console.error('Error deleting admin user:', error);
+    logError('Error deleting admin user', error);
     res.status(500).json({ success: false, error: 'Failed to delete user' });
   }
 });
@@ -671,7 +671,7 @@ app.post('/api/admin/files', authMiddleware, upload.single('file'), (req: AuthRe
 
     res.json({ success: true, data: { id: fileId, name: req.file.originalname, url: fileUrl, size: req.file.size } });
   } catch (error) {
-    console.error('Error uploading file:', error);
+    logError('Error uploading file', error);
     res.status(500).json({ success: false, error: 'Failed to upload file' });
   }
 });
@@ -700,7 +700,7 @@ app.get('/api/admin/files', authMiddleware, (req: AuthRequest, res: Response) =>
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching files:', error);
+    logError('Error fetching files', error);
     res.status(500).json({ success: false, error: 'Failed to fetch files' });
   }
 });
@@ -724,7 +724,7 @@ app.delete('/api/admin/files/:id', authMiddleware, (req: AuthRequest, res: Respo
 
     res.json({ success: true, message: 'File deleted' });
   } catch (error) {
-    console.error('Error deleting file:', error);
+    logError('Error deleting file', error);
     res.status(500).json({ success: false, error: 'Failed to delete file' });
   }
 });
@@ -754,7 +754,7 @@ app.get('/api/admin/activity', authMiddleware, (req: AuthRequest, res: Response)
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching activity logs:', error);
+    logError('Error fetching activity logs', error);
     res.status(500).json({ success: false, error: 'Failed to fetch activity logs' });
   }
 });
@@ -771,7 +771,7 @@ app.get('/api/seo/:slug', (req: Request, res: Response) => {
 
     res.json({ success: true, data: seo });
   } catch (error) {
-    console.error('Error fetching SEO:', error);
+    logError('Error fetching SEO', error);
     res.status(500).json({ success: false, error: 'Failed to fetch SEO metadata' });
   }
 });
