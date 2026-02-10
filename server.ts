@@ -1069,6 +1069,26 @@ app.get('/api/health', (req: Request, res: Response) => {
   res.json({ success: true, message: 'API is running' });
 });
 
+// Root path handler (helpful for debugging)
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    success: true,
+    message: 'API Server is running',
+    info: 'This is the backend API server. The frontend is served from port 8080, not this port.',
+    availableEndpoints: {
+      health: '/api/health',
+      auth: {
+        register: 'POST /api/auth/register',
+        login: 'POST /api/auth/login'
+      },
+      pages: {
+        list: 'GET /api/pages',
+        get: 'GET /api/pages/:slug'
+      }
+    }
+  });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`✅ API Server running on http://localhost:${PORT}`);
