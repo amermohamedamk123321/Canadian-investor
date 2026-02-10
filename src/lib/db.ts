@@ -334,6 +334,31 @@ function seedDefaultPages() {
 }
 
 /**
+ * Seed default admin user into the database
+ */
+function seedDefaultAdminUser() {
+  try {
+    const defaultEmail = 'admin@alphapartners.ca';
+    const existing = db.prepare('SELECT id FROM admin_users WHERE email = ?').get(defaultEmail);
+
+    if (!existing) {
+      const id = uuidv4();
+      const now = getTimestamp();
+      const passwordHash = bcrypt.hashSync('SecurePass123!@#', 10);
+
+      db.prepare(`
+        INSERT INTO admin_users (id, email, password_hash, role, active, created_at, updated_at)
+        VALUES (?, ?, ?, ?, 1, ?, ?)
+      `).run(id, defaultEmail, passwordHash, 'admin', now, now);
+
+      console.log('✅ Created default admin user: admin@alphapartners.ca');
+    }
+  } catch (error) {
+    console.error('Error seeding default admin user:', error);
+  }
+}
+
+/**
  * Close database connection
  */
 export function closeDatabase() {
