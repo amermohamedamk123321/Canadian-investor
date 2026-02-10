@@ -3,11 +3,24 @@
  * Centralized API endpoint and request handling
  */
 
-// Determine API base URL based on environment
-// In production: use /api (relative path works with reverse proxy on same domain)
-// In development: use http://localhost:5000/api
-const API_BASE_URL = import.meta.env.VITE_API_URL ||
-  (import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:5000/api');
+// Determine API base URL
+// Priority: VITE_API_URL env var > detect from current host > default fallback
+function getAPIBaseURL(): string {
+  // 1. Use environment variable if set
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  // 2. Check if we're on localhost - use port 5000 for local dev
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    return 'http://localhost:5000/api';
+  }
+
+  // 3. Otherwise, use relative /api path (works with reverse proxy on any domain)
+  return '/api';
+}
+
+const API_BASE_URL = getAPIBaseURL();
 
 export class APIError extends Error {
   constructor(
