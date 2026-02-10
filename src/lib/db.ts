@@ -7,6 +7,7 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcryptjs';
 
 // Initialize database file
 const dbPath = process.env.DATABASE_PATH || path.join(process.cwd(), 'data', 'app.db');
