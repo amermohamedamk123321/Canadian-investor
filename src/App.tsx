@@ -145,6 +145,14 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/admin/security-pdf"
+                element={
+                  <ProtectedRoute>
+                    <AdminSecurityPDFPage />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Catch-all Route */}
               <Route path="*" element={<NotFound />} />
