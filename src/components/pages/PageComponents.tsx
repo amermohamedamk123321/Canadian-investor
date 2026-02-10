@@ -236,7 +236,8 @@ export function PageBadgeList({ items }: PageBadgeListProps) {
       {items.map((item, idx) => (
         <span
           key={idx}
-          className="text-xs bg-primary/10 text-primary px-3 py-1 rounded"
+          className="text-xs px-3 py-1 rounded"
+          style={{background: 'hsl(45 90% 80%)', color: 'hsl(222 47% 11%)'}}
         >
           {item}
         </span>
