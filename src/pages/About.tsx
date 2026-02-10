@@ -38,7 +38,7 @@ const About = () => {
             <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
               About Alpha Partners
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
               {page?.title || 'About Alpha Partners'}
             </h1>
           </div>
@@ -60,7 +60,7 @@ const About = () => {
       <section className="py-12 bg-background">
         <div className="container-custom">
           <div className="bg-destructive/5 border border-destructive/20 rounded-2xl p-8">
-            <h3 className="font-heading font-semibold text-foreground mb-4">Important Disclaimer</h3>
+            <h3 className="font-heading text-foreground mb-4">Important Disclaimer</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Alpha Partners Investment Inc. does not provide immigration, legal, or visa advice.
               We are not immigration consultants, lawyers, or licensed to provide legal advice.

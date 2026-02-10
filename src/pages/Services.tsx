@@ -117,7 +117,7 @@ export default function ServicesPage() {
             <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
               Our Services
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
               {page?.title || 'Advisory & Coordination Services'}
             </h1>
           </div>
@@ -140,7 +140,7 @@ export default function ServicesPage() {
         <section className="section-padding bg-secondary">
           <div className="container-custom">
             <div className="mb-12">
-              <h2 className="text-3xl font-heading font-bold mb-4">Our Service Offerings</h2>
+              <h2 className="text-3xl font-heading mb-4">Our Service Offerings</h2>
               <p className="text-muted-foreground max-w-2xl">
                 We provide comprehensive support throughout your investment journey
               </p>
@@ -192,7 +192,7 @@ export default function ServicesPage() {
       {/* CTA Section */}
       <section className="section-padding bg-background">
         <div className="container-custom text-center">
-          <h2 className="text-3xl font-heading font-bold mb-4">Ready to Get Started?</h2>
+          <h2 className="text-3xl font-heading mb-4">Ready to Get Started?</h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Contact our team to discuss how our services can support your investment goals
           </p>

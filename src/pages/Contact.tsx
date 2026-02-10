@@ -108,7 +108,7 @@ const Contact = () => {
               <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
                 Get in Touch
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
                 Let's Discuss Your{' '}
                 <span className="text-gold-gradient">Investment Goals</span>
               </h1>
@@ -126,7 +126,7 @@ const Contact = () => {
             <div className="grid lg:grid-cols-3 gap-12">
               {/* Contact Info */}
               <div className="lg:col-span-1">
-                <h2 className="text-2xl font-heading font-semibold text-foreground mb-8">
+                <h2 className="text-2xl font-heading text-foreground mb-8">
                   Contact Information
                 </h2>
                 <div className="space-y-6">
@@ -173,7 +173,7 @@ const Contact = () => {
                 </div>
 
                 <div className="mt-12 p-6 bg-muted rounded-2xl">
-                  <h3 className="font-heading font-semibold text-foreground mb-3">
+                  <h3 className="font-heading text-foreground mb-3">
                     Response Time
                   </h3>
                   <p className="text-sm text-muted-foreground">
@@ -195,7 +195,7 @@ const Contact = () => {
                       <div className="w-16 h-16 rounded-full bg-teal/10 flex items-center justify-center mx-auto mb-6">
                         <CheckCircle className="h-8 w-8 text-teal" />
                       </div>
-                      <h3 className="text-2xl font-heading font-semibold text-foreground mb-4">
+                      <h3 className="text-2xl font-heading text-foreground mb-4">
                         Message Received!
                       </h3>
                       <p className="text-muted-foreground mb-8">
@@ -208,7 +208,7 @@ const Contact = () => {
                     </motion.div>
                   ) : (
                     <>
-                      <h2 className="text-2xl font-heading font-semibold text-foreground mb-2">
+                      <h2 className="text-2xl font-heading text-foreground mb-2">
                         Send Us a Message
                       </h2>
                       <p className="text-muted-foreground mb-8">
