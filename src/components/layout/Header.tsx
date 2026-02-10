@@ -138,12 +138,7 @@ export const Header = () => {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="border-primary/30 text-primary hover:bg-primary/10"
-            >
+            <Button asChild className="btn-gold border-0">
               <Link to="/admin/login" className="flex items-center gap-2">
                 <Lock size={16} />
                 Admin
