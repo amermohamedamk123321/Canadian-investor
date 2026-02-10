@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "tsx watch server.ts",
-    "dev:all": "(npm run server &) && npm run dev",
+    "server": "npx tsx watch server.ts",
+    "dev:all": "(npm run server &) && sleep 2 && npm run dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
