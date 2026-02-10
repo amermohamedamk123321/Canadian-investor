@@ -21,6 +21,7 @@ function getAPIBaseURL(): string {
 }
 
 const API_BASE_URL = getAPIBaseURL();
+console.log('[API Client] Using API base URL:', API_BASE_URL);
 
 export class APIError extends Error {
   constructor(
