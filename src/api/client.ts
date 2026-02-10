@@ -53,20 +53,25 @@ export async function fetchAPI<T>(
   }
 
   try {
+    console.log(`[API] Requesting: ${options?.method || 'GET'} ${url}`);
+
     const response = await fetch(url, {
       ...options,
       headers,
     });
 
+    console.log(`[API] Response status: ${response.status} ${response.statusText}`);
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new APIError(
-        response.status,
-        errorData.error || `API Error: ${response.statusText}`
-      );
+      const errorMessage = errorData.error || `API Error: ${response.statusText}`;
+      console.error(`[API] Error: ${errorMessage}`);
+      throw new APIError(response.status, errorMessage);
     }
 
-    return response.json();
+    const data = await response.json();
+    console.log(`[API] Success: received data`);
+    return data;
   } catch (error) {
     // Handle network errors and other fetch failures
     if (error instanceof APIError) {
@@ -74,7 +79,7 @@ export async function fetchAPI<T>(
     }
 
     const message = error instanceof Error ? error.message : 'Unknown error';
-    console.error(`API request failed: ${url}`, error);
+    console.error(`[API] Request failed: ${url}`, error);
 
     throw new APIError(
       0,
