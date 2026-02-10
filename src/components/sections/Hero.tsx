@@ -54,7 +54,7 @@ export const Hero = () => {
         >
           {/* Trust Badge */}
           <motion.div variants={itemVariants}>
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-accent/20 text-accent mb-8">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-8" style={{background: 'hsl(45 90% 80%)', color: 'hsl(222 47% 11%)'}}>
               <Shield className="h-4 w-4" />
               Trusted Investment Partner Since 2010
             </span>
