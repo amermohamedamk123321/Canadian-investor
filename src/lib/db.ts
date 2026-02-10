@@ -231,8 +231,12 @@ export function initializeDatabase() {
     CREATE INDEX IF NOT EXISTS idx_services_order ON services_entries(display_order);
   `);
 
-  // Seed default pages if they don't exist
-  seedPages();
+  // Seed default pages if they don't exist (use dynamic import to avoid circular dependency)
+  import('./seed-pages').then(({ seedPages }) => {
+    seedPages();
+  }).catch((error) => {
+    console.error('Error seeding pages:', error);
+  });
 
   console.log('✅ Database initialized successfully');
 }
