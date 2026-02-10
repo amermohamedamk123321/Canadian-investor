@@ -809,7 +809,7 @@ app.put('/api/admin/seo/:slug', authMiddleware, (req: AuthRequest, res: Response
     const seo = db.prepare('SELECT * FROM seo_metadata WHERE page_slug = ?').get(req.params.slug);
     res.json({ success: true, data: seo });
   } catch (error) {
-    console.error('Error updating SEO:', error);
+    logError('Error updating SEO', error);
     res.status(500).json({ success: false, error: 'Failed to update SEO metadata' });
   }
 });
@@ -825,7 +825,7 @@ app.get('/api/canadian-investors', (req: Request, res: Response) => {
 
     res.json({ success: true, data: entries });
   } catch (error) {
-    console.error('Error fetching canadian investors:', error);
+    logError('Error fetching canadian investors', error);
     res.status(500).json({ success: false, error: 'Failed to fetch canadian investors' });
   }
 });
@@ -851,7 +851,7 @@ app.post('/api/admin/canadian-investors', authMiddleware, (req: AuthRequest, res
     const entry = db.prepare('SELECT * FROM canadian_investors_entries WHERE id = ?').get(id);
     res.json({ success: true, data: entry });
   } catch (error) {
-    console.error('Error creating canadian investor entry:', error);
+    logError('Error creating canadian investor entry', error);
     res.status(500).json({ success: false, error: 'Failed to create entry' });
   }
 });
@@ -878,7 +878,7 @@ app.put('/api/admin/canadian-investors/:id', authMiddleware, (req: AuthRequest, 
     const entry = db.prepare('SELECT * FROM canadian_investors_entries WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: entry });
   } catch (error) {
-    console.error('Error updating canadian investor entry:', error);
+    logError('Error updating canadian investor entry', error);
     res.status(500).json({ success: false, error: 'Failed to update entry' });
   }
 });
@@ -889,7 +889,7 @@ app.delete('/api/admin/canadian-investors/:id', authMiddleware, (req: AuthReques
     logActivity(req.user!.id, 'delete', 'canadian_investor', req.params.id);
     res.json({ success: true, message: 'Entry deleted' });
   } catch (error) {
-    console.error('Error deleting canadian investor entry:', error);
+    logError('Error deleting canadian investor entry', error);
     res.status(500).json({ success: false, error: 'Failed to delete entry' });
   }
 });
@@ -905,7 +905,7 @@ app.get('/api/international-investors', (req: Request, res: Response) => {
 
     res.json({ success: true, data: tracks });
   } catch (error) {
-    console.error('Error fetching international investors:', error);
+    logError('Error fetching international investors', error);
     res.status(500).json({ success: false, error: 'Failed to fetch international investors' });
   }
 });
@@ -931,7 +931,7 @@ app.post('/api/admin/international-investors', authMiddleware, (req: AuthRequest
     const track = db.prepare('SELECT * FROM international_investors_tracks WHERE id = ?').get(id);
     res.json({ success: true, data: track });
   } catch (error) {
-    console.error('Error creating international investor track:', error);
+    logError('Error creating international investor track', error);
     res.status(500).json({ success: false, error: 'Failed to create track' });
   }
 });
@@ -958,7 +958,7 @@ app.put('/api/admin/international-investors/:id', authMiddleware, (req: AuthRequ
     const track = db.prepare('SELECT * FROM international_investors_tracks WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: track });
   } catch (error) {
-    console.error('Error updating international investor track:', error);
+    logError('Error updating international investor track', error);
     res.status(500).json({ success: false, error: 'Failed to update track' });
   }
 });
@@ -969,7 +969,7 @@ app.delete('/api/admin/international-investors/:id', authMiddleware, (req: AuthR
     logActivity(req.user!.id, 'delete', 'international_track', req.params.id);
     res.json({ success: true, message: 'Track deleted' });
   } catch (error) {
-    console.error('Error deleting international investor track:', error);
+    logError('Error deleting international investor track', error);
     res.status(500).json({ success: false, error: 'Failed to delete track' });
   }
 });
@@ -993,7 +993,7 @@ app.get('/api/services', (req: Request, res: Response) => {
 
     res.json({ success: true, data: services });
   } catch (error) {
-    console.error('Error fetching services:', error);
+    logError('Error fetching services', error);
     res.status(500).json({ success: false, error: 'Failed to fetch services' });
   }
 });
