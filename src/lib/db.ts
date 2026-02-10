@@ -232,8 +232,9 @@ export function initializeDatabase() {
     CREATE INDEX IF NOT EXISTS idx_services_order ON services_entries(display_order);
   `);
 
-  // Seed default pages if they don't exist
+  // Seed default pages and admin user if they don't exist
   seedDefaultPages();
+  seedDefaultAdminUser();
 
   console.log('✅ Database initialized successfully');
 }
