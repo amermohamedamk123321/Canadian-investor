@@ -101,7 +101,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/40 backdrop-blur-lg border-b border-border/20">
       <nav className="container-custom" aria-label="Main navigation">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -143,9 +143,6 @@ export const Header = () => {
                 <Lock size={16} />
                 Admin
               </Link>
-            </Button>
-            <Button asChild className="btn-gold border-0">
-              <Link to="/contact">Get Started</Link>
             </Button>
           </div>
 
@@ -193,11 +190,6 @@ export const Header = () => {
                     <Link to="/admin/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2">
                       <Lock size={16} />
                       Admin
-                    </Link>
-                  </Button>
-                  <Button asChild className="w-full btn-gold border-0">
-                    <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>
-                      Get Started
                     </Link>
                   </Button>
                 </div>
