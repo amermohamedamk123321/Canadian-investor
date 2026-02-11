@@ -43,7 +43,7 @@ const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute top-full left-1/2 -translate-x-1/2 mt-3 whitespace-nowrap bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium"
+              className="absolute top-full left-0 right-0 mx-auto mt-3 w-max bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium pointer-events-none"
             >
               {item.name}
             </motion.div>
@@ -79,7 +79,7 @@ const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-1/2 -translate-x-1/2 mt-3 whitespace-nowrap bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium"
+            className="absolute top-full left-0 right-0 mx-auto mt-3 w-max bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium pointer-events-none"
           >
             {item.name}
           </motion.div>
