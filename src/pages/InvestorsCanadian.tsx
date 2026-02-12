@@ -290,9 +290,9 @@ export default function InvestorsCanadianPage() {
               {services.map((service, idx) => (
                 <motion.div
                   key={idx}
-                  className="bg-muted/50 rounded-xl p-6 border border-border/50 hover:border-accent/50 transition-all"
+                  className="bg-muted/50 rounded-xl p-6 border border-accent/40 hover:border-accent/80 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                   variants={staggerItemVariants}
-                  whileHover={{ y: -4, boxShadow: '0 10px 30px rgba(217, 70, 39, 0.1)' }}
+                  whileHover={{ y: -4 }}
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center flex-shrink-0">
@@ -308,7 +308,7 @@ export default function InvestorsCanadianPage() {
       </section>
 
       {/* Our Investment Process */}
-      <section className="section-padding bg-muted/30 border-t border-border/50">
+      <section className="section-padding bg-muted/30 border-t border-accent/30">
         <div className="container-custom">
           <motion.div
             ref={processRef}
@@ -332,7 +332,7 @@ export default function InvestorsCanadianPage() {
                   animate={processInView ? 'animate' : 'initial'}
                   className="relative"
                 >
-                  <div className="bg-background rounded-xl p-6 border border-border/50 hover:border-accent/50 h-full transition-all">
+                  <div className="bg-background rounded-xl p-6 border border-accent/40 hover:border-accent/80 h-full transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30">
                     <motion.div
                       className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center text-primary font-heading font-bold mb-4"
                       whileHover={{ scale: 1.1 }}
@@ -354,7 +354,7 @@ export default function InvestorsCanadianPage() {
       </section>
 
       {/* Why Work With Us */}
-      <section className="section-padding bg-background border-t border-border/50">
+      <section className="section-padding bg-background border-t border-accent/30">
         <div className="container-custom">
           <motion.div
             ref={chooseRef}
