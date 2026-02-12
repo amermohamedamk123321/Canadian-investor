@@ -17,6 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { useToast } from '../../hooks/use-toast';
 import { Plus, Edit2, Trash2, RefreshCw, Loader2 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { getRequest, postRequest, putRequest, deleteRequest, APIError } from '../../api/client';
 
 export function AdminUsersPage() {
   const { token, user } = useAdminAuth();
@@ -36,11 +37,7 @@ export function AdminUsersPage() {
   const { data: usersData, isLoading: isLoadingUsers, refetch } = useQuery({
     queryKey: ['admin-users'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Failed to fetch users');
-      return response.json();
+      return getRequest<any>('/admin/users');
     },
     enabled: isSuperAdmin,
   });
@@ -48,16 +45,7 @@ export function AdminUsersPage() {
   // Create user mutation
   const createUserMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/users`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error('Failed to create user');
-      return response.json();
+      return postRequest<any>('/admin/users', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-users'] });
@@ -66,23 +54,15 @@ export function AdminUsersPage() {
       setFormData({ email: '', password: '', role: 'editor' });
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Update user mutation
   const updateUserMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/users/${editingUser.id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error('Failed to update user');
-      return response.json();
+      return putRequest<any>(`/admin/users/${editingUser.id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-users'] });
@@ -92,19 +72,15 @@ export function AdminUsersPage() {
       setFormData({ email: '', password: '', role: 'editor' });
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Delete user mutation
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: string) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/users/${userId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Failed to delete user');
-      return response.json();
+      return deleteRequest<any>(`/admin/users/${userId}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-users'] });
@@ -112,7 +88,8 @@ export function AdminUsersPage() {
       setDeleteUserId(null);
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
@@ -160,7 +137,7 @@ export function AdminUsersPage() {
       <div className="p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-heading font-bold mb-2">Admin Users</h1>
+            <h1 className="text-3xl font-heading mb-2">Admin Users</h1>
             <p className="text-muted-foreground">Manage admin user accounts and permissions</p>
           </div>
           <div className="flex gap-4">

@@ -28,6 +28,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
+// Helper function to properly log errors
+function logError(context: string, error: unknown) {
+  if (error instanceof Error) {
+    console.error(`${context}:`, error.message, error.stack);
+  } else {
+    console.error(`${context}:`, String(error));
+  }
+}
+
 // Setup file upload directory
 const uploadsDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadsDir)) {
@@ -124,7 +133,7 @@ app.post('/api/auth/register', async (req: Request, res: Response) => {
 
     res.json({ success: true, data: { id: userId, email, role, token } });
   } catch (error) {
-    console.error('Registration error:', error);
+    logError('Registration error', error);
     res.status(500).json({ success: false, error: 'Registration failed' });
   }
 });
@@ -163,7 +172,7 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.error('Login error:', error);
+    logError('Login error', error);
     res.status(500).json({ success: false, error: 'Login failed' });
   }
 });
@@ -181,7 +190,7 @@ app.get('/api/pages', (req: Request, res: Response) => {
 
     res.json({ success: true, data: pages });
   } catch (error) {
-    console.error('Error fetching pages:', error);
+    logError('Error fetching pages', error);
     res.status(500).json({ success: false, error: 'Failed to fetch pages' });
   }
 });
@@ -196,7 +205,7 @@ app.get('/api/pages/:slug', (req: Request, res: Response) => {
 
     res.json({ success: true, data: page });
   } catch (error) {
-    console.error('Error fetching page:', error);
+    logError('Error fetching page', error);
     res.status(500).json({ success: false, error: 'Failed to fetch page' });
   }
 });
@@ -222,7 +231,7 @@ app.post('/api/admin/pages', authMiddleware, (req: AuthRequest, res: Response) =
     const page = db.prepare('SELECT * FROM pages WHERE id = ?').get(id) as Page;
     res.json({ success: true, data: page });
   } catch (error) {
-    console.error('Error creating page:', error);
+    logError('Error creating page', error);
     res.status(500).json({ success: false, error: 'Failed to create page' });
   }
 });
@@ -232,7 +241,7 @@ app.get('/api/admin/pages', authMiddleware, (req: AuthRequest, res: Response) =>
     const pages = db.prepare('SELECT * FROM pages ORDER BY created_at DESC').all() as Page[];
     res.json({ success: true, data: pages });
   } catch (error) {
-    console.error('Error fetching admin pages:', error);
+    logError('Error fetching admin pages', error);
     res.status(500).json({ success: false, error: 'Failed to fetch pages' });
   }
 });
@@ -260,7 +269,7 @@ app.put('/api/admin/pages/:id', authMiddleware, (req: AuthRequest, res: Response
     const page = db.prepare('SELECT * FROM pages WHERE id = ?').get(req.params.id) as Page;
     res.json({ success: true, data: page });
   } catch (error) {
-    console.error('Error updating page:', error);
+    logError('Error updating page', error);
     res.status(500).json({ success: false, error: 'Failed to update page' });
   }
 });
@@ -271,7 +280,7 @@ app.delete('/api/admin/pages/:id', authMiddleware, (req: AuthRequest, res: Respo
     logActivity(req.user!.id, 'delete', 'page', req.params.id);
     res.json({ success: true, message: 'Page deleted' });
   } catch (error) {
-    console.error('Error deleting page:', error);
+    logError('Error deleting page', error);
     res.status(500).json({ success: false, error: 'Failed to delete page' });
   }
 });
@@ -313,7 +322,7 @@ app.get('/api/opportunities', (req: Request, res: Response) => {
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching opportunities:', error);
+    logError('Error fetching opportunities', error);
     res.status(500).json({ success: false, error: 'Failed to fetch opportunities' });
   }
 });
@@ -326,7 +335,7 @@ app.get('/api/opportunities/featured', (req: Request, res: Response) => {
 
     res.json({ success: true, data: opportunities });
   } catch (error) {
-    console.error('Error fetching featured opportunities:', error);
+    logError('Error fetching featured opportunities', error);
     res.status(500).json({ success: false, error: 'Failed to fetch featured opportunities' });
   }
 });
@@ -343,7 +352,7 @@ app.get('/api/opportunities/:slug', (req: Request, res: Response) => {
 
     res.json({ success: true, data: opportunity });
   } catch (error) {
-    console.error('Error fetching opportunity:', error);
+    logError('Error fetching opportunity', error);
     res.status(500).json({ success: false, error: 'Failed to fetch opportunity' });
   }
 });
@@ -369,7 +378,7 @@ app.post('/api/admin/opportunities', authMiddleware, (req: AuthRequest, res: Res
     const opportunity = db.prepare('SELECT * FROM opportunities WHERE id = ?').get(id) as Opportunity;
     res.json({ success: true, data: opportunity });
   } catch (error) {
-    console.error('Error creating opportunity:', error);
+    logError('Error creating opportunity', error);
     res.status(500).json({ success: false, error: 'Failed to create opportunity' });
   }
 });
@@ -401,7 +410,7 @@ app.put('/api/admin/opportunities/:id', authMiddleware, (req: AuthRequest, res: 
     const opportunity = db.prepare('SELECT * FROM opportunities WHERE id = ?').get(req.params.id) as Opportunity;
     res.json({ success: true, data: opportunity });
   } catch (error) {
-    console.error('Error updating opportunity:', error);
+    logError('Error updating opportunity', error);
     res.status(500).json({ success: false, error: 'Failed to update opportunity' });
   }
 });
@@ -412,7 +421,7 @@ app.delete('/api/admin/opportunities/:id', authMiddleware, (req: AuthRequest, re
     logActivity(req.user!.id, 'delete', 'opportunity', req.params.id);
     res.json({ success: true, message: 'Opportunity deleted' });
   } catch (error) {
-    console.error('Error deleting opportunity:', error);
+    logError('Error deleting opportunity', error);
     res.status(500).json({ success: false, error: 'Failed to delete opportunity' });
   }
 });
@@ -439,7 +448,7 @@ app.post('/api/submissions', (req: Request, res: Response) => {
 
     res.json({ success: true, data: submission });
   } catch (error) {
-    console.error('Error creating submission:', error);
+    logError('Error creating submission', error);
     res.status(500).json({ success: false, error: 'Failed to create submission' });
   }
 });
@@ -479,7 +488,7 @@ app.get('/api/admin/submissions', authMiddleware, (req: AuthRequest, res: Respon
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching submissions:', error);
+    logError('Error fetching submissions', error);
     res.status(500).json({ success: false, error: 'Failed to fetch submissions' });
   }
 });
@@ -496,7 +505,7 @@ app.put('/api/admin/submissions/:id', authMiddleware, (req: AuthRequest, res: Re
     const submission = db.prepare('SELECT * FROM contact_submissions WHERE id = ?').get(req.params.id) as ContactSubmission;
     res.json({ success: true, data: submission });
   } catch (error) {
-    console.error('Error updating submission:', error);
+    logError('Error updating submission', error);
     res.status(500).json({ success: false, error: 'Failed to update submission' });
   }
 });
@@ -507,7 +516,7 @@ app.delete('/api/admin/submissions/:id', authMiddleware, (req: AuthRequest, res:
     logActivity(req.user!.id, 'delete', 'submission', req.params.id);
     res.json({ success: true, message: 'Submission deleted' });
   } catch (error) {
-    console.error('Error deleting submission:', error);
+    logError('Error deleting submission', error);
     res.status(500).json({ success: false, error: 'Failed to delete submission' });
   }
 });
@@ -524,8 +533,92 @@ app.get('/api/settings', (req: Request, res: Response) => {
 
     res.json({ success: true, data: settings });
   } catch (error) {
-    console.error('Error fetching settings:', error);
+    logError('Error fetching settings', error);
     res.status(500).json({ success: false, error: 'Failed to fetch settings' });
+  }
+});
+
+// Create settings (admin only)
+app.post('/api/admin/settings', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { site_name, contact_email, contact_phone, company_address, company_tagline } = req.body;
+
+    if (!site_name || !contact_email) {
+      return res.status(400).json({ success: false, error: 'site_name and contact_email are required' });
+    }
+
+    const id = uuidv4();
+    const now = getTimestamp();
+
+    db.prepare(`
+      INSERT INTO site_settings (
+        id, site_name, contact_email, contact_phone, company_address, company_tagline, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      id,
+      site_name,
+      contact_email,
+      contact_phone || null,
+      company_address || null,
+      company_tagline || null,
+      now
+    );
+
+    logActivity(
+      req.user?.id || '',
+      'create',
+      'settings',
+      id,
+      { site_name, contact_email }
+    );
+
+    const settings = db.prepare('SELECT * FROM site_settings WHERE id = ?').get(id) as SiteSettings;
+    res.status(201).json({ success: true, data: settings });
+  } catch (error) {
+    logError('Error creating settings', error);
+    res.status(500).json({ success: false, error: 'Failed to create settings' });
+  }
+});
+
+// Update settings (admin only)
+app.put('/api/admin/settings/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { site_name, contact_email, contact_phone, company_address, company_tagline } = req.body;
+
+    const settings = db.prepare('SELECT * FROM site_settings WHERE id = ?').get(id) as SiteSettings;
+    if (!settings) {
+      return res.status(404).json({ success: false, error: 'Settings not found' });
+    }
+
+    const now = getTimestamp();
+    db.prepare(`
+      UPDATE site_settings
+      SET site_name = ?, contact_email = ?, contact_phone = ?, company_address = ?, company_tagline = ?, updated_at = ?
+      WHERE id = ?
+    `).run(
+      site_name || settings.site_name,
+      contact_email || settings.contact_email,
+      contact_phone || settings.contact_phone,
+      company_address || settings.company_address,
+      company_tagline || settings.company_tagline,
+      now,
+      id
+    );
+
+    logActivity(
+      req.user?.id || '',
+      'update',
+      'settings',
+      id,
+      { site_name, contact_email, contact_phone, company_address, company_tagline }
+    );
+
+    const updatedSettings = db.prepare('SELECT * FROM site_settings WHERE id = ?').get(id) as SiteSettings;
+    res.json({ success: true, data: updatedSettings });
+  } catch (error) {
+    logError('Error updating settings', error);
+    res.status(500).json({ success: false, error: 'Failed to update settings' });
   }
 });
 
@@ -555,7 +648,7 @@ app.get('/api/admin/users', superAdminMiddleware, (req: AuthRequest, res: Respon
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching admin users:', error);
+    logError('Error fetching admin users', error);
     res.status(500).json({ success: false, error: 'Failed to fetch users' });
   }
 });
@@ -586,7 +679,7 @@ app.post('/api/admin/users', superAdminMiddleware, async (req: AuthRequest, res:
 
     res.json({ success: true, data: { id: userId, email, role, active: true } });
   } catch (error) {
-    console.error('Error creating admin user:', error);
+    logError('Error creating admin user', error);
     res.status(500).json({ success: false, error: 'Failed to create user' });
   }
 });
@@ -625,7 +718,7 @@ app.put('/api/admin/users/:id', superAdminMiddleware, async (req: AuthRequest, r
     const user = db.prepare('SELECT id, email, role, active, last_login, created_at, updated_at FROM admin_users WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: user });
   } catch (error) {
-    console.error('Error updating admin user:', error);
+    logError('Error updating admin user', error);
     res.status(500).json({ success: false, error: 'Failed to update user' });
   }
 });
@@ -636,7 +729,7 @@ app.delete('/api/admin/users/:id', superAdminMiddleware, (req: AuthRequest, res:
     logActivity(req.user!.id, 'delete', 'admin_user', req.params.id);
     res.json({ success: true, message: 'User deleted' });
   } catch (error) {
-    console.error('Error deleting admin user:', error);
+    logError('Error deleting admin user', error);
     res.status(500).json({ success: false, error: 'Failed to delete user' });
   }
 });
@@ -662,7 +755,7 @@ app.post('/api/admin/files', authMiddleware, upload.single('file'), (req: AuthRe
 
     res.json({ success: true, data: { id: fileId, name: req.file.originalname, url: fileUrl, size: req.file.size } });
   } catch (error) {
-    console.error('Error uploading file:', error);
+    logError('Error uploading file', error);
     res.status(500).json({ success: false, error: 'Failed to upload file' });
   }
 });
@@ -691,7 +784,7 @@ app.get('/api/admin/files', authMiddleware, (req: AuthRequest, res: Response) =>
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching files:', error);
+    logError('Error fetching files', error);
     res.status(500).json({ success: false, error: 'Failed to fetch files' });
   }
 });
@@ -715,7 +808,7 @@ app.delete('/api/admin/files/:id', authMiddleware, (req: AuthRequest, res: Respo
 
     res.json({ success: true, message: 'File deleted' });
   } catch (error) {
-    console.error('Error deleting file:', error);
+    logError('Error deleting file', error);
     res.status(500).json({ success: false, error: 'Failed to delete file' });
   }
 });
@@ -745,7 +838,7 @@ app.get('/api/admin/activity', authMiddleware, (req: AuthRequest, res: Response)
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('Error fetching activity logs:', error);
+    logError('Error fetching activity logs', error);
     res.status(500).json({ success: false, error: 'Failed to fetch activity logs' });
   }
 });
@@ -756,13 +849,10 @@ app.get('/api/seo/:slug', (req: Request, res: Response) => {
   try {
     const seo = db.prepare('SELECT * FROM seo_metadata WHERE page_slug = ?').get(req.params.slug);
 
-    if (!seo) {
-      return res.status(404).json({ success: false, error: 'SEO metadata not found' });
-    }
-
-    res.json({ success: true, data: seo });
+    // Return null if no SEO metadata exists (it's optional)
+    res.json({ success: true, data: seo || null });
   } catch (error) {
-    console.error('Error fetching SEO:', error);
+    logError('Error fetching SEO', error);
     res.status(500).json({ success: false, error: 'Failed to fetch SEO metadata' });
   }
 });
@@ -800,7 +890,7 @@ app.put('/api/admin/seo/:slug', authMiddleware, (req: AuthRequest, res: Response
     const seo = db.prepare('SELECT * FROM seo_metadata WHERE page_slug = ?').get(req.params.slug);
     res.json({ success: true, data: seo });
   } catch (error) {
-    console.error('Error updating SEO:', error);
+    logError('Error updating SEO', error);
     res.status(500).json({ success: false, error: 'Failed to update SEO metadata' });
   }
 });
@@ -816,7 +906,7 @@ app.get('/api/canadian-investors', (req: Request, res: Response) => {
 
     res.json({ success: true, data: entries });
   } catch (error) {
-    console.error('Error fetching canadian investors:', error);
+    logError('Error fetching canadian investors', error);
     res.status(500).json({ success: false, error: 'Failed to fetch canadian investors' });
   }
 });
@@ -842,7 +932,7 @@ app.post('/api/admin/canadian-investors', authMiddleware, (req: AuthRequest, res
     const entry = db.prepare('SELECT * FROM canadian_investors_entries WHERE id = ?').get(id);
     res.json({ success: true, data: entry });
   } catch (error) {
-    console.error('Error creating canadian investor entry:', error);
+    logError('Error creating canadian investor entry', error);
     res.status(500).json({ success: false, error: 'Failed to create entry' });
   }
 });
@@ -869,7 +959,7 @@ app.put('/api/admin/canadian-investors/:id', authMiddleware, (req: AuthRequest, 
     const entry = db.prepare('SELECT * FROM canadian_investors_entries WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: entry });
   } catch (error) {
-    console.error('Error updating canadian investor entry:', error);
+    logError('Error updating canadian investor entry', error);
     res.status(500).json({ success: false, error: 'Failed to update entry' });
   }
 });
@@ -880,7 +970,7 @@ app.delete('/api/admin/canadian-investors/:id', authMiddleware, (req: AuthReques
     logActivity(req.user!.id, 'delete', 'canadian_investor', req.params.id);
     res.json({ success: true, message: 'Entry deleted' });
   } catch (error) {
-    console.error('Error deleting canadian investor entry:', error);
+    logError('Error deleting canadian investor entry', error);
     res.status(500).json({ success: false, error: 'Failed to delete entry' });
   }
 });
@@ -896,7 +986,7 @@ app.get('/api/international-investors', (req: Request, res: Response) => {
 
     res.json({ success: true, data: tracks });
   } catch (error) {
-    console.error('Error fetching international investors:', error);
+    logError('Error fetching international investors', error);
     res.status(500).json({ success: false, error: 'Failed to fetch international investors' });
   }
 });
@@ -922,7 +1012,7 @@ app.post('/api/admin/international-investors', authMiddleware, (req: AuthRequest
     const track = db.prepare('SELECT * FROM international_investors_tracks WHERE id = ?').get(id);
     res.json({ success: true, data: track });
   } catch (error) {
-    console.error('Error creating international investor track:', error);
+    logError('Error creating international investor track', error);
     res.status(500).json({ success: false, error: 'Failed to create track' });
   }
 });
@@ -949,7 +1039,7 @@ app.put('/api/admin/international-investors/:id', authMiddleware, (req: AuthRequ
     const track = db.prepare('SELECT * FROM international_investors_tracks WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: track });
   } catch (error) {
-    console.error('Error updating international investor track:', error);
+    logError('Error updating international investor track', error);
     res.status(500).json({ success: false, error: 'Failed to update track' });
   }
 });
@@ -960,7 +1050,7 @@ app.delete('/api/admin/international-investors/:id', authMiddleware, (req: AuthR
     logActivity(req.user!.id, 'delete', 'international_track', req.params.id);
     res.json({ success: true, message: 'Track deleted' });
   } catch (error) {
-    console.error('Error deleting international investor track:', error);
+    logError('Error deleting international investor track', error);
     res.status(500).json({ success: false, error: 'Failed to delete track' });
   }
 });
@@ -984,7 +1074,7 @@ app.get('/api/services', (req: Request, res: Response) => {
 
     res.json({ success: true, data: services });
   } catch (error) {
-    console.error('Error fetching services:', error);
+    logError('Error fetching services', error);
     res.status(500).json({ success: false, error: 'Failed to fetch services' });
   }
 });
@@ -1010,7 +1100,7 @@ app.post('/api/admin/services', authMiddleware, (req: AuthRequest, res: Response
     const service = db.prepare('SELECT * FROM services_entries WHERE id = ?').get(id);
     res.json({ success: true, data: service });
   } catch (error) {
-    console.error('Error creating service:', error);
+    logError('Error creating service', error);
     res.status(500).json({ success: false, error: 'Failed to create service' });
   }
 });
@@ -1038,7 +1128,7 @@ app.put('/api/admin/services/:id', authMiddleware, (req: AuthRequest, res: Respo
     const service = db.prepare('SELECT * FROM services_entries WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: service });
   } catch (error) {
-    console.error('Error updating service:', error);
+    logError('Error updating service', error);
     res.status(500).json({ success: false, error: 'Failed to update service' });
   }
 });
@@ -1049,7 +1139,7 @@ app.delete('/api/admin/services/:id', authMiddleware, (req: AuthRequest, res: Re
     logActivity(req.user!.id, 'delete', 'service', req.params.id);
     res.json({ success: true, message: 'Service deleted' });
   } catch (error) {
-    console.error('Error deleting service:', error);
+    logError('Error deleting service', error);
     res.status(500).json({ success: false, error: 'Failed to delete service' });
   }
 });
@@ -1058,6 +1148,26 @@ app.delete('/api/admin/services/:id', authMiddleware, (req: AuthRequest, res: Re
 
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ success: true, message: 'API is running' });
+});
+
+// Root path handler (helpful for debugging)
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    success: true,
+    message: 'API Server is running',
+    info: 'This is the backend API server. The frontend is served from port 8080, not this port.',
+    availableEndpoints: {
+      health: '/api/health',
+      auth: {
+        register: 'POST /api/auth/register',
+        login: 'POST /api/auth/login'
+      },
+      pages: {
+        list: 'GET /api/pages',
+        get: 'GET /api/pages/:slug'
+      }
+    }
+  });
 });
 
 // Start server

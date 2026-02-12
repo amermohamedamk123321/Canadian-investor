@@ -136,7 +136,7 @@ export function useSiteSettings() {
 export function useSEOMetadata(slug: string) {
   return useQuery({
     queryKey: queryKeys.seo.bySlug(slug),
-    queryFn: () => getRequest<APIResponse<SEOMetadata>>(`/seo/${slug}`),
+    queryFn: () => getRequest<APIResponse<SEOMetadata | null>>(`/seo/${slug}`),
     staleTime: 1000 * 60 * 60, // Cache for 1 hour
   });
 }

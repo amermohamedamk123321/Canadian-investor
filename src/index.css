@@ -137,8 +137,12 @@
     font-family: var(--font-body);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2 {
     font-family: var(--font-heading);
+    @apply font-normal tracking-tight;
+  }
+
+  h3, h4, h5, h6 {
     @apply font-normal tracking-tight;
   }
 }
@@ -223,8 +227,8 @@
   /* Trust badge */
   .trust-badge {
     @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium;
-    background: hsl(43 74% 49% / 0.1);
-    color: hsl(var(--accent));
+    background: hsl(45 90% 80%);
+    color: hsl(var(--primary));
   }
 
   /* Warning/Remedy styling */

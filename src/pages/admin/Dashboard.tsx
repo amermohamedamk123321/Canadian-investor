@@ -43,7 +43,7 @@ export function AdminDashboardPage() {
       <div className="p-8 space-y-8">
         {/* Welcome Section */}
         <div>
-          <h2 className="text-3xl font-heading font-bold text-foreground mb-2">Dashboard</h2>
+          <h2 className="text-3xl font-heading text-foreground mb-2">Dashboard</h2>
           <p className="text-foreground/70">Welcome back! Here's an overview of your site.</p>
         </div>
 

@@ -17,6 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { useToast } from '../../hooks/use-toast';
 import { Plus, Edit2, Trash2, RefreshCw, Loader2, ChevronUp, ChevronDown } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { getRequest, postRequest, putRequest, deleteRequest, APIError } from '../../api/client';
 
 interface CanadianInvestorEntry {
   id: string;
@@ -31,7 +32,6 @@ interface CanadianInvestorEntry {
 }
 
 export function AdminCanadianInvestorsPage() {
-  const { token } = useAdminAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -50,30 +50,17 @@ export function AdminCanadianInvestorsPage() {
   const { data: entriesData, isLoading, refetch } = useQuery({
     queryKey: ['canadian-investors'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/canadian-investors`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Failed to fetch entries');
-      return response.json();
+      return getRequest<any>('/canadian-investors');
     },
   });
 
   // Create entry mutation
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/canadian-investors`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          asset_types: data.asset_types ? JSON.parse(data.asset_types) : [],
-        }),
+      return postRequest<any>('/admin/canadian-investors', {
+        ...data,
+        asset_types: data.asset_types ? JSON.parse(data.asset_types) : [],
       });
-      if (!response.ok) throw new Error('Failed to create entry');
-      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['canadian-investors'] });
@@ -82,26 +69,18 @@ export function AdminCanadianInvestorsPage() {
       setFormData({ title: '', slug: '', description: '', asset_types: '[]' });
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Update entry mutation
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/canadian-investors/${editingEntry?.id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          asset_types: data.asset_types ? JSON.parse(data.asset_types) : [],
-        }),
+      return putRequest<any>(`/admin/canadian-investors/${editingEntry?.id}`, {
+        ...data,
+        asset_types: data.asset_types ? JSON.parse(data.asset_types) : [],
       });
-      if (!response.ok) throw new Error('Failed to update entry');
-      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['canadian-investors'] });
@@ -111,19 +90,15 @@ export function AdminCanadianInvestorsPage() {
       setFormData({ title: '', slug: '', description: '', asset_types: '[]' });
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Delete entry mutation
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/canadian-investors/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Failed to delete entry');
-      return response.json();
+      return deleteRequest<any>(`/admin/canadian-investors/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['canadian-investors'] });
@@ -131,23 +106,15 @@ export function AdminCanadianInvestorsPage() {
       setDeleteEntryId(null);
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Reorder mutation
   const reorderMutation = useMutation({
     mutationFn: async ({ id, display_order }: { id: string; display_order: number }) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/canadian-investors/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ display_order }),
-      });
-      if (!response.ok) throw new Error('Failed to reorder entry');
-      return response.json();
+      return putRequest<any>(`/admin/canadian-investors/${id}`, { display_order });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['canadian-investors'] });
@@ -205,7 +172,7 @@ export function AdminCanadianInvestorsPage() {
       <div className="p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-heading font-bold mb-2">Canadian Investors</h1>
+            <h1 className="text-3xl font-heading mb-2">Canadian Investors</h1>
             <p className="text-muted-foreground">Manage province-based investment opportunities</p>
           </div>
           <div className="flex gap-4">

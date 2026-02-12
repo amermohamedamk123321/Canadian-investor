@@ -16,7 +16,7 @@ import { Badge } from '../../components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
 import { useToast } from '../../hooks/use-toast';
 import { Plus, Edit2, Trash2, RefreshCw, Loader2, ChevronUp, ChevronDown } from 'lucide-react';
-import { useAdminAuth } from '../../context/AdminAuthContext';
+import { getRequest, postRequest, putRequest, deleteRequest, APIError } from '../../api/client';
 
 interface InternationalInvestorTrack {
   id: string;
@@ -31,7 +31,6 @@ interface InternationalInvestorTrack {
 }
 
 export function AdminInternationalInvestorsPage() {
-  const { token } = useAdminAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -50,30 +49,17 @@ export function AdminInternationalInvestorsPage() {
   const { data: tracksData, isLoading, refetch } = useQuery({
     queryKey: ['international-investors'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/international-investors`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Failed to fetch tracks');
-      return response.json();
+      return getRequest<any>('/international-investors');
     },
   });
 
   // Create track mutation
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/international-investors`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          countries: data.countries.split(',').map((c: string) => c.trim()).filter(Boolean),
-        }),
+      return postRequest<any>('/admin/international-investors', {
+        ...data,
+        countries: data.countries.split(',').map((c: string) => c.trim()).filter(Boolean),
       });
-      if (!response.ok) throw new Error('Failed to create track');
-      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['international-investors'] });
@@ -82,26 +68,18 @@ export function AdminInternationalInvestorsPage() {
       setFormData({ name: '', slug: '', description: '', countries: '' });
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Update track mutation
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/international-investors/${editingTrack?.id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          countries: data.countries.split(',').map((c: string) => c.trim()).filter(Boolean),
-        }),
+      return putRequest<any>(`/admin/international-investors/${editingTrack?.id}`, {
+        ...data,
+        countries: data.countries.split(',').map((c: string) => c.trim()).filter(Boolean),
       });
-      if (!response.ok) throw new Error('Failed to update track');
-      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['international-investors'] });
@@ -111,19 +89,15 @@ export function AdminInternationalInvestorsPage() {
       setFormData({ name: '', slug: '', description: '', countries: '' });
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Delete track mutation
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/international-investors/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Failed to delete track');
-      return response.json();
+      return deleteRequest<any>(`/admin/international-investors/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['international-investors'] });
@@ -131,23 +105,15 @@ export function AdminInternationalInvestorsPage() {
       setDeleteTrackId(null);
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Reorder mutation
   const reorderMutation = useMutation({
     mutationFn: async ({ id, display_order }: { id: string; display_order: number }) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/international-investors/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ display_order }),
-      });
-      if (!response.ok) throw new Error('Failed to reorder track');
-      return response.json();
+      return putRequest<any>(`/admin/international-investors/${id}`, { display_order });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['international-investors'] });

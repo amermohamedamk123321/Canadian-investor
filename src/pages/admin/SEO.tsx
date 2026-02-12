@@ -47,7 +47,7 @@ export function AdminSEOPage() {
     <AdminLayout>
       <div className="p-8 space-y-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-heading font-bold">SEO Management</h2>
+          <h2 className="text-3xl font-heading">SEO Management</h2>
         </div>
 
         {/* Search Bar */}

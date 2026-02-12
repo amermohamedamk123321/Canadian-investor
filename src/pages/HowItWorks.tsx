@@ -76,10 +76,10 @@ const HowItWorks = () => {
         <section className="section-padding hero-gradient">
           <div className="container-custom">
             <div className="max-w-3xl">
-              <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
+              <span className="trust-badge mb-6 inline-block">
                 Our Process
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
                 A Clear Path to{' '}
                 <span className="text-gold-gradient">Investment Success</span>
               </h1>
@@ -123,11 +123,11 @@ const HowItWorks = () => {
                       <div className="w-16 h-16 rounded-2xl gold-gradient flex items-center justify-center">
                         <step.icon className="h-8 w-8 text-primary" />
                       </div>
-                      <span className="text-6xl font-heading font-bold text-muted/30">
+                      <span className="text-6xl font-heading text-muted/30">
                         {step.number}
                       </span>
                     </div>
-                    <h2 className="text-3xl font-heading font-semibold text-foreground mb-4">
+                    <h2 className="text-3xl font-heading text-foreground mb-4">
                       {step.title}
                     </h2>
                     <p className="text-lg text-muted-foreground mb-6">
@@ -137,7 +137,7 @@ const HowItWorks = () => {
                   <div className={`bg-card rounded-2xl p-8 border border-border shadow-elegant ${
                     index % 2 === 1 ? 'lg:col-start-1' : ''
                   }`}>
-                    <h3 className="font-heading font-semibold text-foreground mb-6">
+                    <h3 className="font-heading text-foreground mb-6">
                       What to Expect
                     </h3>
                     <ul className="space-y-4">
@@ -158,7 +158,7 @@ const HowItWorks = () => {
         {/* CTA */}
         <section className="section-padding bg-secondary">
           <div className="container-custom text-center">
-            <h2 className="text-3xl md:text-4xl font-heading font-semibold text-foreground mb-6">
+            <h2 className="text-3xl md:text-4xl font-heading text-foreground mb-6">
               Ready to Get Started?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">

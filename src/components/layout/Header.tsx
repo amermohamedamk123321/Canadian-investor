@@ -40,10 +40,10 @@ const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
         <AnimatePresence>
           {isHovered && (
             <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              className="absolute top-1/2 right-full mr-3 -translate-y-1/2 whitespace-nowrap bg-foreground text-background px-3 py-1.5 rounded-lg text-xs font-semibold"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-max bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium pointer-events-none whitespace-nowrap"
             >
               {item.name}
             </motion.div>
@@ -76,10 +76,10 @@ const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            className="absolute top-1/2 right-full mr-3 -translate-y-1/2 whitespace-nowrap bg-foreground text-background px-3 py-1.5 rounded-lg text-xs font-semibold"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-max bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium pointer-events-none whitespace-nowrap"
           >
             {item.name}
           </motion.div>
@@ -101,7 +101,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/30 backdrop-blur-xl border-b border-border/30 shadow-lg" style={{ backgroundImage: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)' }}>
       <nav className="container-custom" aria-label="Main navigation">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -111,10 +111,10 @@ export const Header = () => {
             aria-label="Alpha Partners Investment Inc. - Home"
           >
             <div className="w-10 h-10 rounded-lg gold-gradient flex items-center justify-center">
-              <span className="font-heading font-bold text-primary text-lg">A</span>
+              <span className="font-heading text-primary text-lg">A</span>
             </div>
             <div className="hidden sm:block">
-              <span className="font-heading font-semibold text-lg text-foreground">
+              <span className="font-heading text-lg text-foreground">
                 Alpha Partners
               </span>
               <span className="block text-xs text-muted-foreground -mt-0.5">
@@ -138,19 +138,11 @@ export const Header = () => {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="border-primary/30 text-primary hover:bg-primary/10"
-            >
+            <Button asChild className="btn-gold border-0">
               <Link to="/admin/login" className="flex items-center gap-2">
                 <Lock size={16} />
                 Admin
               </Link>
-            </Button>
-            <Button asChild className="btn-gold border-0">
-              <Link to="/contact">Get Started</Link>
             </Button>
           </div>
 
@@ -194,19 +186,10 @@ export const Header = () => {
                   </Link>
                 ))}
                 <div className="pt-4 px-4 space-y-3 border-t border-border">
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full border-primary/30 text-primary hover:bg-primary/10"
-                  >
+                  <Button asChild className="w-full btn-gold border-0">
                     <Link to="/admin/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2">
                       <Lock size={16} />
-                      Admin Login
-                    </Link>
-                  </Button>
-                  <Button asChild className="w-full btn-gold border-0">
-                    <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>
-                      Get Started
+                      Admin
                     </Link>
                   </Button>
                 </div>

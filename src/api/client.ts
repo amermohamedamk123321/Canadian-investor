@@ -87,14 +87,14 @@ export async function fetchAPI<T>(
         errorMessage = `HTTP Error ${response.status}`;
       }
 
-      console.error(`[API] Error (${response.status}):`, {
-        url,
-        status: response.status,
-        statusText: response.statusText,
-        message: errorMessage,
-        data: errorData,
-        rawText: responseText
-      });
+      console.error(
+        `[API] Error (${response.status}): ${errorMessage}`,
+        `\nURL: ${url}`,
+        `\nStatus: ${response.status} ${response.statusText}`,
+        `\nRaw Response: ${responseText}`,
+        `\nParsed Data:`,
+        errorData
+      );
       throw new APIError(response.status, errorMessage);
     }
 

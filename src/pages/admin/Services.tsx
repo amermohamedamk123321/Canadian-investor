@@ -17,7 +17,7 @@ import { Badge } from '../../components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
 import { useToast } from '../../hooks/use-toast';
 import { Plus, Edit2, Trash2, RefreshCw, Loader2, ChevronUp, ChevronDown } from 'lucide-react';
-import { useAdminAuth } from '../../context/AdminAuthContext';
+import { getRequest, postRequest, putRequest, deleteRequest, APIError } from '../../api/client';
 
 interface ServiceEntry {
   id: string;
@@ -33,7 +33,6 @@ interface ServiceEntry {
 }
 
 export function AdminServicesPage() {
-  const { token } = useAdminAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -53,27 +52,14 @@ export function AdminServicesPage() {
   const { data: servicesData, isLoading, refetch } = useQuery({
     queryKey: ['services'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/services`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Failed to fetch services');
-      return response.json();
+      return getRequest<any>('/services');
     },
   });
 
   // Create service mutation
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/services`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error('Failed to create service');
-      return response.json();
+      return postRequest<any>('/admin/services', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['services'] });
@@ -82,23 +68,15 @@ export function AdminServicesPage() {
       setFormData({ title: '', slug: '', description: '', details: '', audience: 'both' });
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Update service mutation
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/services/${editingService?.id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error('Failed to update service');
-      return response.json();
+      return putRequest<any>(`/admin/services/${editingService?.id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['services'] });
@@ -108,19 +86,15 @@ export function AdminServicesPage() {
       setFormData({ title: '', slug: '', description: '', details: '', audience: 'both' });
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Delete service mutation
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/services/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Failed to delete service');
-      return response.json();
+      return deleteRequest<any>(`/admin/services/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['services'] });
@@ -128,23 +102,15 @@ export function AdminServicesPage() {
       setDeleteServiceId(null);
     },
     onError: (error: any) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const message = error instanceof APIError ? error.message : error.message;
+      toast({ title: 'Error', description: message, variant: 'destructive' });
     },
   });
 
   // Reorder mutation
   const reorderMutation = useMutation({
     mutationFn: async ({ id, display_order }: { id: string; display_order: number }) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/services/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ display_order }),
-      });
-      if (!response.ok) throw new Error('Failed to reorder service');
-      return response.json();
+      return putRequest<any>(`/admin/services/${id}`, { display_order });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['services'] });
@@ -214,7 +180,7 @@ export function AdminServicesPage() {
       <div className="p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-heading font-bold mb-2">Services</h1>
+            <h1 className="text-3xl font-heading mb-2">Services</h1>
             <p className="text-muted-foreground">Manage advisory and coordination services</p>
           </div>
           <div className="flex gap-4">

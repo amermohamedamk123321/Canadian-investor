@@ -2,226 +2,250 @@ import { Layout } from '@/components/layout/Layout';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Globe, FileCheck, Users, Building2, Plane, CheckCircle, AlertCircle, ArrowRight } from 'lucide-react';
+import { Check, AlertCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { PageHero } from '@/components/pages/PageComponents';
 
-const benefits = [
+const investmentSteps = [
   {
-    icon: Globe,
-    title: 'Market Access',
-    description: 'Direct access to one of the world\'s most stable and diverse economies with strong trade connections.',
+    number: 1,
+    title: 'Initial Consultation',
+    description: 'We begin with a confidential consultation to understand your investment objectives, preferred markets, budget range, and timeline. This step allows us to clearly define your investment criteria.',
+    outcome: 'A structured investor profile.',
   },
   {
-    icon: FileCheck,
-    title: 'Transparent Process',
-    description: 'Clear regulatory frameworks and established legal protections for international investors.',
+    number: 2,
+    title: 'Opportunity Identification',
+    description: 'Based on your profile, we identify and shortlist suitable opportunities, which may include commercial properties, mixed-use assets, or commercial land. Each opportunity is reviewed with attention to location, market fundamentals, and alignment with your goals.',
+    outcome: 'A curated list of relevant opportunities.',
   },
   {
-    icon: Users,
-    title: 'Local Expertise',
-    description: 'Connect with our network of professionals who understand cross-border investment nuances.',
+    number: 3,
+    title: 'Investment Review & Evaluation',
+    description: 'We present each opportunity with clarity, outlining key considerations such as market context, potential value drivers, and material risks. Our goal is to ensure you are fully informed before proceeding.',
+    outcome: 'Informed decision-making.',
   },
   {
-    icon: Building2,
-    title: 'Diverse Sectors',
-    description: 'Opportunities across technology, resources, real estate, healthcare, and more.',
+    number: 4,
+    title: 'Legal Coordination',
+    description: 'Once an opportunity is selected, we coordinate with licensed Canadian real estate lawyers to support the transaction process, including offer preparation, agreement review, and closing coordination.',
+    outcome: 'A secure and compliant transaction pathway.',
+  },
+  {
+    number: 5,
+    title: 'Immigration Coordination (If Applicable)',
+    description: 'Where entry to Canada is required as part of your investment strategy, we coordinate with authorized immigration professionals to support a lawful and structured process.',
+    outcome: 'Professional immigration support through authorized channels.',
+  },
+  {
+    number: 6,
+    title: 'Closing & Ongoing Support',
+    description: 'We assist through the closing stage and remain available to support next steps, including future investment planning or portfolio expansion.',
+    outcome: 'A complete and professional investment experience.',
   },
 ];
 
-const considerations = [
-  'Currency exchange and hedging strategies',
-  'Canadian tax implications for non-residents',
-  'Provincial vs. federal regulatory requirements',
-  'Due diligence documentation in English/French',
-  'Time zone coordination for communications',
-  'Wire transfer and banking requirements',
+const whyChoose = [
+  'Clear and structured investment guidance',
+  'Coordination with trusted, licensed professionals',
+  'Transparency and risk-aware decision support',
+  'A long-term, value-focused approach',
 ];
 
 const InternationalInvestors = () => {
-  const { ref, inView } = useInView({
-    threshold: 0.2,
-    triggerOnce: true,
-  });
-
   return (
     <>
       <SEOHead
-        title="For International Investors"
-        description="Alpha Partners helps international investors navigate Canadian investment opportunities with local expertise, professional networks, and transparent processes."
+        title="International Investors - Alpha Partners"
+        description="A Structured Approach to Commercial Real Estate Investment in Canada. Invest in Canada with clarity and confidence through our professional guidance and coordination."
         canonical="/international-investors"
       />
       <Layout>
         {/* Hero */}
-        <section className="section-padding hero-gradient">
-          <div className="container-custom">
-            <div className="max-w-3xl">
-              <span className="trust-badge mb-6 inline-block bg-accent/20 text-accent">
-                <Plane className="h-4 w-4 mr-2" />
-                International Investors
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground">
-                Your Gateway to{' '}
-                <span className="text-gold-gradient">Canadian Investment</span>
-              </h1>
-              <p className="mt-6 text-lg md:text-xl text-primary-foreground/80 leading-relaxed">
-                Whether you're investing from Asia, Europe, the Middle East, or elsewhere, 
-                Alpha Partners provides the local expertise and professional network you need 
-                to succeed in the Canadian market.
-              </p>
-            </div>
+        <PageHero
+          badge="International Investors"
+          title="A Structured Approach to Commercial Real Estate Investment in Canada"
+          subtitle="Invest in Canada with Clarity and Confidence"
+        />
+
+        {/* Intro Section */}
+        <section className="section-padding bg-background">
+          <div className="container-custom max-w-3xl">
+            <p className="text-lg text-foreground/80 leading-relaxed mb-6">
+              Alpha Partners Investment Inc works with international investors who seek well-structured and
+              compliant opportunities in Canadian commercial real estate and land investments.
+            </p>
+            <p className="text-lg text-foreground/80 leading-relaxed">
+              Our role is to provide clear market insight, careful opportunity selection, and professional
+              coordination throughout the investment process.
+            </p>
           </div>
         </section>
 
-        {/* Why Canada */}
-        <section className="section-padding bg-background">
+        {/* Who We Work With */}
+        <section className="section-padding bg-secondary/50">
           <div className="container-custom">
-            <SectionHeading
-              title="Why Invest in Canada?"
-              subtitle="Canada offers a unique combination of stability, growth potential, and quality of life that attracts investors from around the world."
-              badge="Market Opportunity"
-              centered
-            />
-
-            <motion.div
-              ref={ref}
-              initial="hidden"
-              animate={inView ? 'visible' : 'hidden'}
-              variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: { staggerChildren: 0.1 },
-                },
-              }}
-              className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-            >
-              {benefits.map((benefit, index) => (
+            <h2 className="text-3xl font-heading mb-12 text-center">Who We Work With</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+              {[
+                'Commercial real estate investments in Canada',
+                'Commercial land and development opportunities',
+                'A professional, transparent, and structured investment process'
+              ].map((item, idx) => (
                 <motion.div
-                  key={index}
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0 },
-                  }}
-                  className="bg-card rounded-2xl p-8 border border-border card-hover text-center"
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex items-start gap-4"
                 >
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl gold-gradient mb-6">
-                    <benefit.icon className="h-7 w-7 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-heading font-semibold text-foreground mb-3">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {benefit.description}
-                  </p>
+                  <Check className="h-5 w-5 text-accent flex-shrink-0 mt-1" />
+                  <p className="text-lg text-foreground">{item}</p>
                 </motion.div>
               ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* How We Help */}
-        <section className="section-padding bg-secondary">
-          <div className="container-custom">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <SectionHeading
-                  title="How We Support International Investors"
-                  subtitle="Our team bridges the gap between international capital and Canadian opportunities with comprehensive support services."
-                  badge="Our Services"
-                />
-                <div className="mt-8 space-y-4">
-                  <div className="flex items-start gap-4 p-4 bg-card rounded-xl border border-border">
-                    <CheckCircle className="h-6 w-6 text-teal flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-foreground">Opportunity Sourcing</h4>
-                      <p className="text-sm text-muted-foreground">Curated investments matching your criteria and risk profile</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4 p-4 bg-card rounded-xl border border-border">
-                    <CheckCircle className="h-6 w-6 text-teal flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-foreground">Professional Network</h4>
-                      <p className="text-sm text-muted-foreground">Connections to vetted legal, tax, and immigration advisors</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4 p-4 bg-card rounded-xl border border-border">
-                    <CheckCircle className="h-6 w-6 text-teal flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-foreground">Due Diligence Support</h4>
-                      <p className="text-sm text-muted-foreground">On-the-ground research and verification services</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4 p-4 bg-card rounded-xl border border-border">
-                    <CheckCircle className="h-6 w-6 text-teal flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-foreground">Ongoing Reporting</h4>
-                      <p className="text-sm text-muted-foreground">Regular updates on portfolio performance and market conditions</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-card rounded-2xl p-8 border border-border shadow-elegant">
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-6">
-                  Key Considerations for International Investors
-                </h3>
-                <ul className="space-y-4">
-                  {considerations.map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <AlertCircle className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </div>
         </section>
 
-        {/* Disclaimer */}
-        <section className="py-12 bg-background">
+        {/* Our Role */}
+        <section className="section-padding bg-background">
+          <div className="container-custom max-w-3xl mx-auto">
+            <h2 className="text-3xl font-heading mb-8 text-center">Our Role in Your Investment Journey</h2>
+            <div className="space-y-4">
+              {[
+                'Identifying opportunities aligned with your objectives',
+                'Providing market context and investment insight',
+                'Coordinating with licensed professionals at each stage',
+                'Ensuring a clear and well managed acquisition process'
+              ].map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: idx * 0.08 }}
+                  viewport={{ once: true }}
+                  className="flex items-start gap-3 p-4 rounded-lg bg-secondary/50 border border-border/20"
+                >
+                  <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                  <p className="text-foreground">{item}</p>
+                </motion.div>
+              ))}
+            </div>
+            <div className="mt-10 p-6 rounded-xl bg-primary/5 border border-border/20">
+              <p className="text-foreground font-medium mb-3">We collaborate with:</p>
+              <ul className="space-y-2 text-foreground/80">
+                <li>• Licensed Canadian real estate legal professionals</li>
+                <li>• Authorized immigration professionals, where applicable</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* 6-Step Process */}
+        <section className="section-padding bg-secondary/50">
           <div className="container-custom">
-            <div className="bg-destructive/5 border border-destructive/20 rounded-2xl p-8">
-              <h3 className="font-heading font-semibold text-foreground mb-4">Important Notice</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Alpha Partners Investment Inc. does not provide immigration, legal, or visa advice. 
-                We are not immigration consultants, lawyers, or licensed to provide such services. 
-                For immigration matters, we connect investors with licensed immigration consultants 
-                and lawyers who specialize in investor and business immigration pathways. Always 
-                seek independent professional advice before making investment or immigration decisions.
+            <h2 className="text-3xl font-heading mb-12 text-center">Our Investment Process</h2>
+            <div className="space-y-6">
+              {investmentSteps.map((step) => (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: (step.number - 1) * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-background rounded-xl p-8 border border-border/20 hover:border-accent/50 transition-all"
+                >
+                  <div className="flex items-start gap-6">
+                    <div className="w-12 h-12 rounded-full bg-gold-gradient flex items-center justify-center text-primary font-bold flex-shrink-0">
+                      {step.number}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-heading text-foreground mb-3">{step.title}</h3>
+                      <p className="text-foreground/80 leading-relaxed mb-4">{step.description}</p>
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10">
+                        <span className="text-sm text-accent font-medium">Outcome:</span>
+                        <span className="text-sm text-foreground/80">{step.outcome}</span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            <div className="mt-12 p-6 rounded-xl bg-destructive/5 border border-destructive/20 text-center">
+              <p className="text-sm text-foreground font-medium mb-2">Important Note:</p>
+              <p className="text-sm text-muted-foreground">
+                Alpha Partners Investment Inc does not provide immigration advice. All immigration services
+                are provided exclusively by licensed professionals.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Markets We Cover */}
+        <section className="section-padding bg-background">
+          <div className="container-custom text-center">
+            <h2 className="text-3xl font-heading mb-6">Markets We Cover</h2>
+            <p className="text-lg text-muted-foreground mb-10">
+              We support commercial real estate investments across Canada, including:
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              {['Ontario', 'British Columbia', 'Alberta', 'Quebec', 'Other strategic Canadian regions'].map((region, idx) => (
+                <motion.span
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  className="px-4 py-2 rounded-full bg-secondary border border-border/20"
+                >
+                  {region}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose Us */}
+        <section className="section-padding bg-secondary/50">
+          <div className="container-custom">
+            <h2 className="text-3xl font-heading mb-12 text-center">Why Investors Choose Alpha Partners Investment Inc</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+              {whyChoose.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex items-start gap-4 p-6 rounded-lg bg-background border border-border/20"
+                >
+                  <Check className="h-5 w-5 text-accent flex-shrink-0 mt-1" />
+                  <p className="text-foreground">{item}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* CTA */}
-        <section className="section-padding hero-gradient">
+        <section className="section-padding bg-secondary">
           <div className="container-custom text-center">
-            <h2 className="text-3xl md:text-4xl font-heading font-semibold text-primary-foreground mb-6">
-              Ready to Explore Canadian Opportunities?
-            </h2>
-            <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto mb-10">
-              Schedule a consultation to discuss your investment goals and how we can 
-              help you navigate the Canadian market.
+            <h2 className="text-3xl font-heading mb-6">Begin Your Investment Journey</h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              If you are considering commercial real estate investment in Canada, our team is ready to guide
+              you through a clear and professional process.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button asChild size="lg" className="btn-gold border-0">
-                <Link to="/contact">
-                  Schedule a Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button 
-                asChild 
-                variant="outline" 
-                size="lg"
-                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
-              >
-                <Link to="/opportunities">View Opportunities</Link>
-              </Button>
-            </div>
+            <Button asChild size="lg" className="btn-gold border-0">
+              <Link to="/contact" className="flex items-center gap-2">
+                Book a Consultation
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+            </Button>
+            <p className="text-muted-foreground mt-6">
+              or contact us at info@alphapartnersinvestment.com
+            </p>
           </div>
         </section>
       </Layout>
