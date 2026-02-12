@@ -35,6 +35,7 @@ import { AdminInternationalInvestorsPage } from "./pages/admin/InternationalInve
 import { AdminServicesPage } from "./pages/admin/Services";
 import { AdminPagesPage } from "./pages/admin/Pages";
 import { AdminSecurityPDFPage } from "./pages/admin/SecurityPDF";
+import { AdminSettingsPage } from "./pages/admin/Settings";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient({
@@ -159,6 +160,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <AdminSecurityPDFPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/settings"
+                element={
+                  <ProtectedRoute>
+                    <AdminSettingsPage />
                   </ProtectedRoute>
                 }
               />

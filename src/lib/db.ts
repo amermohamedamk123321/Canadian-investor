@@ -232,9 +232,10 @@ export function initializeDatabase() {
     CREATE INDEX IF NOT EXISTS idx_services_order ON services_entries(display_order);
   `);
 
-  // Seed default pages and admin user if they don't exist
+  // Seed default pages, admin user, and settings if they don't exist
   seedDefaultPages();
   seedDefaultAdminUser();
+  seedDefaultSettings();
 
   console.log('✅ Database initialized successfully');
 }
@@ -355,6 +356,37 @@ function seedDefaultAdminUser() {
     }
   } catch (error) {
     console.error('Error seeding default admin user:', error);
+  }
+}
+
+/**
+ * Seed default site settings into the database
+ */
+function seedDefaultSettings() {
+  try {
+    const existing = db.prepare('SELECT id FROM site_settings LIMIT 1').get();
+
+    if (!existing) {
+      const id = uuidv4();
+      const now = getTimestamp();
+
+      db.prepare(`
+        INSERT INTO site_settings (id, site_name, contact_email, contact_phone, company_address, company_tagline, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        id,
+        'Alpha Partners Investment',
+        'contact@alphapartners.ca',
+        '+1 (555) 123-4567',
+        '123 Main Street\nToronto, Ontario, Canada',
+        'Your trusted investment partner',
+        now
+      );
+
+      console.log('✅ Created default site settings');
+    }
+  } catch (error) {
+    console.error('Error seeding default settings:', error);
   }
 }
 

@@ -538,6 +538,90 @@ app.get('/api/settings', (req: Request, res: Response) => {
   }
 });
 
+// Create settings (admin only)
+app.post('/api/admin/settings', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { site_name, contact_email, contact_phone, company_address, company_tagline } = req.body;
+
+    if (!site_name || !contact_email) {
+      return res.status(400).json({ success: false, error: 'site_name and contact_email are required' });
+    }
+
+    const id = uuidv4();
+    const now = getTimestamp();
+
+    db.prepare(`
+      INSERT INTO site_settings (
+        id, site_name, contact_email, contact_phone, company_address, company_tagline, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      id,
+      site_name,
+      contact_email,
+      contact_phone || null,
+      company_address || null,
+      company_tagline || null,
+      now
+    );
+
+    logActivity(
+      req.user?.id || '',
+      'create',
+      'settings',
+      id,
+      { site_name, contact_email }
+    );
+
+    const settings = db.prepare('SELECT * FROM site_settings WHERE id = ?').get(id) as SiteSettings;
+    res.status(201).json({ success: true, data: settings });
+  } catch (error) {
+    logError('Error creating settings', error);
+    res.status(500).json({ success: false, error: 'Failed to create settings' });
+  }
+});
+
+// Update settings (admin only)
+app.put('/api/admin/settings/:id', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { site_name, contact_email, contact_phone, company_address, company_tagline } = req.body;
+
+    const settings = db.prepare('SELECT * FROM site_settings WHERE id = ?').get(id) as SiteSettings;
+    if (!settings) {
+      return res.status(404).json({ success: false, error: 'Settings not found' });
+    }
+
+    const now = getTimestamp();
+    db.prepare(`
+      UPDATE site_settings
+      SET site_name = ?, contact_email = ?, contact_phone = ?, company_address = ?, company_tagline = ?, updated_at = ?
+      WHERE id = ?
+    `).run(
+      site_name || settings.site_name,
+      contact_email || settings.contact_email,
+      contact_phone || settings.contact_phone,
+      company_address || settings.company_address,
+      company_tagline || settings.company_tagline,
+      now,
+      id
+    );
+
+    logActivity(
+      req.user?.id || '',
+      'update',
+      'settings',
+      id,
+      { site_name, contact_email, contact_phone, company_address, company_tagline }
+    );
+
+    const updatedSettings = db.prepare('SELECT * FROM site_settings WHERE id = ?').get(id) as SiteSettings;
+    res.json({ success: true, data: updatedSettings });
+  } catch (error) {
+    logError('Error updating settings', error);
+    res.status(500).json({ success: false, error: 'Failed to update settings' });
+  }
+});
+
 // ============ ADMIN USER MANAGEMENT ENDPOINTS ============
 
 app.get('/api/admin/users', superAdminMiddleware, (req: AuthRequest, res: Response) => {
