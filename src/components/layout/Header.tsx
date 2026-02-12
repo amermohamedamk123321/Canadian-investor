@@ -6,11 +6,11 @@ import { Button } from '@/components/ui/button';
 
 const navigation = [
   { name: 'Home', href: '/', icon: Home },
-  { name: 'About', href: '/about', icon: Info },
-  { name: 'How It Works', href: '/how-it-works', icon: Zap },
-  { name: 'Opportunities', href: '/opportunities', icon: Briefcase },
-  { name: 'International', href: '/international-investors', icon: Globe },
-  { name: 'Network', href: '/network', icon: Users },
+  { name: 'About Us', href: '/about', icon: Info },
+  { name: 'Canadian Investors', href: '/canadian-investors', icon: Users },
+  { name: 'International Investors', href: '/international-investors', icon: Globe },
+  { name: 'Investment Opportunities', href: '/opportunities', icon: Briefcase },
+  { name: 'Services', href: '/services', icon: Zap },
   { name: 'Contact', href: '/contact', icon: Mail },
 ];
 
@@ -137,7 +137,10 @@ export const Header = () => {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-4">
+            <a href="tel:+1-XXX-XXX-XXXX" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+              +1 (XXX) XXX-XXXX
+            </a>
             <Button asChild className="btn-gold border-0">
               <Link to="/contact" className="flex items-center gap-2">
                 Book a Consultation

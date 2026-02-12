@@ -1,15 +1,24 @@
 import { useState } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { SEOHead } from '@/components/seo/SEOHead';
-import { SectionHeading } from '@/components/ui/SectionHeading';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Loader2, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useCreateContactSubmission } from '@/api/hooks';
+import { useInView } from 'react-intersection-observer';
+import {
+  staggerContainerVariants,
+  staggerItemVariants,
+  fadeInUpVariants,
+  fadeInUpTransition,
+  scrollTriggerOptions,
+  heroTitleVariants,
+  heroSubtitleVariants,
+} from '@/lib/animations';
 
 interface FormData {
   name: string;
@@ -34,6 +43,9 @@ const Contact = () => {
     message: '',
     honeypot: '',
   });
+
+  const { ref: contactInfoRef, inView: contactInfoInView } = useInView(scrollTriggerOptions);
+  const { ref: formRef, inView: formInView } = useInView(scrollTriggerOptions);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -82,7 +94,8 @@ const Contact = () => {
 
       toast({
         title: 'Message Sent!',
-        description: 'Thank you for contacting us. We\'ll respond within 1-2 business days.',
+        description:
+          "Thank you for contacting us. We'll respond within 1-2 business days.",
       });
     } catch (error) {
       toast({
@@ -93,10 +106,31 @@ const Contact = () => {
     }
   };
 
+  const contactDetails = [
+    {
+      icon: Mail,
+      label: 'Email',
+      value: 'info@alphapartnersinvestment.com',
+      href: 'mailto:info@alphapartnersinvestment.com',
+    },
+    {
+      icon: Phone,
+      label: 'Phone',
+      value: '+1 (XXX) XXX-XXXX',
+      href: 'tel:+1-XXX-XXX-XXXX',
+    },
+    {
+      icon: MapPin,
+      label: 'Office Location',
+      value: 'Toronto, Ontario, Canada',
+      href: null,
+    },
+  ];
+
   return (
     <>
       <SEOHead
-        title="Contact Us"
+        title="Contact Us - Alpha Partners Investment Inc"
         description="Get in touch with Alpha Partners Investment Inc. to discuss investment opportunities, schedule a consultation, or learn more about our services."
         canonical="/contact"
       />
@@ -104,19 +138,35 @@ const Contact = () => {
         {/* Hero */}
         <section className="section-padding hero-gradient">
           <div className="container-custom">
-            <div className="max-w-3xl">
-              <span className="trust-badge mb-6 inline-block">
+            <motion.div
+              className="max-w-3xl"
+              initial="initial"
+              animate="animate"
+              variants={staggerContainerVariants}
+            >
+              <motion.span
+                className="trust-badge mb-6 inline-block"
+                variants={fadeInUpVariants}
+                transition={fadeInUpTransition}
+              >
                 Get in Touch
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
+              </motion.span>
+              <motion.h1
+                className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground"
+                variants={heroTitleVariants}
+              >
                 Let's Discuss Your{' '}
                 <span className="text-gold-gradient">Investment Goals</span>
-              </h1>
-              <p className="mt-6 text-lg md:text-xl text-primary-foreground/80 leading-relaxed">
-                Whether you're ready to explore opportunities or simply want to learn more, 
-                our team is here to help. Reach out and we'll respond within 1-2 business days.
-              </p>
-            </div>
+              </motion.h1>
+              <motion.p
+                className="mt-6 text-lg md:text-xl text-primary-foreground/80 leading-relaxed"
+                variants={heroSubtitleVariants}
+              >
+                Whether you're ready to explore opportunities or simply want to learn more,
+                our team is here to help. Reach out and we'll respond within 1-2 business
+                days.
+              </motion.p>
+            </motion.div>
           </div>
         </section>
 
@@ -125,95 +175,130 @@ const Contact = () => {
           <div className="container-custom">
             <div className="grid lg:grid-cols-3 gap-12">
               {/* Contact Info */}
-              <div className="lg:col-span-1">
-                <h2 className="text-2xl font-heading text-foreground mb-8">
+              <motion.div
+                ref={contactInfoRef}
+                className="lg:col-span-1"
+                initial="initial"
+                animate={contactInfoInView ? 'animate' : 'initial'}
+                variants={staggerContainerVariants}
+              >
+                <motion.h2
+                  className="text-3xl md:text-4xl font-heading text-foreground mb-4"
+                  variants={fadeInUpVariants}
+                  transition={fadeInUpTransition}
+                >
                   Contact Information
-                </h2>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center flex-shrink-0">
-                      <Mail className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground">Email</h3>
-                      <a
-                        href="mailto:info@alphapartnersinvestment.com"
-                        className="text-muted-foreground hover:text-accent transition-colors"
+                </motion.h2>
+                <motion.div
+                  className="h-1 w-20 gold-gradient rounded-full mb-8"
+                  variants={fadeInUpVariants}
+                  transition={fadeInUpTransition}
+                ></motion.div>
+
+                <div className="space-y-6 mb-12">
+                  {contactDetails.map((detail, idx) => {
+                    const Icon = detail.icon;
+                    return (
+                      <motion.div
+                        key={idx}
+                        className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors"
+                        variants={staggerItemVariants}
                       >
-                        info@alphapartnersinvestment.com
-                      </a>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center flex-shrink-0">
-                      <Phone className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground">Phone</h3>
-                      <a 
-                        href="tel:+1-XXX-XXX-XXXX" 
-                        className="text-muted-foreground hover:text-accent transition-colors"
-                      >
-                        +1 (XXX) XXX-XXXX
-                      </a>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center flex-shrink-0">
-                      <MapPin className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground">Office</h3>
-                      <p className="text-muted-foreground">
-                        Toronto, Ontario<br />
-                        Canada
-                      </p>
-                    </div>
-                  </div>
+                        <div className="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center flex-shrink-0">
+                          <Icon className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-heading text-foreground mb-1">
+                            {detail.label}
+                          </h3>
+                          {detail.href ? (
+                            <a
+                              href={detail.href}
+                              className="text-muted-foreground hover:text-accent transition-colors font-medium"
+                            >
+                              {detail.value}
+                            </a>
+                          ) : (
+                            <p className="text-muted-foreground font-medium">
+                              {detail.value}
+                            </p>
+                          )}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
 
-                <div className="mt-12 p-6 bg-muted rounded-2xl">
+                <motion.div
+                  className="p-6 bg-accent/10 border border-accent/30 rounded-2xl"
+                  variants={staggerItemVariants}
+                  whileHover={{ backgroundColor: 'rgba(217, 70, 39, 0.15)' }}
+                >
                   <h3 className="font-heading text-foreground mb-3">
                     Response Time
                   </h3>
-                  <p className="text-sm text-muted-foreground">
-                    We typically respond to inquiries within 1-2 business days. 
-                    For urgent matters, please indicate so in your message.
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    We typically respond to inquiries within 1-2 business days. For urgent
+                    matters, please indicate so in your message.
                   </p>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               {/* Contact Form */}
-              <div className="lg:col-span-2">
+              <motion.div
+                ref={formRef}
+                className="lg:col-span-2"
+                initial="initial"
+                animate={formInView ? 'animate' : 'initial'}
+                variants={staggerContainerVariants}
+              >
                 <div className="bg-card rounded-2xl p-8 md:p-12 border border-border shadow-elegant">
                   {isSubmitted ? (
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ duration: 0.5, ease: 'easeOut' }}
                       className="text-center py-12"
                     >
-                      <div className="w-16 h-16 rounded-full bg-teal/10 flex items-center justify-center mx-auto mb-6">
-                        <CheckCircle className="h-8 w-8 text-teal" />
-                      </div>
+                      <motion.div
+                        className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                      >
+                        <CheckCircle className="h-8 w-8 text-accent" />
+                      </motion.div>
                       <h3 className="text-2xl font-heading text-foreground mb-4">
                         Message Received!
                       </h3>
                       <p className="text-muted-foreground mb-8">
-                        Thank you for reaching out. A member of our team will contact you 
+                        Thank you for reaching out. A member of our team will contact you
                         within 1-2 business days.
                       </p>
-                      <Button onClick={() => setIsSubmitted(false)} variant="outline">
+                      <Button
+                        onClick={() => setIsSubmitted(false)}
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
                         Send Another Message
+                        <ArrowRight size={16} />
                       </Button>
                     </motion.div>
                   ) : (
                     <>
-                      <h2 className="text-2xl font-heading text-foreground mb-2">
+                      <motion.h2
+                        className="text-2xl font-heading text-foreground mb-2"
+                        variants={fadeInUpVariants}
+                        transition={fadeInUpTransition}
+                      >
                         Send Us a Message
-                      </h2>
-                      <p className="text-muted-foreground mb-8">
+                      </motion.h2>
+                      <motion.p
+                        className="text-muted-foreground mb-8"
+                        variants={fadeInUpVariants}
+                        transition={{ ...fadeInUpTransition, delay: 0.1 }}
+                      >
                         Fill out the form below and we'll get back to you promptly.
-                      </p>
+                      </motion.p>
 
                       <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Honeypot - hidden from users */}
@@ -228,10 +313,17 @@ const Contact = () => {
                           aria-hidden="true"
                         />
 
-                        <div className="grid md:grid-cols-2 gap-6">
-                          <div className="space-y-2">
+                        <motion.div
+                          className="grid md:grid-cols-2 gap-6"
+                          variants={staggerContainerVariants}
+                        >
+                          <motion.div
+                            className="space-y-2"
+                            variants={staggerItemVariants}
+                          >
                             <Label htmlFor="name">
-                              Full Name <span className="text-destructive">*</span>
+                              Full Name{' '}
+                              <span className="text-destructive">*</span>
                             </Label>
                             <Input
                               id="name"
@@ -242,9 +334,13 @@ const Contact = () => {
                               placeholder="John Smith"
                               required
                               maxLength={100}
+                              className="transition-all focus:ring-2 focus:ring-accent/50"
                             />
-                          </div>
-                          <div className="space-y-2">
+                          </motion.div>
+                          <motion.div
+                            className="space-y-2"
+                            variants={staggerItemVariants}
+                          >
                             <Label htmlFor="company">Company</Label>
                             <Input
                               id="company"
@@ -254,14 +350,22 @@ const Contact = () => {
                               onChange={handleChange}
                               placeholder="Your Company Name"
                               maxLength={100}
+                              className="transition-all focus:ring-2 focus:ring-accent/50"
                             />
-                          </div>
-                        </div>
+                          </motion.div>
+                        </motion.div>
 
-                        <div className="grid md:grid-cols-2 gap-6">
-                          <div className="space-y-2">
+                        <motion.div
+                          className="grid md:grid-cols-2 gap-6"
+                          variants={staggerContainerVariants}
+                        >
+                          <motion.div
+                            className="space-y-2"
+                            variants={staggerItemVariants}
+                          >
                             <Label htmlFor="email">
-                              Email Address <span className="text-destructive">*</span>
+                              Email Address{' '}
+                              <span className="text-destructive">*</span>
                             </Label>
                             <Input
                               id="email"
@@ -272,9 +376,13 @@ const Contact = () => {
                               placeholder="john@example.com"
                               required
                               maxLength={255}
+                              className="transition-all focus:ring-2 focus:ring-accent/50"
                             />
-                          </div>
-                          <div className="space-y-2">
+                          </motion.div>
+                          <motion.div
+                            className="space-y-2"
+                            variants={staggerItemVariants}
+                          >
                             <Label htmlFor="country">Country</Label>
                             <Input
                               id="country"
@@ -284,11 +392,15 @@ const Contact = () => {
                               onChange={handleChange}
                               placeholder="Your Country"
                               maxLength={100}
+                              className="transition-all focus:ring-2 focus:ring-accent/50"
                             />
-                          </div>
-                        </div>
+                          </motion.div>
+                        </motion.div>
 
-                        <div className="space-y-2">
+                        <motion.div
+                          className="space-y-2"
+                          variants={staggerItemVariants}
+                        >
                           <Label htmlFor="phone">Phone Number (Optional)</Label>
                           <Input
                             id="phone"
@@ -298,10 +410,14 @@ const Contact = () => {
                             onChange={handleChange}
                             placeholder="+1 (XXX) XXX-XXXX"
                             maxLength={20}
+                            className="transition-all focus:ring-2 focus:ring-accent/50"
                           />
-                        </div>
+                        </motion.div>
 
-                        <div className="space-y-2">
+                        <motion.div
+                          className="space-y-2"
+                          variants={staggerItemVariants}
+                        >
                           <Label htmlFor="message">
                             Message <span className="text-destructive">*</span>
                           </Label>
@@ -314,42 +430,51 @@ const Contact = () => {
                             rows={6}
                             required
                             maxLength={2000}
+                            className="transition-all focus:ring-2 focus:ring-accent/50"
                           />
                           <p className="text-xs text-muted-foreground text-right">
                             {formData.message.length}/2000
                           </p>
-                        </div>
+                        </motion.div>
 
-                        <div className="bg-muted p-4 rounded-xl">
-                          <p className="text-xs text-muted-foreground">
-                            By submitting this form, you agree to our privacy policy. We will 
-                            never share your information with third parties without your consent.
-                          </p>
-                        </div>
-
-                        <Button
-                          type="submit"
-                          size="lg"
-                          className="w-full btn-gold border-0"
-                          disabled={createSubmission.isPending}
+                        <motion.div
+                          className="bg-accent/5 p-4 rounded-xl border border-accent/20"
+                          variants={staggerItemVariants}
                         >
-                          {createSubmission.isPending ? (
-                            <>
-                              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                              Sending...
-                            </>
-                          ) : (
-                            <>
-                              <Send className="mr-2 h-5 w-5" />
-                              Send Message
-                            </>
-                          )}
-                        </Button>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            By submitting this form, you agree to our privacy policy. We will
+                            never share your information with third parties without your
+                            consent.
+                          </p>
+                        </motion.div>
+
+                        <motion.div
+                          variants={staggerItemVariants}
+                        >
+                          <Button
+                            type="submit"
+                            size="lg"
+                            className="w-full btn-gold border-0 group"
+                            disabled={createSubmission.isPending}
+                          >
+                            {createSubmission.isPending ? (
+                              <>
+                                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                Sending...
+                              </>
+                            ) : (
+                              <>
+                                <Send className="mr-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                Send Message
+                              </>
+                            )}
+                          </Button>
+                        </motion.div>
                       </form>
                     </>
                   )}
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
