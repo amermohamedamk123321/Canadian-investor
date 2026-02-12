@@ -139,6 +139,11 @@ export const Header = () => {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
             <Button asChild className="btn-gold border-0">
+              <Link to="/contact" className="flex items-center gap-2">
+                Book a Consultation
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
               <Link to="/admin/login" className="flex items-center gap-2">
                 <Lock size={16} />
                 Admin
@@ -187,6 +192,11 @@ export const Header = () => {
                 ))}
                 <div className="pt-4 px-4 space-y-3 border-t border-border">
                   <Button asChild className="w-full btn-gold border-0">
+                    <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2">
+                      Book a Consultation
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full">
                     <Link to="/admin/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2">
                       <Lock size={16} />
                       Admin
