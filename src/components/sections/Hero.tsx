@@ -56,7 +56,7 @@ export const Hero = () => {
           <motion.div variants={itemVariants}>
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-8" style={{background: 'hsl(45 90% 80%)', color: 'hsl(222 47% 11%)'}}>
               <Shield className="h-4 w-4" />
-              Trusted Investment Partner Since 2010
+              Canada-Based Investment Advisory Team
             </span>
           </motion.div>
 
@@ -65,19 +65,20 @@ export const Hero = () => {
             variants={itemVariants}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading text-primary-foreground leading-tight"
           >
-            Strategic Investments.{' '}
+            Confident Investment in Canadian{' '}
             <span className="text-gold-gradient">
-              Exceptional Returns.
+              Residential and Commercial Real Estate
             </span>
           </motion.h1>
 
           {/* Subheadline */}
           <motion.p
             variants={itemVariants}
-            className="mt-6 text-lg md:text-xl text-primary-foreground/80 max-w-2xl leading-relaxed"
+            className="mt-6 text-lg md:text-xl text-primary-foreground/80 max-w-3xl leading-relaxed"
           >
-            Alpha Partners connects visionary entrepreneurs with strategic investment 
-            opportunities across Canada, fostering growth and creating lasting value.
+            We help Canadian and international investors discover and invest in residential
+            and commercial real estate and land opportunities across Canada with clarity,
+            structure, and confidence.
           </motion.p>
 
           {/* CTAs */}
@@ -86,13 +87,15 @@ export const Hero = () => {
             className="mt-10 flex flex-col sm:flex-row gap-4"
           >
             <Button asChild size="lg" className="btn-gold border-0 text-base">
-              <Link to="/opportunities">
-                Explore Investment Opportunities
+              <Link to="/contact">
+                Book a Consultation
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button asChild size="lg" className="btn-gold border-0 text-base">
-              <Link to="/contact">Get Started</Link>
+              <Link to="/opportunities">
+                View Investment Opportunities
+              </Link>
             </Button>
           </motion.div>
 

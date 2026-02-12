@@ -43,7 +43,7 @@ const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute top-full left-0 right-0 mx-auto mt-3 w-max bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium pointer-events-none"
+              className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-max bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium pointer-events-none whitespace-nowrap"
             >
               {item.name}
             </motion.div>
@@ -79,7 +79,7 @@ const CircleNavButton = ({ item, isActive, onHover, isHovered }: any) => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 mx-auto mt-3 w-max bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium pointer-events-none"
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-max bg-accent text-primary px-3 py-1.5 rounded-full text-xs font-medium pointer-events-none whitespace-nowrap"
           >
             {item.name}
           </motion.div>
@@ -101,7 +101,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/40 backdrop-blur-lg border-b border-border/20">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/30 backdrop-blur-xl border-b border-border/30 shadow-lg" style={{ backgroundImage: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)' }}>
       <nav className="container-custom" aria-label="Main navigation">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}

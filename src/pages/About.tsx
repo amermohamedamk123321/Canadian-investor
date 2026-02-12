@@ -39,7 +39,7 @@ const About = () => {
               About Alpha Partners
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
-              {page?.title || 'About Alpha Partners'}
+              {page?.title || 'About Alpha Partners Investment Inc'}
             </h1>
           </div>
         </div>

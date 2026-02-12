@@ -5,11 +5,14 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
+import { Check, FileDown, ArrowRight } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
-import { Card } from '@/components/ui/card';
+import { PageHero, PageCard, PageGrid } from '@/components/pages/PageComponents';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, FileDown } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ServiceEntry {
   id: string;
@@ -102,102 +105,172 @@ export default function ServicesPage() {
     }
   };
 
+  const ourServices = [
+    'Investment opportunity sourcing and evaluation',
+    'Market insight and investment guidance',
+    'Investor profiling and opportunity alignment',
+    'Transaction coordination',
+    'Coordination with licensed legal professionals',
+  ];
+
   return (
     <Layout>
       <Helmet>
-        <title>{seo?.title || page?.title || 'Our Services'}</title>
-        <meta name="description" content={seo?.description || page?.meta_description} />
+        <title>{seo?.title || 'Services - Alpha Partners'}</title>
+        <meta name="description" content={seo?.description || 'Investment Advisory & Professional Coordination Services for Canadian and International Investors'} />
         <meta name="robots" content="index, follow" />
       </Helmet>
 
       {/* Hero Section */}
-      <section className="section-padding hero-gradient">
+      <PageHero
+        badge="Services"
+        title="Investment Advisory & Professional Coordination"
+      />
+
+      {/* Intro Section */}
+      <section className="section-padding bg-background">
+        <div className="container-custom max-w-3xl">
+          <p className="text-lg text-foreground/80 leading-relaxed mb-6">
+            Alpha Partners Investment Inc provides focused investment guidance and professional
+            coordination for real estate and land investments across Canada.
+          </p>
+        </div>
+      </section>
+
+      {/* Our Services */}
+      <section className="section-padding bg-secondary/50">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <span className="trust-badge mb-6 inline-block">
-              Our Services
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-primary-foreground">
-              {page?.title || 'Advisory & Coordination Services'}
-            </h1>
+          <h2 className="text-3xl font-heading mb-12 text-center">Our Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {ourServices.map((service, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-background rounded-xl p-6 border border-border/20 hover:border-accent/50 transition-all"
+              >
+                <div className="flex items-start gap-3">
+                  <Check className="h-5 w-5 text-accent flex-shrink-0 mt-1" />
+                  <p className="text-foreground font-medium">{service}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Page Content */}
-      {page?.content && (
-        <section className="section-padding bg-background">
-          <div className="container-custom">
-            <div className="prose prose-lg max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: page.content }} />
-            </div>
+      {/* For Canadian Investors */}
+      <section className="section-padding bg-background">
+        <div className="container-custom max-w-3xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-heading mb-4">For Canadian Investors</h2>
+            <p className="text-lg text-foreground/80">
+              Guidance and coordination for residential, commercial, and land investments across Canada.
+            </p>
           </div>
+          <div className="p-6 rounded-xl bg-accent/5 border border-accent/20">
+            <p className="text-foreground">
+              We work with Canadian investors to identify suitable investment opportunities, provide market insight,
+              and coordinate with licensed professionals throughout the investment process.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* For International Investors */}
+      <section className="section-padding bg-secondary/50">
+        <div className="container-custom max-w-3xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-heading mb-4">For International Investors</h2>
+            <p className="text-lg text-foreground/80">
+              Structured support for commercial real estate and land investments in Canada, in coordination
+              with licensed legal and authorized immigration professionals.
+            </p>
+          </div>
+          <div className="p-6 rounded-xl bg-accent/5 border border-accent/20">
+            <p className="text-foreground">
+              We provide specialized guidance for international investors seeking compliant and well-structured
+              entry into the Canadian commercial real estate market.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Role */}
+      <section className="section-padding bg-background">
+        <div className="container-custom max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-heading mb-4">Our Role</h2>
+            <p className="text-lg text-foreground/80">
+              Alpha Partners Investment Inc acts as an investment advisory and coordination partner,
+              supporting a clear, structured, and compliant investment process.
+            </p>
+          </div>
+          <div className="p-6 rounded-xl bg-primary/5 border border-border/20">
+            <h4 className="font-heading text-foreground mb-3">Important Notice</h4>
+            <p className="text-sm text-muted-foreground">
+              Alpha Partners Investment Inc does not provide legal or immigration advice.
+              All legal and immigration services are provided by licensed professionals.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Service Entries Grid */}
+      {servicesLoading ? (
+        <section className="section-padding bg-secondary/50 flex items-center justify-center">
+          <Loader2 className="animate-spin" />
         </section>
-      )}
-
-      {/* Services Grid */}
-      {services.length > 0 && (
-        <section className="section-padding bg-secondary">
+      ) : services.length > 0 ? (
+        <section className="section-padding bg-secondary/50">
           <div className="container-custom">
-            <div className="mb-12">
-              <h2 className="text-3xl font-heading mb-4">Our Service Offerings</h2>
-              <p className="text-muted-foreground max-w-2xl">
-                We provide comprehensive support throughout your investment journey
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <h2 className="text-3xl font-heading mb-12">Service Offerings</h2>
+            <PageGrid columns={3}>
               {services.map((service: ServiceEntry) => (
-                <Card
+                <PageCard
                   key={service.id}
-                  className="p-8 hover:shadow-lg transition flex flex-col h-full"
+                  title={service.title}
+                  description={service.description}
+                  badge={
+                    service.audience
+                      ? {
+                          label: getAudienceLabel(service.audience),
+                          variant: getAudienceBadgeVariant(service.audience) as 'default' | 'secondary' | 'outline',
+                        }
+                      : undefined
+                  }
+                  footer={
+                    <Button asChild className="w-full btn-gold border-0" size="sm">
+                      <Link to="/contact">Learn More</Link>
+                    </Button>
+                  }
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-xl font-bold flex-1">{service.title}</h3>
-                    <Badge variant={getAudienceBadgeVariant(service.audience)}>
-                      {getAudienceLabel(service.audience)}
-                    </Badge>
-                  </div>
-
-                  <p className="text-muted-foreground mb-4 flex-grow">
-                    {service.description}
-                  </p>
-
                   {service.details && (
-                    <div className="mb-6 text-sm">
+                    <div className="text-sm text-muted-foreground prose prose-sm">
                       <div dangerouslySetInnerHTML={{ __html: service.details }} />
                     </div>
                   )}
-
-                  {service.attachments && JSON.parse(service.attachments).length > 0 && (
-                    <div className="border-t pt-4 mt-auto">
-                      <p className="text-sm font-medium mb-2">Resources:</p>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full"
-                      >
-                        <FileDown size={16} className="mr-2" />
-                        Download Resources
-                      </Button>
-                    </div>
-                  )}
-                </Card>
+                </PageCard>
               ))}
-            </div>
+            </PageGrid>
           </div>
         </section>
-      )}
+      ) : null}
 
       {/* CTA Section */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-secondary">
         <div className="container-custom text-center">
-          <h2 className="text-3xl font-heading mb-4">Ready to Get Started?</h2>
-          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-heading mb-6">Ready to Get Started?</h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Contact our team to discuss how our services can support your investment goals
           </p>
-          <Button size="lg">
-            Book a Consultation
+          <Button asChild size="lg" className="btn-gold border-0">
+            <Link to="/contact" className="flex items-center gap-2">
+              Book a Consultation
+              <ArrowRight className="h-5 w-5" />
+            </Link>
           </Button>
         </div>
       </section>
