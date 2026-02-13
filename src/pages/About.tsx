@@ -227,7 +227,7 @@ const About = () => {
               {services.map((service, index) => (
                 <motion.div
                   key={index}
-                  className="flex gap-4 items-start p-4 rounded-lg hover:bg-muted/50 transition-colors"
+                  className="flex gap-4 items-start p-4 rounded-lg bg-muted/30 border border-accent/40 hover:border-accent/80 hover:bg-muted/50 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                   variants={staggerItemVariants}
                 >
                   <CheckCircle2 className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
@@ -240,7 +240,7 @@ const About = () => {
       </section>
 
       {/* Investment Process Section */}
-      <section className="section-padding bg-background border-t border-border/50">
+      <section className="section-padding bg-background border-t border-accent/30">
         <div className="container-custom max-w-5xl">
           <motion.div
             ref={processRef}
@@ -307,9 +307,9 @@ const About = () => {
             <div className="grid md:grid-cols-2 gap-8">
               {/* Canadian Investors */}
               <motion.div
-                className="p-8 rounded-2xl bg-background border border-border/50 hover:border-accent/50 transition-all"
+                className="p-8 rounded-2xl bg-background border border-accent/40 hover:border-accent/80 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                 variants={staggerItemVariants}
-                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
+                whileHover={{ y: -8 }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <Users className="w-8 h-8 text-accent" />
@@ -325,9 +325,9 @@ const About = () => {
 
               {/* International Investors */}
               <motion.div
-                className="p-8 rounded-2xl bg-background border border-border/50 hover:border-accent/50 transition-all"
+                className="p-8 rounded-2xl bg-background border border-accent/40 hover:border-accent/80 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                 variants={staggerItemVariants}
-                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
+                whileHover={{ y: -8 }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <Globe className="w-8 h-8 text-accent" />
@@ -347,7 +347,7 @@ const About = () => {
       </section>
 
       {/* Where We Operate Section */}
-      <section className="section-padding bg-background border-t border-border/50">
+      <section className="section-padding bg-background border-t border-accent/30">
         <div className="container-custom max-w-4xl">
           <motion.div
             ref={operateRef}
@@ -378,7 +378,7 @@ const About = () => {
               {regions.map((region, index) => (
                 <motion.span
                   key={region}
-                  className="px-6 py-3 rounded-full bg-accent/10 text-accent border border-accent/30 font-medium"
+                  className="px-6 py-3 rounded-full bg-accent/10 text-accent border border-accent/50 hover:border-accent/80 font-medium shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30 transition-all"
                   variants={staggerItemVariants}
                   whileHover={{ scale: 1.05, backgroundColor: 'rgba(217, 70, 39, 0.2)' }}
                 >
@@ -391,7 +391,7 @@ const About = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-border/50">
+      <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-accent/30">
         <div className="container-custom max-w-3xl text-center">
           <motion.div
             initial="initial"
@@ -442,7 +442,7 @@ const About = () => {
       <section className="py-12 bg-background">
         <div className="container-custom">
           <motion.div
-            className="bg-destructive/5 border border-destructive/20 rounded-2xl p-8"
+            className="bg-destructive/5 border border-destructive/40 rounded-2xl p-8 shadow-md shadow-destructive/10"
             initial="initial"
             whileInView="animate"
             variants={fadeInUpVariants}
