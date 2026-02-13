@@ -373,7 +373,7 @@ export default function InvestorsCanadianPage() {
               {whyChooseUs.map((reason, idx) => (
                 <motion.div
                   key={idx}
-                  className="flex items-start gap-4 p-6 rounded-lg hover:bg-muted/50 transition-colors"
+                  className="flex items-start gap-4 p-6 rounded-lg bg-muted/30 border border-accent/40 hover:border-accent/80 hover:bg-muted/50 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                   variants={staggerItemVariants}
                   whileHover={{ x: 4 }}
                 >
@@ -389,7 +389,7 @@ export default function InvestorsCanadianPage() {
       </section>
 
       {/* Where We Operate */}
-      <section className="section-padding bg-muted/30 border-t border-border/50">
+      <section className="section-padding bg-muted/30 border-t border-accent/30">
         <div className="container-custom">
           <motion.div
             ref={operateRef}
@@ -420,7 +420,7 @@ export default function InvestorsCanadianPage() {
               {regions.map((region, idx) => (
                 <motion.span
                   key={idx}
-                  className="px-6 py-3 rounded-full bg-accent/10 text-accent border border-accent/30 font-medium"
+                  className="px-6 py-3 rounded-full bg-accent/10 text-accent border border-accent/50 hover:border-accent/80 font-medium shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30 transition-all"
                   variants={staggerItemVariants}
                   whileHover={{ scale: 1.05, backgroundColor: 'rgba(217, 70, 39, 0.2)' }}
                 >
@@ -434,11 +434,11 @@ export default function InvestorsCanadianPage() {
 
       {/* Investment Opportunities Grid */}
       {entriesLoading ? (
-        <section className="section-padding bg-background flex items-center justify-center border-t border-border/50">
+        <section className="section-padding bg-background flex items-center justify-center border-t border-accent/30">
           <Loader2 className="animate-spin" />
         </section>
       ) : entries.length > 0 ? (
-        <section className="section-padding bg-background border-t border-border/50">
+        <section className="section-padding bg-background border-t border-accent/30">
           <div className="container-custom">
             <motion.h2
               className="text-3xl md:text-4xl font-heading mb-4 text-foreground"
@@ -503,7 +503,7 @@ export default function InvestorsCanadianPage() {
       ) : null}
 
       {/* CTA Section */}
-      <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-border/50">
+      <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-accent/30">
         <div className="container-custom text-center">
           <motion.div
             initial="initial"

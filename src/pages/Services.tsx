@@ -168,7 +168,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Our Services Core List */}
-      <section className="section-padding bg-muted/30 border-t border-border/50">
+      <section className="section-padding bg-muted/30 border-t border-accent/30">
         <div className="container-custom">
           <motion.div
             ref={servicesRef}
@@ -187,9 +187,9 @@ export default function ServicesPage() {
               {ourServices.map((service, idx) => (
                 <motion.div
                   key={idx}
-                  className="bg-background rounded-xl p-6 border border-border/50 hover:border-accent/50 transition-all"
+                  className="bg-background rounded-xl p-6 border border-accent/40 hover:border-accent/80 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                   variants={staggerItemVariants}
-                  whileHover={{ y: -4, boxShadow: '0 10px 30px rgba(217, 70, 39, 0.1)' }}
+                  whileHover={{ y: -4 }}
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center flex-shrink-0">
@@ -205,7 +205,7 @@ export default function ServicesPage() {
       </section>
 
       {/* For Canadian & International Investors */}
-      <section className="section-padding bg-background border-t border-border/50">
+      <section className="section-padding bg-background border-t border-accent/30">
         <div className="container-custom">
           <motion.div
             initial="initial"
@@ -230,9 +230,9 @@ export default function ServicesPage() {
               variants={staggerContainerVariants}
             >
               <motion.div
-                className="p-8 rounded-2xl bg-muted/50 border border-border/50 h-full"
+                className="p-8 rounded-2xl bg-muted/50 border border-accent/40 hover:border-accent/80 h-full shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30 transition-all"
                 variants={staggerItemVariants}
-                whileHover={{ borderColor: 'rgba(217, 70, 39, 0.5)', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
+                whileHover={{}}
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center">
@@ -278,9 +278,9 @@ export default function ServicesPage() {
               variants={staggerContainerVariants}
             >
               <motion.div
-                className="p-8 rounded-2xl bg-muted/50 border border-border/50 h-full"
+                className="p-8 rounded-2xl bg-muted/50 border border-accent/40 hover:border-accent/80 h-full shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30 transition-all"
                 variants={staggerItemVariants}
-                whileHover={{ borderColor: 'rgba(217, 70, 39, 0.5)', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
+                whileHover={{}}
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center">
@@ -322,7 +322,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Our Role Section */}
-      <section className="section-padding bg-muted/30 border-t border-border/50">
+      <section className="section-padding bg-muted/30 border-t border-accent/30">
         <div className="container-custom max-w-4xl">
           <motion.div
             ref={roleRef}
@@ -361,7 +361,7 @@ export default function ServicesPage() {
               </motion.p>
 
               <motion.div
-                className="p-6 rounded-xl bg-destructive/5 border border-destructive/20"
+                className="p-6 rounded-xl bg-destructive/5 border border-destructive/40 shadow-md shadow-destructive/10"
                 variants={staggerItemVariants}
               >
                 <h4 className="font-heading text-foreground mb-3">Important Notice</h4>
@@ -448,7 +448,7 @@ export default function ServicesPage() {
       ) : null}
 
       {/* CTA Section */}
-      <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-border/50">
+      <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-accent/30">
         <div className="container-custom text-center">
           <motion.div
             initial="initial"

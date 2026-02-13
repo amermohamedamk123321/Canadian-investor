@@ -205,7 +205,7 @@ const About = () => {
       </section>
 
       {/* What We Do Section */}
-      <section className="section-padding bg-muted/30 border-t border-border/50">
+      <section className="section-padding bg-muted/30 border-t border-accent/30">
         <div className="container-custom max-w-4xl">
           <motion.div
             ref={servicesRef}

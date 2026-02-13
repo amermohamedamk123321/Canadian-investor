@@ -141,7 +141,7 @@ const InternationalInvestors = () => {
         </section>
 
         {/* Who We Work With */}
-        <section className="section-padding bg-muted/30 border-t border-border/50">
+        <section className="section-padding bg-muted/30 border-t border-accent/30">
           <div className="container-custom">
             <motion.div
               ref={workWithRef}
@@ -160,9 +160,9 @@ const InternationalInvestors = () => {
                 {workWithItems.map((item, idx) => (
                   <motion.div
                     key={idx}
-                    className="p-6 rounded-xl bg-background border border-border/50 hover:border-accent/50 transition-all"
+                    className="p-6 rounded-xl bg-background border border-accent/40 hover:border-accent/80 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                     variants={staggerItemVariants}
-                    whileHover={{ y: -4, boxShadow: '0 10px 30px rgba(217, 70, 39, 0.1)' }}
+                    whileHover={{ y: -4 }}
                   >
                     <div className="flex items-start gap-4">
                       <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center flex-shrink-0">
@@ -178,7 +178,7 @@ const InternationalInvestors = () => {
         </section>
 
         {/* Our Role */}
-        <section className="section-padding bg-background border-t border-border/50">
+        <section className="section-padding bg-background border-t border-accent/30">
           <div className="container-custom max-w-4xl">
             <motion.div
               ref={roleRef}
@@ -201,7 +201,7 @@ const InternationalInvestors = () => {
                 {ourRoleItems.map((item, idx) => (
                   <motion.div
                     key={idx}
-                    className="p-6 rounded-lg bg-muted/50 border border-border/50 hover:border-accent/50 transition-all hover:bg-muted/70"
+                    className="p-6 rounded-lg bg-muted/50 border border-accent/40 hover:border-accent/80 transition-all hover:bg-muted/70 shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                     variants={staggerItemVariants}
                   >
                     <div className="flex items-start gap-4">
@@ -215,7 +215,7 @@ const InternationalInvestors = () => {
               </motion.div>
 
               <motion.div
-                className="p-6 rounded-xl bg-primary/5 border border-border/20"
+                className="p-6 rounded-xl bg-primary/5 border border-accent/40 shadow-md shadow-accent/10"
                 variants={staggerItemVariants}
               >
                 <p className="text-foreground font-heading mb-4">We Collaborate With:</p>
@@ -235,7 +235,7 @@ const InternationalInvestors = () => {
         </section>
 
         {/* 6-Step Process */}
-        <section className="section-padding bg-muted/30 border-t border-border/50">
+        <section className="section-padding bg-muted/30 border-t border-accent/30">
           <div className="container-custom">
             <motion.div
               ref={processRef}
@@ -257,7 +257,7 @@ const InternationalInvestors = () => {
                     variants={timelineStepVariants(step.number - 1)}
                     initial="initial"
                     animate={processInView ? 'animate' : 'initial'}
-                    className="bg-background rounded-xl p-8 border border-border/50 hover:border-accent/50 transition-all"
+                    className="bg-background rounded-xl p-8 border border-accent/40 hover:border-accent/80 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                   >
                     <div className="flex items-start gap-6">
                       <motion.div
@@ -274,7 +274,7 @@ const InternationalInvestors = () => {
                           {step.description}
                         </p>
                         <motion.div
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30"
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/50 hover:border-accent/80 shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30 transition-all"
                           whileHover={{ backgroundColor: 'rgba(217, 70, 39, 0.15)' }}
                         >
                           <span className="text-sm font-semibold text-accent">Outcome:</span>
@@ -287,7 +287,7 @@ const InternationalInvestors = () => {
               </div>
 
               <motion.div
-                className="mt-12 p-6 rounded-xl bg-destructive/5 border border-destructive/20"
+                className="mt-12 p-6 rounded-xl bg-destructive/5 border border-destructive/40 shadow-md shadow-destructive/10"
                 variants={staggerItemVariants}
               >
                 <div className="flex items-start gap-3">
@@ -306,7 +306,7 @@ const InternationalInvestors = () => {
         </section>
 
         {/* Markets We Cover */}
-        <section className="section-padding bg-background border-t border-border/50">
+        <section className="section-padding bg-background border-t border-accent/30">
           <div className="container-custom text-center">
             <motion.div
               ref={marketsRef}
@@ -344,7 +344,7 @@ const InternationalInvestors = () => {
                 {regions.map((region, idx) => (
                   <motion.span
                     key={idx}
-                    className="px-6 py-3 rounded-full bg-accent/10 text-accent border border-accent/30 font-medium"
+                    className="px-6 py-3 rounded-full bg-accent/10 text-accent border border-accent/50 hover:border-accent/80 font-medium shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30 transition-all"
                     variants={staggerItemVariants}
                     whileHover={{ scale: 1.05, backgroundColor: 'rgba(217, 70, 39, 0.2)' }}
                   >
@@ -357,7 +357,7 @@ const InternationalInvestors = () => {
         </section>
 
         {/* Why Choose Us */}
-        <section className="section-padding bg-muted/30 border-t border-border/50">
+        <section className="section-padding bg-muted/30 border-t border-accent/30">
           <div className="container-custom">
             <motion.div
               ref={chooseRef}
@@ -376,7 +376,7 @@ const InternationalInvestors = () => {
                 {whyChoose.map((item, idx) => (
                   <motion.div
                     key={idx}
-                    className="p-6 rounded-lg bg-background border border-border/50 hover:border-accent/50 transition-all"
+                    className="p-6 rounded-lg bg-background border border-accent/40 hover:border-accent/80 transition-all shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/30"
                     variants={staggerItemVariants}
                     whileHover={{ y: -4 }}
                   >
@@ -394,7 +394,7 @@ const InternationalInvestors = () => {
         </section>
 
         {/* CTA */}
-        <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-border/50">
+        <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-accent/30">
           <div className="container-custom text-center">
             <motion.div
               initial="initial"
