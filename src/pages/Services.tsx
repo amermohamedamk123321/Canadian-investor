@@ -3,16 +3,15 @@
  * Public-facing page for advisory and coordination services
  */
 
-import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Check, ArrowRight, Users, Globe, Briefcase } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
-import { PageHero, PageCard, PageGrid } from '@/components/pages/PageComponents';
+import { PageHero } from '@/components/pages/PageComponents';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
+import { useSEOMetadata } from '@/api/hooks';
 import {
   staggerContainerVariants,
   staggerItemVariants,
@@ -21,101 +20,20 @@ import {
   scrollTriggerOptions,
 } from '@/lib/animations';
 
-interface ServiceEntry {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  details: string;
-  audience: string;
-  attachments: string;
-  display_order: number;
-}
-
-interface PageContent {
-  id: string;
-  slug: string;
-  title: string;
-  content: string;
-  meta_description: string;
-}
-
 interface SEOMetadata {
   title: string;
   description: string;
 }
 
 export default function ServicesPage() {
-  // Fetch page content
-  const { data: pageData, isLoading: pageLoading } = useQuery({
-    queryKey: ['pages', 'services'],
-    queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/pages/services`);
-      if (!response.ok) throw new Error('Failed to fetch page');
-      return response.json();
-    },
-  });
-
-  // Fetch services
-  const { data: servicesData, isLoading: servicesLoading } = useQuery({
-    queryKey: ['services'],
-    queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/services`);
-      if (!response.ok) throw new Error('Failed to fetch services');
-      return response.json();
-    },
-  });
-
   // Fetch SEO metadata
-  const { data: seoData } = useQuery({
-    queryKey: ['seo', 'services'],
-    queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/seo/services`);
-      if (!response.ok) return null;
-      return response.json();
-    },
-  });
+  const { data: seoResponse } = useSEOMetadata('services');
+  const seo = seoResponse?.data as SEOMetadata | undefined;
 
   const { ref: servicesRef, inView: servicesInView } = useInView(scrollTriggerOptions);
   const { ref: canadianRef, inView: canadianInView } = useInView(scrollTriggerOptions);
   const { ref: internationalRef, inView: internationalInView } = useInView(scrollTriggerOptions);
   const { ref: roleRef, inView: roleInView } = useInView(scrollTriggerOptions);
-
-  const page = pageData?.data as PageContent | undefined;
-  const services = servicesData?.data || [];
-  const seo = seoData?.data as SEOMetadata | undefined;
-
-  if (pageLoading || servicesLoading) {
-    return (
-      <Layout>
-        <div className="flex items-center justify-center min-h-screen">
-          <Loader2 className="animate-spin text-primary" size={32} />
-        </div>
-      </Layout>
-    );
-  }
-
-  const getAudienceBadgeVariant = (audience: string) => {
-    switch (audience) {
-      case 'canadian':
-        return 'default';
-      case 'international':
-        return 'secondary';
-      default:
-        return 'outline';
-    }
-  };
-
-  const getAudienceLabel = (audience: string) => {
-    switch (audience) {
-      case 'canadian':
-        return 'Canadian Investors';
-      case 'international':
-        return 'International Investors';
-      default:
-        return 'All Investors';
-    }
-  };
 
   // Core services from PDF
   const ourServices = [
@@ -376,76 +294,6 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Service Entries Grid */}
-      {servicesLoading ? (
-        <section className="section-padding bg-background flex items-center justify-center border-t border-accent/30">
-          <Loader2 className="animate-spin" />
-        </section>
-      ) : services.length > 0 ? (
-        <section className="section-padding bg-background border-t border-accent/30">
-          <div className="container-custom">
-            <motion.div
-              initial="initial"
-              whileInView="animate"
-              variants={staggerContainerVariants}
-              viewport={scrollTriggerOptions}
-            >
-              <motion.h2
-                className="text-3xl md:text-4xl font-heading mb-4 text-foreground"
-                variants={fadeInUpVariants}
-                transition={fadeInUpTransition}
-              >
-                Additional Service Offerings
-              </motion.h2>
-              <motion.div
-                className="h-1 w-20 gold-gradient rounded-full mb-12"
-                variants={fadeInUpVariants}
-                transition={fadeInUpTransition}
-              ></motion.div>
-            </motion.div>
-
-            <PageGrid columns={3}>
-              {services.map((service: ServiceEntry) => (
-                <motion.div
-                  key={service.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  viewport={scrollTriggerOptions}
-                >
-                  <PageCard
-                    title={service.title}
-                    description={service.description}
-                    badge={
-                      service.audience
-                        ? {
-                            label: getAudienceLabel(service.audience),
-                            variant:
-                              getAudienceBadgeVariant(service.audience) as
-                                | 'default'
-                                | 'secondary'
-                                | 'outline',
-                          }
-                        : undefined
-                    }
-                    footer={
-                      <Button asChild className="w-full btn-gold border-0" size="sm">
-                        <Link to="/contact">Learn More</Link>
-                      </Button>
-                    }
-                  >
-                    {service.details && (
-                      <div className="text-sm text-muted-foreground prose prose-sm">
-                        <div dangerouslySetInnerHTML={{ __html: service.details }} />
-                      </div>
-                    )}
-                  </PageCard>
-                </motion.div>
-              ))}
-            </PageGrid>
-          </div>
-        </section>
-      ) : null}
 
       {/* CTA Section */}
       <section className="section-padding bg-gradient-to-r from-muted/50 to-muted/30 border-t border-accent/30">
