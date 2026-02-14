@@ -21,7 +21,7 @@ export function AdminActivityLogPage() {
   const { data: activityData, isLoading, refetch } = useQuery({
     queryKey: ['admin-activity'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/activity?limit=100`, {
+      const response = await fetch('/api/admin/activity?limit=100', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch activity logs');

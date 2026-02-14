@@ -48,7 +48,7 @@ export function AdminSecurityPDFPage() {
   const { data: filesData, isLoading: filesLoading, refetch } = useQuery({
     queryKey: ['security-files'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/files?limit=20`, {
+      const response = await fetch('/api/admin/files?limit=20', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch files');
@@ -62,7 +62,7 @@ export function AdminSecurityPDFPage() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/files`, {
+      const response = await fetch('/api/admin/files', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -86,7 +86,7 @@ export function AdminSecurityPDFPage() {
   // Delete file mutation
   const deleteMutation = useMutation({
     mutationFn: async (fileId: string) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/files/${fileId}`, {
+      const response = await fetch(`/api/admin/files/${fileId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

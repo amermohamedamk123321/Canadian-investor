@@ -36,9 +36,7 @@ export default function InvestorsCanadianPage() {
   const { data: pageData, isLoading: pageLoading } = useQuery({
     queryKey: ['pages', 'canadian-investors'],
     queryFn: async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/pages/canadian-investors`
-      );
+      const response = await fetch('/api/pages/canadian-investors');
       if (!response.ok) throw new Error('Failed to fetch page');
       return response.json();
     },
@@ -48,7 +46,7 @@ export default function InvestorsCanadianPage() {
   const { data: entriesData, isLoading: entriesLoading } = useQuery({
     queryKey: ['canadian-investors'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/canadian-investors`);
+      const response = await fetch('/api/canadian-investors');
       if (!response.ok) throw new Error('Failed to fetch entries');
       return response.json();
     },
@@ -58,9 +56,7 @@ export default function InvestorsCanadianPage() {
   const { data: seoData } = useQuery({
     queryKey: ['seo', 'canadian-investors'],
     queryFn: async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/seo/canadian-investors`
-      );
+      const response = await fetch('/api/seo/canadian-investors');
       if (!response.ok) return null;
       return response.json();
     },
