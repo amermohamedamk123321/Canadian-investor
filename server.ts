@@ -61,6 +61,12 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(uploadsDir));
 
+// Serve static files from the built frontend in production
+const distDir = path.join(process.cwd(), 'dist');
+if (fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+}
+
 // Initialize database on startup
 initializeDatabase();
 
@@ -1144,33 +1150,47 @@ app.delete('/api/admin/services/:id', authMiddleware, (req: AuthRequest, res: Re
   }
 });
 
-// ============ HEALTH CHECK ============
-
+// Health check endpoint
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ success: true, message: 'API is running' });
 });
 
-// Root path handler (helpful for debugging)
-app.get('/', (req: Request, res: Response) => {
-  res.json({
-    success: true,
-    message: 'API Server is running',
-    info: 'This is the backend API server. The frontend is served from port 8080, not this port.',
-    availableEndpoints: {
-      health: '/api/health',
-      auth: {
-        register: 'POST /api/auth/register',
-        login: 'POST /api/auth/login'
-      },
-      pages: {
-        list: 'GET /api/pages',
-        get: 'GET /api/pages/:slug'
-      }
-    }
+// SPA fallback: serve index.html for any non-API routes (supports client-side routing)
+const indexPath = path.join(process.cwd(), 'dist', 'index.html');
+if (fs.existsSync(indexPath)) {
+  app.get(/^(?!\/api|\/uploads)/, (req: Request, res: Response) => {
+    res.sendFile(indexPath);
   });
-});
+}
+
+// Root path handler (helpful for debugging) - only if no dist folder
+if (!fs.existsSync(distDir)) {
+  app.get('/', (req: Request, res: Response) => {
+    res.json({
+      success: true,
+      message: 'API Server is running',
+      info: 'Frontend is not built yet. Run: npm run build',
+      availableEndpoints: {
+        health: '/api/health',
+        auth: {
+          register: 'POST /api/auth/register',
+          login: 'POST /api/auth/login'
+        },
+        pages: {
+          list: 'GET /api/pages',
+          get: 'GET /api/pages/:slug'
+        }
+      }
+    });
+  });
+}
 
 // Start server
 app.listen(PORT, () => {
   console.log(`✅ API Server running on http://localhost:${PORT}`);
+  if (fs.existsSync(distDir)) {
+    console.log(`✅ Frontend files served from /dist`);
+  } else {
+    console.log(`⚠️  Frontend not built yet. Run: npm run build`);
+  }
 });
