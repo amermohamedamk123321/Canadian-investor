@@ -46,7 +46,7 @@ export function AdminPagesPage() {
   const { data: pagesData, isLoading: pagesLoading, refetch } = useQuery({
     queryKey: ['admin-pages'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/pages`, {
+      const response = await fetch('/api/admin/pages', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch pages');
@@ -58,7 +58,7 @@ export function AdminPagesPage() {
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
       if (!selectedPage) throw new Error('No page selected');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/pages/${selectedPage.id}`, {
+      const response = await fetch(`/api/admin/pages/${selectedPage.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

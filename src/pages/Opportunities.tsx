@@ -61,7 +61,7 @@ const Opportunities = () => {
         </section>
 
         {/* Filters */}
-        <section className="py-8 bg-background border-b border-border sticky top-20 z-40">
+        <section className="py-8 bg-background border-b border-accent/30 sticky top-20 z-40">
           <div className="container-custom">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-2 text-muted-foreground">

@@ -40,7 +40,7 @@ export const SecuritySection = () => {
   const { data: securityPDF } = useQuery({
     queryKey: ['security-pdf'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/files?limit=1`);
+      const response = await fetch('/api/admin/files?limit=1');
       if (!response.ok) return null;
       const data = await response.json();
       return data.data?.[0] as FileAsset | undefined;

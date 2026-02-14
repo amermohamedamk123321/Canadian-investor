@@ -5,14 +5,17 @@
 
 // Determine API base URL
 // Priority: VITE_API_URL env var > default to relative /api path
-// Vite proxy in development and reverse proxy in production will forward requests
+// In development: Vite proxy forwards /api to http://localhost:5000
+// In production: requests go to /api on the same origin (backend must be on same host/port)
 function getAPIBaseURL(): string {
-  // 1. Use environment variable if set
+  // 1. Use environment variable if set (e.g., for external API server)
   if (import.meta.env.VITE_API_URL) {
     return import.meta.env.VITE_API_URL;
   }
 
-  // 2. Use relative /api path (works with Vite proxy in dev and reverse proxy in prod)
+  // 2. Use relative /api path
+  // In dev: Vite proxy handles this (localhost:8080/api -> localhost:5000/api)
+  // In prod: backend must be running on same origin and handle /api routes
   return '/api';
 }
 
