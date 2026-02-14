@@ -199,7 +199,7 @@ export default function InvestorsCanadianPage() {
       </section>
 
       {/* What We Help You Invest In */}
-      <section className="section-padding bg-muted/30 border-t border-border/50">
+      <section className="section-padding bg-muted/30 border-t border-accent/30">
         <div className="container-custom">
           <motion.div
             ref={investRef}
@@ -271,7 +271,7 @@ export default function InvestorsCanadianPage() {
       </section>
 
       {/* Our Services */}
-      <section className="section-padding bg-background border-t border-border/50">
+      <section className="section-padding bg-background border-t border-accent/30">
         <div className="container-custom">
           <motion.div
             ref={servicesRef}

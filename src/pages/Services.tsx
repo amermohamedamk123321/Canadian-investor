@@ -249,7 +249,7 @@ export default function ServicesPage() {
                     across Canada.
                   </p>
 
-                  <div className="pt-4 border-t border-border/30">
+                  <div className="pt-4 border-t border-accent/30">
                     <p className="text-sm font-semibold text-foreground mb-3">We Help You With:</p>
                     <ul className="space-y-2">
                       {[
@@ -297,7 +297,7 @@ export default function ServicesPage() {
                     in coordination with licensed legal and authorized immigration professionals.
                   </p>
 
-                  <div className="pt-4 border-t border-border/30">
+                  <div className="pt-4 border-t border-accent/30">
                     <p className="text-sm font-semibold text-foreground mb-3">We Provide:</p>
                     <ul className="space-y-2">
                       {[
@@ -378,11 +378,11 @@ export default function ServicesPage() {
 
       {/* Service Entries Grid */}
       {servicesLoading ? (
-        <section className="section-padding bg-background flex items-center justify-center border-t border-border/50">
+        <section className="section-padding bg-background flex items-center justify-center border-t border-accent/30">
           <Loader2 className="animate-spin" />
         </section>
       ) : services.length > 0 ? (
-        <section className="section-padding bg-background border-t border-border/50">
+        <section className="section-padding bg-background border-t border-accent/30">
           <div className="container-custom">
             <motion.div
               initial="initial"

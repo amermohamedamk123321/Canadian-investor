@@ -147,7 +147,7 @@ const About = () => {
       )}
 
       {/* Company Overview Section */}
-      <section className="section-padding bg-background border-t border-border/50">
+      <section className="section-padding bg-background border-t border-accent/30">
         <div className="container-custom max-w-4xl">
           <motion.div
             ref={companyRef}
@@ -289,7 +289,7 @@ const About = () => {
       </section>
 
       {/* Who We Work With Section */}
-      <section className="section-padding bg-muted/30 border-t border-border/50">
+      <section className="section-padding bg-muted/30 border-t border-accent/30">
         <div className="container-custom max-w-5xl">
           <motion.div
             ref={workWithRef}

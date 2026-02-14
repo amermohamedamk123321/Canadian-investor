@@ -230,7 +230,7 @@ const Contact = () => {
                 </div>
 
                 <motion.div
-                  className="p-6 bg-accent/10 border border-accent/30 rounded-2xl"
+                  className="p-6 bg-accent/10 border border-accent/40 shadow-md shadow-accent/10 hover:border-accent/80 hover:shadow-lg hover:shadow-accent/30 transition-all rounded-2xl"
                   variants={staggerItemVariants}
                   whileHover={{ backgroundColor: 'rgba(217, 70, 39, 0.15)' }}
                 >
@@ -252,7 +252,7 @@ const Contact = () => {
                 animate={formInView ? 'animate' : 'initial'}
                 variants={staggerContainerVariants}
               >
-                <div className="bg-card rounded-2xl p-8 md:p-12 border border-border shadow-elegant">
+                <div className="bg-card rounded-2xl p-8 md:p-12 border border-accent/40 shadow-md shadow-accent/10 hover:border-accent/80 hover:shadow-lg hover:shadow-accent/30 transition-all">
                   {isSubmitted ? (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -438,7 +438,7 @@ const Contact = () => {
                         </motion.div>
 
                         <motion.div
-                          className="bg-accent/5 p-4 rounded-xl border border-accent/20"
+                          className="bg-accent/5 p-4 rounded-xl border border-accent/40 shadow-md shadow-accent/10 hover:border-accent/80 hover:shadow-lg hover:shadow-accent/30 transition-all"
                           variants={staggerItemVariants}
                         >
                           <p className="text-xs text-muted-foreground leading-relaxed">
